@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>En el Mapa</title>
+<meta name="description" content="Una conversación de 15 minutos con la dirigencia se convierte en la ficha de catastro del asentamiento, con cada dato citado, y el asentamiento aparece en el mapa.">
+<meta property="og:title" content="En el Mapa">
+<meta property="og:description" content="De la conversación con la dirigencia a la ficha de catastro y al mapa, en minutos.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 2C10 2 5.5 6.6 5.5 12.4 5.5 20 16 30 16 30s10.5-10 10.5-17.6C26.5 6.6 22 2 16 2z' fill='%231F3D2B'/><circle cx='16' cy='12.5' r='4.2' fill='%23C65D3B'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<header class="barra">
+  <a class="marca" href="#">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2C10 2 5.5 6.6 5.5 12.4 5.5 20 16 30 16 30s10.5-10 10.5-17.6C26.5 6.6 22 2 16 2z"/><circle cx="16" cy="12.5" r="4.2"/></svg>
+    En el Mapa
+  </a>
+  <nav>
+    <a href="#demo">Demo</a>
+    <a href="#problema">Problema</a>
+    <a href="#fundadora">Fundadora</a>
+    <a href="#negocio">Negocio</a>
+    <a href="https://github.com/isabellaach/en-el-mapa" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<section class="portada">
+  <div class="portada-texto">
+    <p class="antetitulo">Catastro de asentamientos humanos · Lima</p>
+    <h1>Lo que no está en el mapa, <em>no existe</em> para el presupuesto.</h1>
+    <p class="bajada">En el Mapa registra la realidad física y social de cada asentamiento humano, <strong>aunque todavía no tenga título</strong>, para que la municipalidad pueda priorizar inversión en riesgo y servicios. Una conversación de 15 minutos con la dirigencia se convierte en la ficha de catastro, con cada dato citado, y el asentamiento aparece en el mapa del distrito.</p>
+  </div>
+  <div class="cifras">
+    <div class="cifra"><span class="num">138</span><span class="que">asentamientos relevados en SJM, 2018</span></div>
+    <div class="cifra"><span class="num">12 304</span><span class="que">familias que vivían en ellos</span></div>
+    <div class="cifra naranja"><span class="num">91 %</span><span class="que">sin acceso formal a agua</span></div>
+    <p class="fuente">Fuente: TECHO Perú, Relevamiento de Asentamientos Informales en San Juan de Miraflores (2018).</p>
+  </div>
+</section>
+
+<main id="demo" class="demo">
+  <section class="mapa-caja">
+    <div id="mapa" aria-label="Mapa de asentamientos de San Juan de Miraflores"></div>
+    <div class="leyenda" id="leyenda"></div>
+    <div class="aviso-mapa" id="aviso-mapa" hidden>Haz clic en el mapa para ubicar el asentamiento nuevo</div>
+  </section>
+
+  <section class="panel">
+    <ol class="pasos" id="pasos">
+      <li data-paso="1" class="activo"><span>1</span>Conversación</li>
+      <li data-paso="2"><span>2</span>Ficha</li>
+      <li data-paso="3"><span>3</span>Mapa</li>
+    </ol>
+
+    <div class="etapa" id="etapa-1">
+      <h2>Nueva ficha</h2>
+      <p class="ayuda">Tres pasos, en orden: <b>1</b> ingresas la conversación con la dirigencia, <b>2</b> revisas la ficha que llena la IA y <b>3</b> la guardas en el mapa.</p>
+      <p class="paso-titulo">Paso 1 · Elige <b>una</b> de estas tres formas de empezar</p>
+      <div class="opciones">
+        <button class="opcion" id="btn-grabar" type="button">
+          <span class="opcion-icono"><span class="punto"></span></span>
+          <span><span class="txt">Grabar ahora</span><small>Con el micrófono de esta computadora. Vuelve a hacer clic para terminar.</small></span>
+        </button>
+        <label class="opcion" id="btn-subir">
+          <span class="opcion-icono">↑</span>
+          <span><span>Subir un audio</span><small>Una grabación del celular (m4a, mp3, wav…).</small></span>
+          <input type="file" id="archivo" accept="audio/*,video/*" hidden>
+        </label>
+        <button class="opcion" id="btn-ejemplo" type="button">
+          <span class="opcion-icono">▶</span>
+          <span><span>Usar la entrevista de ejemplo</span><small>Una conversación simulada, ya en texto: pasa directo a la IA.</small></span>
+        </button>
+      </div>
+      <p class="estado-servidor" id="estado-servidor">Comprobando servidor…</p>
+      <ul class="progreso" id="progreso" hidden>
+        <li id="p-whisper">Transcribiendo con Whisper</li>
+        <li id="p-gemini">Llenando la ficha con Gemini</li>
+      </ul>
+      <p class="error" id="error" hidden></p>
+    </div>
+
+    <div class="etapa" id="etapa-2" hidden>
+      <div class="ficha-cabecera">
+        <div>
+          <p class="antetitulo" id="ficha-etiqueta">Ficha de Catastro</p>
+          <h2 id="ficha-nombre">—</h2>
+        </div>
+        <span class="sello" id="ficha-sello"></span>
+      </div>
+      <p class="resumen" id="ficha-resumen"></p>
+      <div class="verificar" id="ficha-verificar" hidden></div>
+      <p class="paso-titulo">Paso 2 · Revisa la ficha. Cada dato trae la frase que lo respalda: haz clic en uno para verla en la transcripción.</p>
+      <div class="campos" id="campos"></div>
+      <details class="transcripcion">
+        <summary>Ver transcripción</summary>
+        <div id="transcripcion"></div>
+      </details>
+      <div class="ubicar">
+        <h3>Paso 3 · Guárdala en el mapa</h3>
+        <label for="sel-asentamiento">¿Es uno de los asentamientos de 2018?</label>
+        <select id="sel-asentamiento"></select>
+        <p class="listo" id="listo" hidden>Listo: el asentamiento ya está en el mapa y el tablero del distrito se actualizó. <a href="#tablero">Ver tablero ↓</a></p>
+        <div class="botones">
+          <button class="btn primario" id="btn-guardar" type="button">Guardar en el mapa</button>
+          <button class="btn suave" id="btn-otra" type="button">Nueva ficha</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="pitch piloto">
+  <p><b>¿Por qué San Juan de Miraflores?</b> Es el piloto: partimos de los 83 polígonos que levantamos en 2018 para mostrar cómo se actualiza un distrito que ya tiene una línea de base. En el Mapa no depende de esos datos: en cualquier otro distrito empieza de cero, y cada ficha que se guarda agrega su asentamiento al mapa.</p>
+</section>
+
+<section id="tablero" class="tablero">
+  <div class="tablero-cabecera">
+    <div>
+      <p class="antetitulo">Tablero del distrito</p>
+      <h2>Fichas actualizadas con En el Mapa</h2>
+    </div>
+    <div class="botones">
+      <button class="btn suave" id="btn-csv" type="button">Descargar CSV</button>
+      <button class="btn suave" id="btn-geojson" type="button">Descargar GeoJSON</button>
+    </div>
+  </div>
+  <div class="tiles" id="tiles"></div>
+  <div class="barras" id="barras"></div>
+  <p class="nota" id="nota-tablero">Aún no hay fichas guardadas. Prueba con la entrevista de ejemplo.</p>
+</section>
+
+
+<section id="problema" class="pitch">
+  <div class="pitch-cabecera">
+    <p class="antetitulo">El problema</p>
+    <h2>Los distritos planifican sin saber qué hay en su territorio</h2>
+  </div>
+  <div class="tarjetas tres">
+    <article class="tarjeta">
+      <h3>Quién lo sufre</h3>
+      <p>Las gerencias de <strong>Gestión del Riesgo</strong> y de <strong>Desarrollo Urbano</strong> de las municipalidades distritales de Lima periférica: deben priorizar muros de contención, escaleras y redes sin un inventario de los asentamientos. Y, al final, las familias que no aparecen en ningún registro.</p>
+    </article>
+    <article class="tarjeta">
+      <h3>Qué tan grande es</h3>
+      <ul class="datos">
+        <li><b>23 de 39</b> distritos de Lima con catastro no lo actualizan; 4 nunca lo levantaron. <a href="https://ipe.org.pe/el-catastrofico-catastro-peruano/" target="_blank" rel="noopener">IPE, con RENAMU 2017</a></li>
+        <li><b>135 de 1 874</b> gobiernos locales mantienen su catastro actualizado. <a href="https://data.larepublica.pe/ciudades-ciegas-crecer-y-planificar-sin-saber-lo-que-hay-en-el-territorio/" target="_blank" rel="noopener">La República, con RENAMU 2020</a></li>
+        <li><b>29,1 %</b> de la población urbana de Lima vive en barrios marginales (2021). <a href="https://observatorio.ceplan.gob.pe/ficha/ts_2_mvcs" target="_blank" rel="noopener">CEPLAN</a></li>
+      </ul>
+    </article>
+    <article class="tarjeta">
+      <h3>Cómo se resuelve hoy</h3>
+      <ul class="datos">
+        <li><b>Brigadas por meses:</b> el relevamiento de TECHO en San Juan de Miraflores tomó 8 meses y unos 300 voluntarios; la información municipal era “escasa”.</li>
+        <li><b>Una consultoría por estudio:</b> por ejemplo, la evaluación de riesgo y el muro para el AA.HH. Minas 2000 (<a href="https://predes.org.pe/wp-content/uploads/2024/02/TdR-Elaboracion-de-expediente-Proyecto-Minas-2000-F.pdf" target="_blank" rel="noopener">términos de referencia de PREDES, 2024</a>), un asentamiento que está en este mapa.</li>
+        <li><b>O no se hace:</b> lo que no tiene título, no entra al catastro.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="pitch">
+  <div class="tarjetas dos">
+    <article class="tarjeta destacada">
+      <p class="antetitulo">Insight</p>
+      <h3>La dirigencia ya tiene la información. Lo que falta es convertirla en dato verificable, sin esperar al título.</h3>
+      <p>El catastro puede inventariar la realidad física y social de un asentamiento aunque no tenga saneamiento legal. Separar ese registro de la titulación permite actuar ya. La conversación con la dirigencia es el instrumento; la IA la vuelve una ficha estándar, y cada dato lleva la frase que lo respalda para que se pueda auditar.</p>
+    </article>
+    <article class="tarjeta">
+      <p class="antetitulo">Por qué ahora</p>
+      <ul class="datos">
+        <li><b>La IA ya lo hace por centavos:</b> transcribir voz y llenar un formulario con salida estructurada cuesta menos de S/ 0,10 por ficha.</li>
+        <li><b>Hay presupuesto con nombre propio:</b> el 82,8 % de las municipalidades distritales asignó recursos al Programa Presupuestal 0068 de reducción de riesgo, que financia estudios de estimación del riesgo. <a href="https://www.defensoria.gob.pe/wp-content/uploads/2022/04/Reporte-002-2022-Programa-Presupuestal-0068.pdf" target="_blank" rel="noopener">Defensoría del Pueblo, 2022</a></li>
+        <li><b>Gestiones nuevas:</b> las autoridades municipales elegidas en 2026 asumen en enero de 2027 y necesitan su diagnóstico de territorio.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+
+<section id="fundadora" class="pitch">
+  <div class="fundadora">
+    <div class="fundadora-texto">
+      <p class="antetitulo">Fundadora · por qué yo</p>
+      <h2>Isabella Albarrán</h2>
+      <p>Dirigí el <strong>Relevamiento de Asentamientos Informales 2018 de TECHO Perú</strong> en San Juan de Miraflores. Recorrí esos cerros con las dirigencias, adapté la Ficha de Catastro con actores del Estado, la academia y la comunidad, y vi dónde se rompe el dato: en la libreta, en la digitación y en los meses que pasan hasta que llega a quien decide.</p>
+      <p>Hoy me especializo en ciencia de datos para políticas públicas (Diplomado Q-LAB PUCP, 2026). En el Mapa es la herramienta que me hubiera gustado tener en 2018.</p>
+    </div>
+    <ul class="fundadora-cifras">
+      <li><span>8</span>meses de campo</li>
+      <li><span>~300</span>voluntarios coordinados</li>
+      <li><span>138</span>asentamientos relevados</li>
+      <li><span>83</span>de esos polígonos son la base de este mapa</li>
+    </ul>
+  </div>
+</section>
+
+<section id="negocio" class="pitch">
+  <div class="pitch-cabecera">
+    <p class="antetitulo">Modelo de negocio</p>
+    <h2>Diagnóstico físico-social hecho por IA, pagado por el distrito</h2>
+    <p class="bajada-corta">No vendemos solo software: entregamos el diagnóstico listo. La municipalidad lo paga con el presupuesto que ya tiene para estudios de riesgo.</p>
+  </div>
+  <div class="planes">
+    <article class="plan">
+      <p class="plan-quien">Juntas directivas</p>
+      <h3>Comunidad</h3>
+      <p class="precio">Gratis</p>
+      <ul><li>La junta levanta y descarga la ficha de su asentamiento</li><li>Su asentamiento aparece en el mapa del distrito</li><li>Es nuestro canal de entrada a cada barrio</li></ul>
+    </article>
+    <article class="plan">
+      <p class="plan-quien">ONG y cooperación</p>
+      <h3>Organización</h3>
+      <p class="precio">S/ 250 <span>al mes</span></p>
+      <ul><li>Hasta 40 fichas al mes</li><li>Mapa compartido del equipo</li><li>Exportación CSV y GeoJSON</li></ul>
+    </article>
+    <article class="plan principal">
+      <p class="plan-quien">Municipalidades distritales · quien paga</p>
+      <h3>Distrito</h3>
+      <p class="precio">S/ 25 000 <span>por diagnóstico</span></p>
+      <ul><li>Hasta 150 asentamientos en 6 semanas</li><li>Fichas citadas y capas GIS listas para los estudios de estimación del riesgo</li><li>Actualización anual: S/ 8 000</li></ul>
+    </article>
+  </div>
+  <div class="tarjetas dos economia">
+    <article class="tarjeta">
+      <h3>Cuánto nos cuesta cada ficha</h3>
+      <table class="costos">
+        <tr><td>Gemini (salida estructurada)</td><td>&lt; S/ 0,10</td></tr>
+        <tr><td>Whisper, en nuestro servidor</td><td>≈ S/ 0</td></tr>
+        <tr><td>Servidor, prorrateado</td><td>≈ S/ 1</td></tr>
+        <tr><td>Brigadista local: 1 hora con traslado</td><td>≈ S/ 60</td></tr>
+        <tr class="total"><td>Total por ficha</td><td>≈ S/ 61</td></tr>
+      </table>
+      <p class="nota">Un diagnóstico de 150 asentamientos cuesta unos S/ 9 200 y se vende en S/ 25 000: margen bruto cercano al 63 %.</p>
+    </article>
+    <article class="tarjeta">
+      <h3>Supuestos que estoy validando</h3>
+      <ul class="datos">
+        <li>Los precios son una propuesta; los estoy contrastando en conversaciones con una municipalidad, una ONG y una dirigencia.</li>
+        <li>El costo de IA es un estimado con precios de la capa paga; la demo usa la capa gratuita.</li>
+        <li>El brigadista puede ser personal municipal o voluntariado: si lo pone el cliente, el costo por ficha baja a menos de S/ 2.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<footer class="pie">
+  <p><strong>En el Mapa</strong> · Isabella Albarrán · Proyecto final, Diplomado en Ciencia de Datos para las Ciencias Sociales y la Gestión Pública 2026 (Q-LAB PUCP).</p>
+  <p>Polígonos y número de familias: Relevamiento 2018 de TECHO Perú (83 de 138 polígonos). En el Mapa no es un proyecto de TECHO. La entrevista de ejemplo es simulada y el asentamiento “Mirador Las Brisas” es ficticio. La app no guarda nombres, DNI ni teléfonos: los números de documento y de celular se tapan antes de llegar al modelo.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

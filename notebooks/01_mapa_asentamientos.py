@@ -40,7 +40,7 @@ m.fit_bounds([[gdf.total_bounds[1], gdf.total_bounds[0]],
               [gdf.total_bounds[3], gdf.total_bounds[2]]])
 folium.LayerControl(collapsed=False).add_to(m)
 
-salida = RAIZ / "docs" / "mapa_asentamientos.html"
+salida = RAIZ / "notebooks" / "mapa_asentamientos.html"
 salida.parent.mkdir(exist_ok=True)
 m.save(salida)
 print(f"{len(gdf)} polígonos -> {salida}")

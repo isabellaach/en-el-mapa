@@ -1,0 +1,79 @@
+{
+ "simulado": true,
+ "texto": "— Buenas tardes, señora. Somos voluntarios y estamos actualizando la información de los asentamientos. ¿Cómo se llama su asentamiento?\n— Mirador Las Brisas. Estamos en la parte alta, arriba de Nueva Rinconada.\n— ¿Desde cuándo están acá?\n— Llegamos en el 2021, en plena pandemia. Entramos organizados, como cuarenta familias, y después lotizamos.\n— ¿Y ahora cuántas familias son?\n— Somos unas ochenta y cinco familias. Bueno, con los que han llegado este año ya pasamos las cien, pero esos todavía no están empadronados.\n— ¿Tienen algún documento del terreno?\n— Solo constancia de posesión, y no todos. Título no tiene nadie.\n— ¿Cómo hacen con el agua?\n— Sube la cisterna dos veces por semana. El cilindro nos cuesta como siete soles. No tenemos red.\n— ¿Y desagüe?\n— No hay. Cada familia tiene su silo.\n— ¿Luz?\n— Jalamos del poste de abajo, del vecino. No tenemos medidor.\n— ¿De qué material son las casas?\n— Casi todas de madera y triplay, con techo de calamina.\n— ¿Qué riesgos ven en la zona?\n— Estamos en pura pendiente y las pircas no son seguras. El año pasado hubo un derrumbe en la parte de arriba y se cayó una casa.\n— ¿Cómo se organizan?\n— Tenemos junta directiva. Nos reunimos el primer domingo de cada mes y avisamos por WhatsApp. Si quieren llámenme, mi número es [dato personal omitido].\n— ¿Cuáles son los principales problemas?\n— El agua, el peligro del cerro y que no tenemos papeles. Sin papeles la municipalidad no nos toma en cuenta.\n",
+ "ficha": {
+  "nombre_asentamiento": "Mirador Las Brisas",
+  "familias": {
+   "valor": 85,
+   "cita": "Somos unas ochenta y cinco familias."
+  },
+  "anio_fundacion": {
+   "valor": 2021,
+   "cita": "Llegamos en el 2021, en plena pandemia."
+  },
+  "constitucion": {
+   "valor": "ocupacion_organizada",
+   "cita": "Entramos organizados, como cuarenta familias, y después lotizamos."
+  },
+  "tenencia": {
+   "valor": "constancia_posesion",
+   "cita": "Solo constancia de posesión, y no todos."
+  },
+  "agua": {
+   "valor": "cisterna",
+   "cita": "Sube la cisterna dos veces por semana."
+  },
+  "desague": {
+   "valor": "silo_letrina",
+   "cita": "Cada familia tiene su silo."
+  },
+  "electricidad": {
+   "valor": "conexion_irregular",
+   "cita": "Jalamos del poste de abajo, del vecino. No tenemos medidor."
+  },
+  "paredes": {
+   "valor": "madera",
+   "cita": "Casi todas de madera y triplay, con techo de calamina."
+  },
+  "techos": {
+   "valor": "calamina_eternit",
+   "cita": "Casi todas de madera y triplay, con techo de calamina."
+  },
+  "entorno": {
+   "valor": [
+    "cerro_pendiente",
+    "pircas"
+   ],
+   "cita": "Estamos en pura pendiente y las pircas no son seguras."
+  },
+  "eventos_12_meses": {
+   "valor": [
+    "derrumbes"
+   ],
+   "cita": "El año pasado hubo un derrumbe en la parte de arriba y se cayó una casa."
+  },
+  "organizacion": {
+   "valor": "junta_directiva",
+   "cita": "Tenemos junta directiva."
+  },
+  "reuniones": {
+   "valor": "mensual",
+   "cita": "Nos reunimos el primer domingo de cada mes"
+  },
+  "problemas": {
+   "valor": [
+    "agua",
+    "zona_de_riesgo",
+    "titulacion"
+   ],
+   "cita": "El agua, el peligro del cerro y que no tenemos papeles."
+  },
+  "resumen": "Mirador Las Brisas es un asentamiento humano fundado en 2021 en una zona de alta pendiente que alberga a unas 85 familias empadronadas. La comunidad carece de títulos de propiedad y de redes de agua y desagüe, además de enfrentar riesgos de derrumbes por pircas inseguras.",
+  "por_verificar": [
+   "Número total de familias (85 empadronadas vs. más de 100 recien llegadas sin empadronar).",
+   "Qué familias cuentan efectivamente con la constancia de posesión."
+  ],
+  "_modelo": "gemini-3.5-flash"
+ },
+ "nota": "Entrevista simulada escrita para la demo. Asentamiento ficticio."
+}
