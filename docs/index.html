@@ -25,6 +25,7 @@
     <a href="#problema">Problema</a>
     <a href="#fundadora">Fundadora</a>
     <a href="#negocio">Negocio</a>
+    <a href="#preguntas">Preguntas</a>
     <a href="https://github.com/isabellaach/en-el-mapa" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </header>
@@ -40,6 +41,44 @@
     <div class="cifra"><span class="num">12 304</span><span class="que">familias que vivían en ellos</span></div>
     <div class="cifra naranja"><span class="num">91 %</span><span class="que">sin acceso formal a agua</span></div>
     <p class="fuente">Fuente: TECHO Perú, Relevamiento de Asentamientos Informales en San Juan de Miraflores (2018).</p>
+  </div>
+</section>
+
+<section id="por-que" class="pitch">
+  <div class="pitch-cabecera">
+    <p class="antetitulo">Por qué hace falta</p>
+    <h2>Cuatro razones, y todas apuntan a las mismas familias</h2>
+  </div>
+  <div class="tarjetas cuatro">
+    <article class="tarjeta razon">
+      <p class="razon-tema">Falta información</p>
+      <p class="razon-num">23 de 39</p>
+      <p>distritos de Lima con catastro no lo actualizan, y 4 nunca lo levantaron.</p>
+      <a href="https://ipe.org.pe/el-catastrofico-catastro-peruano/" target="_blank" rel="noopener">IPE, con RENAMU 2017</a>
+    </article>
+    <article class="tarjeta razon">
+      <p class="razon-tema">La ciudad crece más rápido que el Estado</p>
+      <p class="razon-num">93 %</p>
+      <p>de la expansión urbana en las principales ciudades del Perú entre 2001 y 2018 fue informal: primero se ocupa el terreno y, mucho después, llegan los servicios y el registro.</p>
+      <a href="https://www.grade.org.pe/wp-content/uploads/EspinozaFort_GRADEADI_expansionurbana.pdf" target="_blank" rel="noopener">GRADE, Espinoza y Fort (2020)</a>
+    </article>
+    <article class="tarjeta razon">
+      <p class="razon-tema">El clima sube el riesgo</p>
+      <p class="razon-num">238 218</p>
+      <p>viviendas de 14 distritos de Lima en riesgo muy alto por lluvias e inundaciones ante un Fenómeno El Niño. El Niño Costero de 2017 dejó más de 1,1 millones de personas afectadas en el país.</p>
+      <span class="fuentes"><a href="https://andina.pe/agencia/noticia-el-nino-riesgo-muy-alto-mas-230000-viviendas-lima-metropolitana-lluvias-954630.aspx" target="_blank" rel="noopener">CENEPRED 2023, en Andina</a> · <a href="https://www.paho.org/es/peru/emergencia-por-impacto-fenomeno-nino-costero-peru-2017" target="_blank" rel="noopener">OPS, con SINPAD 2017</a></span>
+    </article>
+    <article class="tarjeta razon">
+      <p class="razon-tema">El golpe cae sobre los más vulnerables</p>
+      <p class="razon-num">29,1 %</p>
+      <p>de la población urbana de Lima vive en barrios marginales: viviendas precarias, sin servicios formales y, muchas veces, en zonas de riesgo.</p>
+      <a href="https://observatorio.ceplan.gob.pe/ficha/ts_2_mvcs" target="_blank" rel="noopener">CEPLAN, 2021</a>
+    </article>
+  </div>
+  <div class="beneficios">
+    <p><b>Familias:</b> aparecen en el registro del distrito y entran en la priorización de obras y en los planes de prevención.</p>
+    <p><b>Dirigencias:</b> tienen la ficha de su asentamiento para gestionar ante la municipalidad y otras entidades.</p>
+    <p><b>Autoridades locales:</b> deciden dónde invertir en riesgo y servicios con datos actuales, citados y verificables.</p>
   </div>
 </section>
 
@@ -76,6 +115,18 @@
           <span><span>Usar la entrevista de ejemplo</span><small>Una conversación simulada, ya en texto: pasa directo a la IA.</small></span>
         </button>
       </div>
+      <details class="guia">
+        <summary>Guía de conversación: qué preguntarle a la dirigencia (15 min)</summary>
+        <ol>
+          <li><b>Origen:</b> ¿en qué año llegaron? ¿Cómo se formó el asentamiento? ¿Cuántas familias viven hoy?</li>
+          <li><b>Terreno:</b> ¿qué documento tienen sobre el terreno?</li>
+          <li><b>Servicios:</b> ¿de dónde sacan el agua? ¿Qué usan como desagüe? ¿Cómo tienen la luz?</li>
+          <li><b>Viviendas:</b> ¿de qué son la mayoría de paredes y techos?</li>
+          <li><b>Riesgo:</b> ¿hay pendiente, quebrada, pircas, torres o basural? ¿Qué pasó en los últimos 12 meses?</li>
+          <li><b>Organización:</b> ¿tienen junta directiva? ¿Cada cuánto se reúnen? ¿Cuáles son sus tres problemas principales?</li>
+        </ol>
+        <p>No pidas nombres, DNI ni teléfonos. <b>Sin señal:</b> graba con la grabadora del celular y súbelo después con “Subir un audio”.</p>
+      </details>
       <p class="estado-servidor" id="estado-servidor">Comprobando servidor…</p>
       <ul class="progreso" id="progreso" hidden>
         <li id="p-whisper">Transcribiendo con Whisper</li>
@@ -121,8 +172,9 @@
 <section id="tablero" class="tablero">
   <div class="tablero-cabecera">
     <div>
-      <p class="antetitulo">Tablero del distrito</p>
+      <p class="antetitulo">Tablero del distrito · lo que ve la municipalidad</p>
       <h2>Fichas actualizadas con En el Mapa</h2>
+      <p class="bajada-corta">La brigada llena fichas en campo; aquí la municipalidad ve el avance del levantamiento, qué carencias se repiten y descarga las capas para su GIS.</p>
     </div>
     <div class="botones">
       <button class="btn suave" id="btn-csv" type="button">Descargar CSV</button>
@@ -132,6 +184,31 @@
   <div class="tiles" id="tiles"></div>
   <div class="barras" id="barras"></div>
   <p class="nota" id="nota-tablero">Aún no hay fichas guardadas. Prueba con la entrevista de ejemplo.</p>
+</section>
+
+<section id="flujo" class="pitch">
+  <div class="pitch-cabecera">
+    <p class="antetitulo">Qué pasa con la información</p>
+    <h2>De la conversación a la decisión</h2>
+  </div>
+  <ol class="flujo">
+    <li>
+      <span class="flujo-quien">1 · Brigada o voluntariado</span>
+      <h3>Conversa, graba y revisa</h3>
+      <p>Desde cualquier celular con navegador. Revisa la ficha y confirma en campo lo que quedó “por verificar”.</p>
+    </li>
+    <li>
+      <span class="flujo-quien">2 · Junta directiva</span>
+      <h3>Recibe su ficha</h3>
+      <p>Un enlace o PDF con los datos de su asentamiento, para sus trámites ante la municipalidad y otras entidades.</p>
+    </li>
+    <li>
+      <span class="flujo-quien">3 · Municipalidad</span>
+      <h3>Decide con el tablero</h3>
+      <p>Gestión del Riesgo y Desarrollo Urbano descargan <b>CSV</b> (Excel, informes) y <b>GeoJSON</b> (QGIS o ArcGIS) para estudios de estimación del riesgo, priorización de obras y el plan urbano.</p>
+    </li>
+  </ol>
+  <p class="nota">En esta demo las fichas se guardan solo en este navegador. En el servicio, cada distrito tiene una base compartida y la junta, la ONG y la municipalidad ven el mismo mapa según su permiso.</p>
 </section>
 
 
@@ -148,9 +225,9 @@
     <article class="tarjeta">
       <h3>Qué tan grande es</h3>
       <ul class="datos">
-        <li><b>23 de 39</b> distritos de Lima con catastro no lo actualizan; 4 nunca lo levantaron. <a href="https://ipe.org.pe/el-catastrofico-catastro-peruano/" target="_blank" rel="noopener">IPE, con RENAMU 2017</a></li>
-        <li><b>135 de 1 874</b> gobiernos locales mantienen su catastro actualizado. <a href="https://data.larepublica.pe/ciudades-ciegas-crecer-y-planificar-sin-saber-lo-que-hay-en-el-territorio/" target="_blank" rel="noopener">La República, con RENAMU 2020</a></li>
-        <li><b>29,1 %</b> de la población urbana de Lima vive en barrios marginales (2021). <a href="https://observatorio.ceplan.gob.pe/ficha/ts_2_mvcs" target="_blank" rel="noopener">CEPLAN</a></li>
+        <li><b>135 de 1 874</b> gobiernos locales del país mantienen su catastro actualizado. <a href="https://data.larepublica.pe/ciudades-ciegas-crecer-y-planificar-sin-saber-lo-que-hay-en-el-territorio/" target="_blank" rel="noopener">La República, con RENAMU 2020</a></li>
+        <li><b>Un solo distrito, 138 asentamientos:</b> en San Juan de Miraflores vivían 12 304 familias en asentamientos de los que la municipalidad tenía poca información. <a href="https://peru.techo.org/wp-content/uploads/sites/18/2021/12/InformeRelevamientoFINAL.pdf" target="_blank" rel="noopener">TECHO, 2018</a></li>
+        <li><b>Y Lima tiene 43 distritos.</b> Los de la periferia crecen sobre laderas y quebradas con la misma falta de datos.</li>
       </ul>
     </article>
     <article class="tarjeta">
@@ -186,9 +263,15 @@
 <section id="fundadora" class="pitch">
   <div class="fundadora">
     <div class="fundadora-texto">
-      <p class="antetitulo">Fundadora · por qué yo</p>
-      <h2>Isabella Albarrán</h2>
-      <p>Dirigí el <strong>Relevamiento de Asentamientos Informales 2018 de TECHO Perú</strong> en San Juan de Miraflores. Recorrí esos cerros con las dirigencias, adapté la Ficha de Catastro con actores del Estado, la academia y la comunidad, y vi dónde se rompe el dato: en la libreta, en la digitación y en los meses que pasan hasta que llega a quien decide.</p>
+      <div class="fundadora-nombre">
+        <img src="capturas/fundadora.jpg" alt="Isabella Albarrán" width="88" height="88">
+        <div>
+          <p class="antetitulo">Fundadora · por qué yo</p>
+          <h2>Isabella Albarrán</h2>
+        </div>
+      </div>
+      <p><strong>La idea nace de un proyecto que existió.</strong> Entre 2018 y 2019 dirigí el <strong>Relevamiento de Asentamientos Informales de TECHO Perú</strong> en San Juan de Miraflores. Recorrí esos cerros con las dirigencias, adapté la Ficha de Catastro con actores del Estado, la academia y la comunidad, y vi dónde se rompe el dato: en la libreta, en la digitación y en los meses que pasan hasta que llega a quien decide.</p>
+      <p>Fue un solo distrito, y lo que no se sabía era enorme. Eso me hizo pensar en todos los otros distritos de Lima que también tienen asentamientos humanos y donde nadie ha hecho ese trabajo.</p>
       <p>Hoy me especializo en ciencia de datos para políticas públicas (Diplomado Q-LAB PUCP, 2026). En el Mapa es la herramienta que me hubiera gustado tener en 2018.</p>
     </div>
     <ul class="fundadora-cifras">
@@ -246,6 +329,59 @@
         <li>El brigadista puede ser personal municipal o voluntariado: si lo pone el cliente, el costo por ficha baja a menos de S/ 2.</li>
       </ul>
     </article>
+  </div>
+</section>
+
+<section id="preguntas" class="pitch">
+  <div class="pitch-cabecera">
+    <p class="antetitulo">Preguntas frecuentes</p>
+    <h2>Lo que suelen preguntarnos</h2>
+  </div>
+  <div class="faq">
+    <details>
+      <summary>¿No promueve la ocupación informal de terrenos?</summary>
+      <p>No. Registrar no es formalizar: En el Mapa no otorga ningún derecho sobre el terreno ni reemplaza el saneamiento legal. Registra una realidad que ya existe, porque las familias ya viven ahí. No registrarlas no detiene la ocupación; solo vuelve invisible el riesgo. Con el mapa, la municipalidad detecta antes las ocupaciones nuevas, sobre todo en zonas de riesgo no mitigable, y puede actuar a tiempo: mitigar o reubicar.</p>
+    </details>
+    <details>
+      <summary>¿Por qué San Juan de Miraflores? ¿Sirve en otros distritos?</summary>
+      <p>Es el piloto, porque ahí existe una línea de base de 2018 para comparar. En cualquier otro distrito el mapa empieza vacío y se llena con cada ficha que se guarda.</p>
+    </details>
+    <details>
+      <summary>¿Funciona en el celular? ¿Y en zonas sin señal?</summary>
+      <p>Sí: es una página web que funciona en cualquier smartphone con navegador, sin instalar nada. Si no hay señal, la brigada graba con la grabadora del celular y sube el audio cuando vuelve a tener conexión. Una versión que trabaje sin conexión es parte de los próximos pasos.</p>
+    </details>
+    <details>
+      <summary>¿Hace falta capacitar al personal?</summary>
+      <p>Poco: una sesión de una hora. La ficha es la misma que ya se usa en campo y la página trae una guía de conversación con las preguntas. Lo importante es aprender a conversar con la dirigencia y a confirmar lo que queda “por verificar”.</p>
+    </details>
+    <details>
+      <summary>¿Qué tan confiable es lo que llena la IA?</summary>
+      <p>La IA no inventa: si algo no se dijo, el campo queda como “no mencionado”. Cada dato trae la frase exacta de la conversación que lo respalda, y las contradicciones se marcan para confirmarlas en campo. Una persona revisa la ficha antes de guardarla.</p>
+    </details>
+    <details>
+      <summary>¿Y si la dirigencia exagera o se equivoca?</summary>
+      <p>Pasa, y ya pasaba con el papel: en 2018, varios asentamientos declararon un rango de familias que no coincide con el número exacto (los polígonos de borde punteado). Por eso la ficha separa lo dicho de lo verificado y deja la cita para auditarla.</p>
+    </details>
+    <details>
+      <summary>¿Qué pasa con los datos personales?</summary>
+      <p>La ficha describe al asentamiento, no a las personas. No se guardan nombres; los números de DNI y de celular se tapan antes de llegar al modelo de IA. Para grabar se pide consentimiento a la dirigencia.</p>
+    </details>
+    <details>
+      <summary>¿No hacen esto ya COFOPRI o el catastro municipal?</summary>
+      <p>No es lo mismo. COFOPRI formaliza la propiedad, y el catastro municipal registra predios, que suelen entrar cuando ya tienen saneamiento. En el Mapa cubre lo que queda antes: la realidad física y social del asentamiento mientras no tiene título, que es justo cuando más se necesita para prevenir riesgos.</p>
+    </details>
+    <details>
+      <summary>¿Por qué pagaría una municipalidad si puede hacerlo con su personal?</summary>
+      <p>Puede, y también es nuestro cliente: si pone su personal, paga la plataforma y el costo por ficha baja a menos de S/ 2. Lo que compra es tiempo: un diagnóstico en semanas en vez de meses, en un formato estándar y listo para su GIS y sus estudios de riesgo.</p>
+    </details>
+    <details>
+      <summary>¿Quién más hace algo parecido?</summary>
+      <p>Hoy se usan formularios digitales como KoboToolbox u ODK, consultorías por estudio o brigadas con papel. La diferencia: En el Mapa parte de una conversación, no de un formulario, y cada dato queda citado y ubicado en el mapa del distrito.</p>
+    </details>
+    <details>
+      <summary>¿Cómo se agrega el contorno de un asentamiento nuevo?</summary>
+      <p>Hoy se ubica con un punto. Lo siguiente es dibujar el polígono en el mapa durante la visita y, más adelante, detectar ocupaciones nuevas con imágenes satelitales.</p>
+    </details>
   </div>
 </section>
 

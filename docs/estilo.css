@@ -236,7 +236,10 @@ button, select, input { font: inherit; }
 .fundadora { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: center;
   background: var(--tarjeta); border: 1px solid var(--linea); border-left: 6px solid var(--naranja);
   border-radius: 14px; padding: 24px 28px; }
-.fundadora h2 { margin-bottom: 10px; }
+.fundadora h2 { margin-bottom: 0; }
+.fundadora-nombre { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.fundadora-nombre img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover;
+  border: 3px solid var(--morado-claro); flex: 0 0 88px; }
 .fundadora-texto p { margin: 0 0 10px; }
 .fundadora-cifras { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .fundadora-cifras li { background: var(--morado-claro); border-radius: 10px; padding: 12px 14px; font-size: .85rem; color: var(--gris); }
@@ -267,4 +270,51 @@ button, select, input { font: inherit; }
   .cifras { grid-template-columns: 1fr 1fr; }
   .cifra .num { font-size: 1.6rem; }
   .barra nav a:first-child { display: none; }
+}
+
+/* Por qué hace falta */
+.tarjetas.cuatro { grid-template-columns: repeat(4, 1fr); }
+.razon { display: flex; flex-direction: column; }
+.razon .razon-tema { text-transform: uppercase; letter-spacing: .06em; font-size: .72rem; font-weight: 600; color: var(--gris); margin: 0; }
+.razon .razon-num { font-family: var(--serif); font-size: 2.3rem; color: var(--naranja); line-height: 1.1; margin: 6px 0 6px; }
+.razon p { font-size: .92rem; }
+.razon a { margin-top: auto; color: var(--esmeralda); font-size: .78rem; }
+.beneficios { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+.beneficios p { margin: 0; background: var(--morado-claro); border-radius: 10px; padding: 12px 16px; font-size: .92rem; }
+.beneficios b { color: var(--morado); }
+
+/* Guía de conversación */
+.guia { margin: 12px 0 4px; background: var(--ambar-claro); border-radius: 10px; padding: 10px 14px; font-size: .88rem; }
+.guia summary { cursor: pointer; color: var(--ambar); font-weight: 600; }
+.guia ol { margin: 8px 0; padding-left: 20px; }
+.guia li { margin-bottom: 4px; }
+.guia p { margin: 0; color: var(--gris); }
+
+/* Flujo de la información */
+.flujo { list-style: none; margin: 0 0 10px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; counter-reset: none; }
+.flujo li { position: relative; background: var(--tarjeta); border: 1px solid var(--linea); border-top: 4px solid var(--esmeralda); border-radius: 14px; padding: 16px 18px; }
+.flujo li:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 40%; color: var(--esmeralda); font-size: 1.3rem; background: var(--fondo); line-height: 1; }
+.flujo-quien { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--esmeralda); }
+.flujo h3 { font-size: 1.25rem; color: var(--morado); margin: 4px 0 6px; }
+.flujo p { margin: 0; font-size: .92rem; }
+
+/* Preguntas frecuentes */
+.faq { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+.faq details { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 12px; padding: 12px 16px; }
+.faq summary { cursor: pointer; font-weight: 600; color: var(--morado); }
+.faq details[open] summary { margin-bottom: 6px; }
+.faq p { margin: 0; font-size: .93rem; }
+
+@media (max-width: 1100px) { .tarjetas.cuatro { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) {
+  .beneficios, .flujo, .faq { grid-template-columns: 1fr; }
+  .flujo li:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -16px; }
+}
+@media (max-width: 480px) { .tarjetas.cuatro { grid-template-columns: 1fr; } }
+.razon .fuentes { margin-top: auto; color: var(--gris); font-size: .78rem; }
+.razon .fuentes a { margin-top: 0; }
+@media (max-width: 480px) {
+  .marca { white-space: nowrap; font-size: 1.2rem; }
+  .barra { gap: 12px; }
+  .barra nav { overflow-x: auto; white-space: nowrap; scrollbar-width: none; min-width: 0; }
 }

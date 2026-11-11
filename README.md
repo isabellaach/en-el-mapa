@@ -1,33 +1,75 @@
 # En el Mapa
 
-> Una conversación de 15 minutos con la dirigencia se convierte en la ficha de catastro del asentamiento, con cada dato citado, y el asentamiento aparece en el mapa del distrito.
+## 1. One-liner
 
-*Borrador en construcción. Proyecto Final, Diplomatura Q-Lab PUCP, noviembre 2026.*
+**Hacemos el catastro físico-social de los asentamientos humanos para las municipalidades distritales de Lima mediante IA que convierte una conversación de 15 minutos con la dirigencia en una ficha citada y ubicada en el mapa, aunque el asentamiento todavía no tenga título.**
+
+**Demo:** https://isabellaach.github.io/en-el-mapa/ · Proyecto final, Diplomatura Q-Lab PUCP, noviembre 2026.
 
 ![Ficha citada](docs/capturas/2_ficha_citada.jpg)
 
-## 1. Fundadora
+## 2. Fundadora
 
-**Isabella Albarrán.** Dirigí el Relevamiento de Asentamientos Informales 2018 de TECHO Perú en San Juan de Miraflores: 8 meses de campo, unos 300 voluntarios, 138 asentamientos y 12 304 familias. Recorrí esos cerros con las dirigencias y vi dónde se rompe el dato: en la libreta, en la digitación y en los meses que pasan hasta que llega a quien decide. Los 83 polígonos de este repo vienen de ese trabajo.
+<img src="docs/capturas/fundadora.jpg" alt="Isabella Albarrán" width="140" align="left" style="margin-right:16px">
 
-Hoy me especializo en ciencia de datos para políticas públicas (Diplomado en Ciencia de Datos para las Ciencias Sociales y la Gestión Pública, Q-LAB PUCP 2026). En el Mapa es la herramienta que me hubiera gustado tener en 2018.
+**Isabella Albarrán.** La idea nace de un proyecto que existió. Entre 2018 y 2019 dirigí el Relevamiento de Asentamientos Informales de TECHO Perú en San Juan de Miraflores: 8 meses de campo, unos 300 voluntarios, 138 asentamientos y 12 304 familias. Recorrí esos cerros con las dirigencias y vi dónde se rompe el dato: en la libreta, en la digitación y en los meses que pasan hasta que llega a quien decide. Fue un solo distrito, y lo que no se sabía era enorme; eso me hizo pensar en los otros distritos de Lima que también tienen asentamientos humanos. Los 83 polígonos de este repo vienen de ese trabajo. Hoy me especializo en ciencia de datos para políticas públicas (Diplomado en Ciencia de Datos para las Ciencias Sociales y la Gestión Pública, Q-LAB PUCP 2026).
 
-## 2. Problema
+<br clear="left">
 
-*(por completar: datos verificables + 3 conversaciones en [docs/research/](docs/research/))*
+**Cómo cubro cada área con agentes de IA:**
 
-## 3. Solución e insight
+| Área | Qué hago yo | Qué hace el agente (Claude Code) |
+|---|---|---|
+| Producto | Defino el problema, la ficha y el flujo desde mi experiencia en campo | Propone el flujo y lo prueba de punta a punta |
+| Ingeniería | Reviso y decido | Escribe el backend, la extracción con Gemini, el mapa y los scripts de datos |
+| Diseño | Elijo la paleta, el tono y qué se muestra | Maqueta la página y la revisa en computadora y celular |
+| Ventas | Converso con municipalidades, ONG y dirigencias | Investiga presupuestos, fuentes y competidores, y redacta los mensajes |
 
-*(por completar)*
+## 3. Problema
 
-## 4. Por qué ahora
+**Quién lo sufre.** Las subgerencias de **Gestión del Riesgo de Desastres** y de **Desarrollo Urbano** de las municipalidades distritales de Lima periférica. Tienen que priorizar muros de contención, escaleras, redes y estudios de riesgo sin un inventario actualizado de los asentamientos humanos de su distrito. Y, al final, las familias que viven en ellos y no aparecen en ningún registro.
 
-*(por completar)*
+**Qué tan grande es.**
+- En Lima, 23 de 39 distritos con catastro no lo actualizan, y 4 de 43 nunca lo levantaron ([IPE, con RENAMU 2017](https://ipe.org.pe/el-catastrofico-catastro-peruano/)).
+- En todo el país, solo 135 de 1 874 gobiernos locales mantienen su catastro actualizado ([La República, con RENAMU 2020](https://data.larepublica.pe/ciudades-ciegas-crecer-y-planificar-sin-saber-lo-que-hay-en-el-territorio/)).
+- El 29,1 % de la población urbana de Lima vive en barrios marginales (2021) ([CEPLAN](https://observatorio.ceplan.gob.pe/ficha/ts_2_mvcs)).
 
-## 5. Demo
+**Por qué es urgente: más de una razón.**
+- **Falta información:** el catastro no alcanza a los asentamientos sin título (cifras arriba).
+- **La ciudad crece más rápido que el Estado:** el 93 % de la expansión urbana en las principales ciudades del Perú entre 2001 y 2018 fue informal ([GRADE, Espinoza y Fort, 2020](https://www.grade.org.pe/wp-content/uploads/EspinozaFort_GRADEADI_expansionurbana.pdf)).
+- **El clima sube el riesgo:** ante un Fenómeno El Niño, 238 218 viviendas de 14 distritos de Lima quedarían en riesgo muy alto por lluvias e inundaciones ([CENEPRED 2023, en Andina](https://andina.pe/agencia/noticia-el-nino-riesgo-muy-alto-mas-230000-viviendas-lima-metropolitana-lluvias-954630.aspx)). El Niño Costero de 2017 dejó más de 1,1 millones de personas afectadas en el país ([OPS, con SINPAD](https://www.paho.org/es/peru/emergencia-por-impacto-fenomeno-nino-costero-peru-2017)).
+- **El golpe cae sobre los más vulnerables:** las familias de los asentamientos, con viviendas precarias y sin servicios formales.
 
-- **Página:** *(URL de GitHub Pages, por completar)*. Sin servidor funciona en modo demostración con la entrevista de ejemplo ya procesada.
-- **Flujo:** grabar o subir el audio → Whisper transcribe → Gemini llena la ficha con una cita por dato → el voluntario revisa → el asentamiento se guarda en el mapa → el tablero se actualiza y se descarga en CSV o GeoJSON.
+Quién gana: las **familias** aparecen en el registro y entran en la priorización de obras y de prevención; las **dirigencias** tienen la ficha de su asentamiento para sus trámites; las **autoridades locales** deciden dónde invertir con datos actuales y verificables.
+
+**Cuánto les cuesta.** En tiempo y gente: el relevamiento de TECHO en un solo distrito tomó **8 meses y unos 300 voluntarios**, y la información que tenía la municipalidad era "escasa" ([informe del relevamiento](https://peru.techo.org/wp-content/uploads/sites/18/2021/12/InformeRelevamientoFINAL.pdf)). En errores: en la base de 2018, 5 de los 63 asentamientos que pudimos cruzar tienen un número de familias que contradice el rango declarado en la misma ficha (por ejemplo, "250 a 499 familias" con un número exacto de 30).
+
+**Cómo lo resuelven hoy, sin nosotros.**
+1. Brigadas con fichas en papel o en Kobo y semanas de digitación.
+2. Una consultoría por cada estudio. Por ejemplo, la evaluación de riesgo y el muro para el AA.HH. Minas 2000 ([términos de referencia de PREDES, 2024](https://predes.org.pe/wp-content/uploads/2024/02/TdR-Elaboracion-de-expediente-Proyecto-Minas-2000-F.pdf)), un asentamiento que está en nuestro mapa.
+3. No se hace: lo que no tiene título no entra al catastro.
+
+**Evidencia: conversaciones con usuarios.** Las notas están en [docs/research/](docs/research/). *(En curso: entrevistas a una municipalidad, a TECHO y a quien levanta información en campo.)*
+
+## 4. Solución e insight
+
+**Qué construimos.** Una app web en la que el voluntario o el brigadista graba la conversación con la dirigencia (o sube el audio). Whisper la transcribe; Gemini llena 15 campos de la Ficha de Catastro de TECHO con salida estructurada y, para cada dato, copia la frase literal que lo respalda. El voluntario revisa, lo que se contradice queda marcado "para confirmar en campo", y el asentamiento se guarda en el mapa del distrito: en su polígono de 2018 o, si es nuevo, en el punto donde está. El tablero del distrito se actualiza y se descarga en CSV o GeoJSON.
+
+**Qué pasa con la información.** (1) La brigada o el voluntariado conversa, graba y revisa desde cualquier celular con navegador. (2) La junta directiva recibe la ficha de su asentamiento. (3) La municipalidad (Gestión del Riesgo y Desarrollo Urbano) ve el tablero y descarga CSV para Excel e informes, y GeoJSON para QGIS o ArcGIS, para estudios de estimación del riesgo, priorización de obras y el plan urbano. En la demo las fichas se guardan en el navegador; en el servicio, cada distrito tiene una base compartida.
+
+**Insight.** La dirigencia ya tiene la información; lo que falta es convertirla en dato verificable, **sin esperar al título**. El catastro puede inventariar la realidad física y social de un asentamiento aunque no tenga saneamiento legal. Separar ese registro de la titulación permite que la municipalidad actúe ya. Y la cita por dato resuelve el problema de confianza: cualquiera puede auditar de dónde salió cada respuesta.
+
+## 5. Por qué ahora
+
+- **La IA ya lo hace por centavos.** Hace tres años, transcribir español coloquial en una laptop y llenar un formulario con valores controlados exigía modelos caros o entrenados a mano. Hoy Whisper corre en CPU y los LLM devuelven JSON que valida contra un esquema.
+- **Hay presupuesto con nombre propio.** El 82,8 % de las municipalidades distritales asignó recursos al Programa Presupuestal 0068 de reducción del riesgo de desastres ([Defensoría del Pueblo, 2022](https://www.defensoria.gob.pe/wp-content/uploads/2022/04/Reporte-002-2022-Programa-Presupuestal-0068.pdf)), que financia estudios de estimación del riesgo.
+- **Gestiones nuevas.** Las autoridades municipales elegidas en 2026 asumen en enero de 2027 y necesitan su diagnóstico de territorio.
+
+## 6. Demo
+
+- **URL pública:** https://isabellaach.github.io/en-el-mapa/. Sin servidor funciona en modo demostración, con la entrevista de ejemplo ya procesada.
+- **Flujo completo en vivo** (grabar o subir audio, Whisper y Gemini): corre en local, ver [Cómo correrlo](#cómo-correrlo).
+- **Video de respaldo:** [docs/video/respaldo.mp4](docs/video/respaldo.mp4).
 
 | Mapa 2018 | Ficha citada | Mapa y tablero |
 |---|---|---|
@@ -52,30 +94,56 @@ mapa (polígonos 2018 + puntos nuevos) y tablero (CSV / GeoJSON)
 
 | Paso | Modelo | Por qué |
 |---|---|---|
-| Transcripción | Whisper `small` (faster-whisper, int8) | Corre en CPU sin pagar por minuto; 82 s de audio en ~6 s en una laptop. El audio no sale del servidor. |
-| Ficha | Gemini `gemini-3.5-flash`, con respaldo automático a otros modelos Flash si está saturado | Salida estructurada con esquema Pydantic: los valores solo pueden ser las opciones de la ficha. Capa gratuita para el piloto. |
+| Transcripción | Whisper `small` (faster-whisper, int8) | Corre en CPU sin pagar por minuto: 82 s de audio en unos 6 s en una laptop. El audio de la conversación no sale del servidor. |
+| Ficha | Gemini `gemini-3.5-flash`, con respaldo automático a otros modelos Flash si está saturado | Salida estructurada con esquema Pydantic: cada campo solo acepta las opciones de la ficha, y cada dato exige su cita. Capa gratuita para el piloto. |
 
-Prueba con la entrevista simulada (audio generado con la voz del sistema): 15 de 15 campos correctos y la contradicción sobre el número de familias marcada como "para confirmar en campo".
+Prueba con la entrevista simulada (audio generado con la voz del sistema): 15 de 15 campos correctos, y la contradicción sobre el número de familias quedó marcada "para confirmar en campo".
 
-## 6. Modelo de negocio
+## 7. Modelo de negocio
 
-*(por completar: hasta 3 planes y costo por usuario)*
+**Quién paga:** la municipalidad distrital, con el presupuesto que ya tiene para estudios de estimación del riesgo. No vendemos solo software: entregamos el diagnóstico hecho ("X hecho por IA").
 
-## 7. Herramientas del curso
+| Plan | Para quién | Precio | Qué incluye |
+|---|---|---|---|
+| Comunidad | Juntas directivas | Gratis | La junta levanta y descarga la ficha de su asentamiento. Es el canal de entrada a cada barrio. |
+| Organización | ONG y cooperación | S/ 250 al mes | Hasta 40 fichas al mes, mapa compartido, CSV y GeoJSON |
+| **Distrito** | **Municipalidades distritales** | **S/ 25 000 por diagnóstico** | Hasta 150 asentamientos en 6 semanas, fichas citadas y capas GIS para los estudios de riesgo. Actualización anual: S/ 8 000 |
 
-| Herramienta | Dónde está |
+**Cuánto cuesta cada ficha (margen de contribución)**
+
+| Concepto | Costo |
 |---|---|
-| Datos geoespaciales: GeoPandas, reproyección UTM 18S → WGS84, Folium (sesión 06) | [data/preparar_poligonos.py](data/preparar_poligonos.py), [notebooks/01_mapa_asentamientos.py](notebooks/01_mapa_asentamientos.py) |
-| LLM con salida estructurada (sesión 08) | [ai/ficha.py](ai/ficha.py) |
-| Whisper (sesión 13) | [backend/main.py](backend/main.py) |
-| Dashboard (sesión 05) | [docs/app.js](docs/app.js), sección "Tablero" |
-| Despliegue (sesión 12) | *(por completar)* |
+| Gemini: unas 4 000 palabras de entrada (transcripción de 15 min, instrucciones y esquema) y unas 800 de salida | menos de S/ 0,10 (estimado con la capa paga de Gemini Flash) |
+| Whisper, en nuestro servidor | casi S/ 0 |
+| Servidor, prorrateado | unos S/ 1 |
+| Brigadista local: 1 hora con traslado (solo en el plan Distrito) | unos S/ 60 |
 
-## 8. Qué hizo el agente
+- **Plan Organización:** 40 fichas cuestan unos S/ 44 en IA y servidor; margen de contribución de unos S/ 206 al mes (82 %).
+- **Plan Distrito:** 150 fichas cuestan unos S/ 9 200 con brigadistas; margen de contribución de unos S/ 15 800 (63 %). Si el brigadista lo pone la municipalidad, el costo por ficha baja a menos de S/ 2.
+- **Supuestos por validar:** los precios son una propuesta que estoy contrastando en las conversaciones con usuarios; el costo de IA es un estimado, porque el piloto usa la capa gratuita.
 
-*(por completar)*
+## 8. Herramientas del curso
 
-## 9. Cómo correrlo
+| Herramienta | Para qué la usamos | Dónde está |
+|---|---|---|
+| Whisper, de voz a texto (sesión 13) | Transcribir la conversación con la dirigencia en español, en el servidor | [backend/main.py](backend/main.py) |
+| LLM con salida estructurada (sesión 08) | Llenar la ficha con valores controlados y una cita por dato | [ai/ficha.py](ai/ficha.py) |
+| Datos geoespaciales y mapas (sesión 06) | Reproyectar los shapefiles de UTM 18S a WGS84, calcular áreas, unir la base de 2018 y dibujar el mapa | [data/preparar_poligonos.py](data/preparar_poligonos.py), [data/unir_familias.py](data/unir_familias.py), [notebooks/01_mapa_asentamientos.py](notebooks/01_mapa_asentamientos.py), [docs/app.js](docs/app.js) |
+| Dashboard (sesión 05) | Tablero del distrito con indicadores y descargas | [docs/app.js](docs/app.js), sección "Tablero" |
+| Despliegue (sesión 12) | Página pública en GitHub Pages; API en FastAPI | [docs/](docs/), [backend/main.py](backend/main.py) |
+
+**Por qué estas:** el insumo del trabajo de campo es una conversación (Whisper), el producto es una ficha estándar que debe ser auditable (salida estructurada con citas) y el cliente decide por territorio (mapa y tablero).
+
+## 9. Qué hizo el agente
+
+Usé Claude Code durante todo el proyecto. Yo definí el problema, aporté los datos (los polígonos, la base y la Ficha de Catastro del relevamiento de 2018), tomé las decisiones de producto y diseño y revisé cada paso antes de aprobarlo. El agente:
+
+- Buscó y verificó las fuentes del problema y del modelo de negocio (RENAMU, CEPLAN, Defensoría, PREDES) y leyó el informe del relevamiento.
+- Escribió los scripts de datos: la conversión de los shapefiles, la corrección de nombres y el emparejamiento de nombres con la base de 2018 (normalización, similitud de texto y pares revisados a mano).
+- Escribió el backend ([backend/main.py](backend/main.py)), el esquema y el prompt de la ficha ([ai/ficha.py](ai/ficha.py)) y la página completa ([docs/](docs/)).
+- Escribió la entrevista simulada de ejemplo, probó el flujo de punta a punta, tomó las capturas y redactó este README para mi revisión.
+
+## Cómo correrlo
 
 ```bash
 uv venv .venv --python 3.12
@@ -96,6 +164,17 @@ cp data/asentamientos_sjm_2018.geojson docs/data/
 ## Por qué San Juan de Miraflores
 
 Es el piloto. Partimos de los 83 polígonos del Relevamiento 2018 para mostrar cómo se actualiza un distrito que ya tiene línea de base. En el Mapa no depende de esos datos: en otro distrito empieza de cero y cada ficha guardada agrega su asentamiento al mapa.
+
+## Próximos pasos
+
+- Dibujar el polígono de un asentamiento nuevo directamente en el mapa (hoy se guarda como punto).
+- Guardar las fichas en una base de datos compartida por distrito (hoy se guardan en el navegador).
+- Detectar asentamientos nuevos con imágenes satelitales para saber dónde enviar a las brigadas.
+- Una versión que trabaje sin conexión en zonas sin señal (hoy se graba con el celular y se sube después).
+
+## Preguntas frecuentes
+
+Están en la sección [Preguntas](https://isabellaach.github.io/en-el-mapa/#preguntas) de la página: si promueve la ocupación informal (no: registrar no es formalizar), si funciona en celular y sin señal, cuánta capacitación necesita, qué tan confiable es la IA, qué pasa con los datos personales, en qué se diferencia de COFOPRI y del catastro municipal, y por qué pagaría una municipalidad.
 
 ## Datos y privacidad
 

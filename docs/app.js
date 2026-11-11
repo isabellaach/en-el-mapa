@@ -89,13 +89,14 @@ const marcadoresNuevos = L.layerGroup();
 // Las tarjetas se abren con margen para que el botón de capas no las tape.
 L.Popup.mergeOptions({ autoPanPaddingTopLeft: L.point(16, 72), autoPanPaddingBottomRight: L.point(16, 16) });
 const mapa = L.map("mapa", { zoomControl: true, scrollWheelZoom: true });
-const base = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-  attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19 });
+// Calles y nombres de OpenStreetMap: muestra también lo que falta (muchos asentamientos casi no aparecen).
+const base = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "&copy; colaboradores de OpenStreetMap", maxZoom: 19 });
 const satelite = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   { attribution: "Esri, Maxar, Earthstar Geographics", maxZoom: 19 });
 satelite.addTo(mapa);
-L.control.layers({ "Satélite": satelite, "Mapa base": base }, null, { position: "topright" }).addTo(mapa);
+L.control.layers({ "Satélite": satelite, "Calles (OpenStreetMap)": base }, null, { position: "topright" }).addTo(mapa);
 marcadoresNuevos.addTo(mapa);
 mapa.setView([-12.127, -76.951], 15);
 
