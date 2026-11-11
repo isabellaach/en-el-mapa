@@ -1,0 +1,19 @@
+# Claves: NUNCA se suben
+.env
+.streamlit/secrets.toml
+
+# Entorno y caché
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
+
+# Datos crudos y audios de prueba (pueden tener voces o datos personales)
+data/raw/
+*.wav
+*.mp3
+*.m4a
+*.ogg
