@@ -49,7 +49,12 @@ Quién gana: las **familias** aparecen en el registro y entran en la priorizaci�
 2. Una consultoría por cada estudio. Por ejemplo, la evaluación de riesgo y el muro para el AA.HH. Minas 2000 ([términos de referencia de PREDES, 2024](https://predes.org.pe/wp-content/uploads/2024/02/TdR-Elaboracion-de-expediente-Proyecto-Minas-2000-F.pdf)), un asentamiento que está en nuestro mapa.
 3. No se hace: lo que no tiene título no entra al catastro.
 
-**Evidencia: conversaciones con usuarios.** Las notas están en [docs/research/](docs/research/). *(En curso: entrevistas a una municipalidad, a TECHO y a quien levanta información en campo.)*
+**Evidencia: conversaciones con usuarios.** Notas completas en [docs/research/conversaciones.md](docs/research/conversaciones.md), con tres perfiles: funcionario municipal de Desarrollo Urbano, trabajador de ONG con trabajo territorial (TECHO) y especialista en Gestión del Riesgo. Lo principal:
+- La información municipal existe, pero está dispersa entre Desarrollo Urbano, Catastro y Gestión del Riesgo, y hay que volver a verificarla.
+- El presupuesto podría salir del PP 0068, y sería más viable empezar con un piloto chico. Por eso existe el piloto de 15 asentamientos.
+- El miedo principal es que la IA invente datos. Por eso cada dato lleva su cita y lo dudoso queda "por verificar".
+- Piden exportar a Excel y GIS, trabajar desde el celular y, si se puede, sin conexión.
+- Una ficha no reemplaza una evaluación oficial de riesgo: es un insumo para ella.
 
 ## 4. Solución e insight
 
@@ -107,20 +112,30 @@ Prueba con la entrevista simulada (audio generado con la voz del sistema): 15 de
 |---|---|---|---|
 | Comunidad | Juntas directivas | Gratis | La junta levanta y descarga la ficha de su asentamiento. Es el canal de entrada a cada barrio. |
 | Organización | ONG y cooperación | S/ 250 al mes | Hasta 40 fichas al mes, mapa compartido, CSV y GeoJSON |
-| **Distrito** | **Municipalidades distritales** | **S/ 25 000 por diagnóstico** | Hasta 150 asentamientos en 6 semanas, fichas citadas y capas GIS para los estudios de riesgo. Actualización anual: S/ 8 000 |
+| **Distrito** | **Municipalidades distritales** | **S/ 22 500 por diagnóstico** (precio de lanzamiento; lista: S/ 25 000) | Hasta 150 asentamientos en 6 semanas, fichas citadas, capas GIS e informe de brechas. Piloto para empezar: 15 asentamientos por S/ 4 500. Actualización anual: S/ 6 000 |
 
-**Cuánto cuesta cada ficha (margen de contribución)**
+**Cuánto nos cuesta (margen de contribución)**
+
+- **IA por ficha:** Gemini procesa unas 4 000 palabras de entrada (transcripción de 15 min, instrucciones y esquema) y unas 800 de salida: menos de S/ 0,10 (estimado con la capa paga de Gemini Flash). Whisper corre en nuestro servidor: casi S/ 0.
+- **Plan Organización:** 40 fichas cuestan unos S/ 44 en IA y servidor; margen de contribución de unos S/ 206 al mes (82 %).
+- **Plan Distrito, presupuesto preliminar de un diagnóstico de 150 asentamientos:**
 
 | Concepto | Costo |
 |---|---|
-| Gemini: unas 4 000 palabras de entrada (transcripción de 15 min, instrucciones y esquema) y unas 800 de salida | menos de S/ 0,10 (estimado con la capa paga de Gemini Flash) |
-| Whisper, en nuestro servidor | casi S/ 0 |
-| Servidor, prorrateado | unos S/ 1 |
-| Brigadista local: 1 hora con traslado (solo en el plan Distrito) | unos S/ 60 |
+| Coordinación y gestión | S/ 3 000 |
+| Trabajo de campo y entrevistas | S/ 4 000 |
+| Tecnología: IA y servidor | S/ 1 000 |
+| Procesamiento y georreferenciación | S/ 3 000 |
+| Validación y control de calidad | S/ 2 000 |
+| Informe | S/ 2 000 |
+| Transporte y otros | S/ 1 000 |
+| **Total** (≈ S/ 107 por asentamiento) | **S/ 16 000** |
 
-- **Plan Organización:** 40 fichas cuestan unos S/ 44 en IA y servidor; margen de contribución de unos S/ 206 al mes (82 %).
-- **Plan Distrito:** 150 fichas cuestan unos S/ 9 200 con brigadistas; margen de contribución de unos S/ 15 800 (63 %). Si el brigadista lo pone la municipalidad, el costo por ficha baja a menos de S/ 2.
-- **Supuestos por validar:** los precios son una propuesta que estoy contrastando en las conversaciones con usuarios; el costo de IA es un estimado, porque el piloto usa la capa gratuita.
+Se vende en S/ 22 500: margen de S/ 6 500 (29 %) antes de impuestos. Casi todo el costo es trabajo de personas, no IA.
+
+**Referencias de precio.** [Solidaridad Latam (2026)](https://solidaridadlatam.org/oro/consultoria-ejecucion-de-instrumentos-y-levantamiento-de-informacion-en-zonas-mineras-de-arequipa-y-ayacucho/): presupuesto de hasta S/ 25 000 por al menos 200 encuestas en cuatro centros poblados, con campo y sistematización (S/ 125 por encuesta; nosotros, S/ 150 por asentamiento). TECHO (2018): el relevamiento de San Juan de Miraflores contó con US$ 20 000 de financiamiento privado, que cubrió el relevamiento y parte de la operación. Software de formularios como Fulcrum u ODK Cloud cobra por usuario o por mes, pero no entrega un diagnóstico terminado. Al estar por debajo de 8 UIT, el plan Distrito puede contratarse como [contrato menor](https://www.gob.pe/70088-gestionar-contratos-menores) (Ley 32069).
+
+**Supuestos por validar:** los precios son una hipótesis sustentada en esas referencias y en un primer presupuesto, no tarifas validadas. Asumen que la municipalidad facilita el contacto con las dirigencias. Falta medir cuánto demora de verdad cada entrevista y cada validación antes de comprometer 150 asentamientos en 6 semanas.
 
 ## 8. Herramientas del curso
 
@@ -178,6 +193,6 @@ Están en la sección [Preguntas](https://isabellaach.github.io/en-el-mapa/#preg
 
 ## Datos y privacidad
 
-- Polígonos y número de familias: Relevamiento 2018, TECHO Perú. Detalle en [data/README.md](data/README.md). En el Mapa no es un proyecto de TECHO.
+- Polígonos y número de familias: Relevamiento 2018, TECHO Perú. Los datos se publicaron para el uso de quien los necesitara y se usan con autorización de TECHO. Detalle en [data/README.md](data/README.md). En el Mapa no es un proyecto de TECHO.
 - La entrevista de ejemplo es **simulada** y "Mirador Las Brisas" es un asentamiento ficticio.
 - La ficha deja fuera los datos personales de la ficha original (nombre, DNI, celular y dirección del dirigente). Los números de DNI y de celular se tapan antes de enviar el texto al modelo.
