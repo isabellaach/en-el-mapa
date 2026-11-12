@@ -84,7 +84,7 @@ La página ([docs/index.html](docs/index.html)) presenta el problema, el demo, e
 - **Ficha para la junta, ejemplo:** https://isabellaach.github.io/en-el-mapa/ficha.html?id=ej-0&ejemplo=1
 - **Guía de entrevista para imprimir:** https://isabellaach.github.io/en-el-mapa/guia.html
 > **Modo demostración y flujo en vivo.** En el Mapa tiene dos partes: **la página** (mapa, app, informes), publicada en GitHub Pages, y **el servidor** (Whisper y Gemini), que hoy corre en una computadora local. Los enlaces de arriba funcionan sin servidor, en **modo demostración**: la entrevista de ejemplo muestra un resultado ya procesado. Para **grabar o subir audio y ver a Whisper y Gemini en vivo**, sigue los 5 pasos de [Cómo probar el flujo completo en vivo](#cómo-probar-el-flujo-completo-en-vivo) (unos 10 minutos).
-- **Video de respaldo:** pendiente.
+- **Video de respaldo** (2 min, la app de punta a punta con el servidor en vivo): [docs/video/respaldo.mp4](docs/video/respaldo.mp4).
 
 | 1. Nueva ficha | 2. Cada dato con su cita | 3. Informe del distrito |
 |---|---|---|
