@@ -49,20 +49,30 @@ def salud():
 async def transcribir(audio: UploadFile = File(...)):
     datos = await audio.read()
     if len(datos) > MAX_MB * 1024 * 1024:
-        raise HTTPException(413, f"El audio supera {MAX_MB} MB")
+        raise HTTPException(413, f"El audio supera {MAX_MB} MB.")
+    if len(datos) < 2000:  # una grabación cortada al instante llega vacía
+        raise HTTPException(400, "La grabación está vacía o es muy corta. Graba al menos 5 segundos.")
     sufijo = Path(audio.filename or "audio.webm").suffix or ".webm"
     with tempfile.NamedTemporaryFile(suffix=sufijo) as tmp:
         tmp.write(datos)
         tmp.flush()
         t0 = time.time()
-        segmentos, info = whisper().transcribe(
-            tmp.name, language="es", vad_filter=True, beam_size=1,
-            initial_prompt="Conversación con la dirigencia de un asentamiento humano de Lima: "
-                           "cisterna, pircas, constancia de posesión, junta directiva.",
-        )
-        segmentos = [{"ini": round(s.start, 1), "fin": round(s.end, 1), "texto": s.text.strip()}
-                     for s in segmentos]
+        try:
+            segmentos, info = whisper().transcribe(
+                tmp.name, language="es", vad_filter=True, beam_size=1,
+                initial_prompt="Conversación con la dirigencia de un asentamiento humano de Lima: "
+                               "cisterna, pircas, constancia de posesión, junta directiva.",
+            )
+            segmentos = [{"ini": round(s.start, 1), "fin": round(s.end, 1), "texto": s.text.strip()}
+                         for s in segmentos]
+        except Exception as e:  # audio dañado, cortado o en un formato que no se puede leer
+            print("Error al leer el audio:", repr(e)[:300])
+            raise HTTPException(400, "No se pudo leer el audio. Vuelve a grabar o sube el archivo "
+                                     "en otro formato (m4a, mp3 o wav).")
     texto = anonimizar(" ".join(s["texto"] for s in segmentos))
+    if not texto.strip():
+        raise HTTPException(422, "No se escuchó voz en la grabación. Revisa que el micrófono "
+                                 "correcto esté activo y vuelve a grabar.")
     return {"texto": texto, "duracion_audio": round(info.duration, 1),
             "segundos_proceso": round(time.time() - t0, 1), "modelo": f"whisper-{WHISPER_MODELO}"}
 
@@ -74,7 +84,8 @@ class Texto(BaseModel):
 @app.post("/api/ficha")
 def ficha(entrada: Texto):
     if len(entrada.texto.strip()) < 40:
-        raise HTTPException(422, "La transcripción es demasiado corta")
+        raise HTTPException(422, "Se entendió muy poco de la conversación para llenar una ficha. "
+                                 "Graba al menos un minuto de conversación.")
     t0 = time.time()
     try:
         resultado = llenar_ficha(entrada.texto)

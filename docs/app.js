@@ -222,37 +222,80 @@ function marcarProgreso(id, estado, detalle = "") {
   if (detalle) li.insertAdjacentHTML("beforeend", `<small>${esc(detalle)}</small>`);
 }
 
-function mostrarError(msg) {
+// Muestra el error y, si se puede reintentar, un botón para hacerlo sin empezar de cero.
+function mostrarError(msg, reintentar = null) {
   const e = $("#error");
   e.textContent = msg;
   e.hidden = !msg;
+  if (msg && reintentar) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn suave reintentar";
+    b.textContent = "Reintentar";
+    b.addEventListener("click", () => { mostrarError(""); reintentar(); });
+    e.append(" ", b);
+  }
 }
 
+// El servidor responde los errores en JSON ({detail}); si no, se usa un mensaje según el código.
+async function textoError(r, porDefecto) {
+  try { const j = await r.json(); if (j.detail) return typeof j.detail === "string" ? j.detail : porDefecto; }
+  catch { /* respuesta sin JSON */ }
+  if (r.status === 413) return "El audio supera los 25 MB.";
+  if (r.status >= 500) return `${porDefecto} El servidor tuvo un problema; intenta de nuevo.`;
+  return porDefecto;
+}
+
+let ocupado = false;
 async function procesarAudio(blob, nombre) {
   if (!servidorOk) { mostrarError("Para procesar audio hace falta el servidor. Prueba la entrevista de ejemplo."); return; }
+  if (ocupado) return;
+  if (blob.size < 2000) {
+    mostrarError("La grabación está vacía o es muy corta. Graba al menos 5 segundos de conversación.");
+    return;
+  }
+  ocupado = true;
   mostrarError("");
   $("#progreso").hidden = false;
   marcarProgreso("#p-whisper", "corriendo");
   marcarProgreso("#p-gemini", "");
+  let texto = null;
   try {
     const fd = new FormData();
     fd.append("audio", blob, nombre);
-    const r = await fetch(`${API}/api/transcribir`, { method: "POST", body: fd });
-    if (!r.ok) throw new Error((await r.json()).detail || "No se pudo transcribir");
+    let r;
+    try { r = await fetch(`${API}/api/transcribir`, { method: "POST", body: fd }); }
+    catch { throw new Error("Se perdió la conexión con el servidor."); }
+    if (!r.ok) throw new Error(await textoError(r, "No se pudo transcribir el audio."));
     const t = await r.json();
+    texto = t.texto;
     marcarProgreso("#p-whisper", "listo", `${t.duracion_audio} s de audio en ${t.segundos_proceso} s`);
-    await llenarConGemini(t.texto, false);
+    await llenarConGemini(texto, false);
   } catch (err) {
-    marcarProgreso("#p-whisper", "");
-    mostrarError(err.message);
-  }
+    if (texto === null) {  // falló Whisper: se reintenta con el mismo audio
+      marcarProgreso("#p-whisper", "");
+      mostrarError(err.message, () => procesarAudio(blob, nombre));
+    } else {               // falló Gemini: se reintenta solo la ficha, sin volver a transcribir
+      mostrarError(err.message, () => reintentarFicha(texto));
+    }
+  } finally { ocupado = false; }
+}
+
+async function reintentarFicha(texto) {
+  ocupado = true;
+  try { await llenarConGemini(texto, false); }
+  catch (err) { mostrarError(err.message, () => reintentarFicha(texto)); }
+  finally { ocupado = false; }
 }
 
 async function llenarConGemini(texto, simulado) {
   marcarProgreso("#p-gemini", "corriendo");
-  const r = await fetch(`${API}/api/ficha`, {
-    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texto }) });
-  if (!r.ok) { marcarProgreso("#p-gemini", ""); throw new Error((await r.json()).detail || "Gemini no respondió"); }
+  let r;
+  try {
+    r = await fetch(`${API}/api/ficha`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texto }) });
+  } catch { marcarProgreso("#p-gemini", ""); throw new Error("Se perdió la conexión con el servidor."); }
+  if (!r.ok) { marcarProgreso("#p-gemini", ""); throw new Error(await textoError(r, "Gemini no respondió.")); }
   const ficha = await r.json();
   marcarProgreso("#p-gemini", "listo", `${ficha._modelo} · ${ficha._segundos} s`);
   setTimeout(() => mostrarFicha({ texto, ficha, simulado }), 450);
@@ -470,26 +513,57 @@ $("#btn-geojson").addEventListener("click", () => {
 });
 
 // ---------- Grabación ----------
-let grabador = null, trozos = [];
+let grabador = null, trozos = [], inicioGrabacion = 0, reloj = null;
+const MIN_SEGUNDOS = 5;
+
+function mensajeMicrofono(err) {
+  if (err?.name === "NotAllowedError")
+    return "El navegador no tiene permiso para usar el micrófono. Haz clic en el candado junto a la dirección de la página, permite el micrófono y vuelve a intentar.";
+  if (err?.name === "NotFoundError") return "No se encontró ningún micrófono conectado.";
+  if (err?.name === "NotReadableError") return "Otra aplicación está usando el micrófono. Ciérrala y vuelve a intentar.";
+  return "No se pudo usar el micrófono. Revisa los permisos del navegador.";
+}
+
 $("#btn-grabar").addEventListener("click", async () => {
   if (!servidorOk) { mostrarError("Para grabar hace falta el servidor. Prueba la entrevista de ejemplo."); return; }
+  if (ocupado) return;
   const btn = $("#btn-grabar");
+  const txt = btn.querySelector(".txt");
   if (grabador?.state === "recording") { grabador.stop(); return; }
+  if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+    mostrarError("Este navegador no permite grabar. Graba con el celular y usa “Subir un audio”.");
+    return;
+  }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     grabador = new MediaRecorder(stream);
     trozos = [];
-    grabador.ondataavailable = (e) => trozos.push(e.data);
+    grabador.ondataavailable = (e) => { if (e.data.size) trozos.push(e.data); };
     grabador.onstop = () => {
+      clearInterval(reloj);
       stream.getTracks().forEach((t) => t.stop());
       btn.classList.remove("grabando");
-      btn.querySelector(".txt").textContent = "Grabar ahora";
-      procesarAudio(new Blob(trozos, { type: grabador.mimeType }), "grabacion.webm");
+      txt.textContent = "Grabar ahora";
+      const segundos = (Date.now() - inicioGrabacion) / 1000;
+      if (segundos < MIN_SEGUNDOS) {
+        mostrarError(`Grabaste ${Math.round(segundos)} s. Graba al menos ${MIN_SEGUNDOS} segundos de conversación.`);
+        return;
+      }
+      const tipo = grabador.mimeType || "audio/webm";
+      const ext = tipo.includes("mp4") ? "m4a" : tipo.includes("ogg") ? "ogg" : "webm";
+      procesarAudio(new Blob(trozos, { type: tipo }), `grabacion.${ext}`);
     };
-    grabador.start();
+    mostrarError("");
+    grabador.start(1000);  // entrega el audio por partes: si algo falla, no se pierde todo
+    inicioGrabacion = Date.now();
     btn.classList.add("grabando");
-    btn.querySelector(".txt").textContent = "Grabando… clic para terminar";
-  } catch { mostrarError("No se pudo usar el micrófono. Revisa los permisos del navegador."); }
+    const tic = () => {
+      const s = Math.floor((Date.now() - inicioGrabacion) / 1000);
+      txt.textContent = `Grabando ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} · clic para terminar`;
+    };
+    tic();
+    reloj = setInterval(tic, 1000);
+  } catch (err) { mostrarError(mensajeMicrofono(err)); }
 });
 
 $("#archivo").addEventListener("change", (e) => {
