@@ -7,9 +7,7 @@
 const API_PUBLICA = "";
 const params = new URLSearchParams(location.search);
 const ES_LOCAL = ["localhost", "127.0.0.1"].includes(location.hostname);
-// En local y en el Space de Hugging Face, la página y la API están en el mismo servidor.
-const MISMO_SERVIDOR = ES_LOCAL || location.hostname.endsWith(".hf.space");
-const API = params.get("api") || (MISMO_SERVIDOR ? "" : API_PUBLICA);
+const API = params.get("api") || (ES_LOCAL ? "" : API_PUBLICA);
 const CLAVE_LOCAL = "enelmapa_fichas_v1";
 
 // ---------- Etiquetas de la ficha (TECHO, Ficha de Catastro 2018) ----------
