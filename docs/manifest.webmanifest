@@ -1,0 +1,16 @@
+{
+  "name": "En el Mapa",
+  "short_name": "En el Mapa",
+  "description": "De la conversación con la dirigencia a la ficha de catastro y al mapa del distrito.",
+  "lang": "es",
+  "start_url": "app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F3EC",
+  "theme_color": "#1F3D2B",
+  "icons": [
+    { "src": "iconos/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "iconos/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

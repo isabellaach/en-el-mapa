@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>En el Mapa · App</title>
+<meta name="description" content="La app de la brigada: graba la conversación con la dirigencia, revisa la ficha de catastro y guarda el asentamiento en el mapa del distrito.">
+<meta name="theme-color" content="#1F3D2B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="En el Mapa">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="iconos/icono-192.png">
+<link rel="apple-touch-icon" href="iconos/icono-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="movil.css">
+</head>
+<body>
+
+<aside class="al-lado">
+  <p class="antetitulo">En el Mapa · la app de la brigada</p>
+  <h1>Así se usa en el celular, en campo</h1>
+  <p>La brigada graba la conversación con la dirigencia, revisa la ficha que llena la IA y guarda el asentamiento en el mapa. La municipalidad ve el resultado en el <a href="index.html#tablero">tablero del distrito</a>.</p>
+  <ol>
+    <li>Abre esta página en el celular.</li>
+    <li>En Android: menú ⋮ → <b>Instalar app</b>. En iPhone: Compartir → <b>Agregar a inicio</b>.</li>
+    <li>Queda con su ícono, a pantalla completa.</li>
+  </ol>
+  <p class="nota">Las fichas se guardan en este navegador y se ven también en la <a href="index.html">página de En el Mapa</a>.</p>
+</aside>
+
+<div class="marco">
+<div class="app">
+  <header class="barra-app">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2C10 2 5.5 6.6 5.5 12.4 5.5 20 16 30 16 30s10.5-10 10.5-17.6C26.5 6.6 22 2 16 2z"/><circle cx="16" cy="12.5" r="4.2"/></svg>
+    <span class="marca">En el Mapa</span>
+    <span class="chip-estado" id="chip-estado">…</span>
+  </header>
+
+  <main>
+    <!-- Nueva ficha: 1 conversación → 2 ficha → 3 mapa -->
+    <section class="vista activa" id="v-nueva">
+      <div class="etapa" id="e-inicio">
+        <p class="paso">Paso 1 de 3 · Conversación</p>
+        <h1>Nueva ficha</h1>
+        <p class="sub">Conversa unos 15 minutos con la dirigencia y graba.</p>
+        <button class="grabar" id="btn-grabar" type="button" aria-label="Grabar"><span class="punto"></span></button>
+        <p class="grabar-txt" id="grabar-txt">Toca para grabar</p>
+        <ul class="lista">
+          <li><label class="fila-lista" id="btn-subir"><span class="ic">↑</span><span>Subir un audio<small>Grabado antes, por ejemplo sin señal</small></span><em>›</em><input type="file" id="archivo" accept="audio/*,video/*" hidden></label></li>
+          <li><button class="fila-lista" id="btn-ejemplo" type="button"><span class="ic">▶</span><span>Entrevista de ejemplo<small>Para probar sin grabar</small></span><em>›</em></button></li>
+          <li><button class="fila-lista" id="btn-guia" type="button"><span class="ic">?</span><span>Guía de preguntas<small>Qué preguntarle a la dirigencia</small></span><em>›</em></button></li>
+        </ul>
+        <p class="aviso-error" id="error" hidden></p>
+      </div>
+
+      <div class="etapa" id="e-proceso" hidden>
+        <p class="paso">Procesando</p>
+        <h1>Llenando la ficha</h1>
+        <ul class="progreso">
+          <li id="p-whisper">Transcribiendo con Whisper</li>
+          <li id="p-gemini">Llenando la ficha con Gemini</li>
+        </ul>
+        <p class="aviso-error" id="error-proceso" hidden></p>
+        <button class="btn suave" id="btn-cancelar" type="button" hidden>Volver</button>
+      </div>
+
+      <div class="etapa" id="e-ficha" hidden>
+        <p class="paso">Paso 2 de 3 · Revisa la ficha</p>
+        <h1 id="ficha-nombre">—</h1>
+        <p class="sello" id="ficha-sello"></p>
+        <div class="verificar" id="ficha-verificar" hidden></div>
+        <p class="sub" id="ficha-resumen"></p>
+        <p class="ayuda">Toca un dato para ver la frase de la conversación que lo respalda.</p>
+        <div class="tarjetas" id="campos"></div>
+        <button class="btn primario" id="btn-a-mapa" type="button">Paso 3 · Guardar en el mapa</button>
+      </div>
+
+      <div class="etapa" id="e-ubicar" hidden>
+        <p class="paso">Paso 3 de 3 · Mapa</p>
+        <h1>¿Dónde está?</h1>
+        <label class="etq-campo" for="sel-asentamiento">¿Es uno de los asentamientos de 2018?</label>
+        <select id="sel-asentamiento"></select>
+        <p class="ayuda" id="ayuda-ubicar"></p>
+        <button class="btn primario" id="btn-guardar" type="button">Guardar</button>
+        <button class="btn suave" id="btn-volver-ficha" type="button">Volver a la ficha</button>
+      </div>
+
+      <div class="etapa listo" id="e-listo" hidden>
+        <div class="check">✓</div>
+        <h1>Ficha guardada</h1>
+        <p class="sub" id="listo-txt"></p>
+        <button class="btn primario" id="btn-ver-mapa" type="button">Ver en el mapa</button>
+        <button class="btn suave" id="btn-compartir" type="button">Compartir con la junta</button>
+        <button class="btn suave" id="btn-otra" type="button">Nueva ficha</button>
+      </div>
+    </section>
+
+    <section class="vista" id="v-mapa">
+      <div id="mapa-app" aria-label="Mapa de asentamientos"></div>
+      <div class="aviso-mapa" id="aviso-mapa" hidden>
+        <span>Toca el mapa donde está el asentamiento</span>
+        <button type="button" id="btn-cancelar-ubicar">Cancelar</button>
+      </div>
+      <button class="btn-leyenda" id="btn-leyenda" type="button">Leyenda</button>
+      <div class="leyenda" id="leyenda" hidden></div>
+    </section>
+
+    <section class="vista" id="v-fichas">
+      <p class="paso">Levantadas en este celular</p>
+      <h1>Fichas</h1>
+      <ul class="lista" id="lista-fichas"></ul>
+      <p class="sub" id="sin-fichas">Aún no hay fichas. Empieza en “Nueva ficha”.</p>
+    </section>
+
+    <section class="vista" id="v-tablero">
+      <p class="paso">Lo que ve la municipalidad</p>
+      <h1>Tablero del distrito</h1>
+      <div class="tiles" id="tiles"></div>
+      <div class="barras" id="barras"></div>
+      <div class="botones">
+        <button class="btn suave" id="btn-csv" type="button">Descargar CSV</button>
+        <button class="btn suave" id="btn-geojson" type="button">Descargar GeoJSON</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Secciones">
+    <button type="button" data-vista="v-mapa"><b>⌖</b>Mapa</button>
+    <button type="button" data-vista="v-nueva" class="activa"><b>＋</b>Nueva ficha</button>
+    <button type="button" data-vista="v-fichas"><b>≡</b>Fichas</button>
+    <button type="button" data-vista="v-tablero"><b>▦</b>Tablero</button>
+  </nav>
+
+  <div class="velo" id="velo" hidden></div>
+  <div class="hoja" id="hoja" hidden role="dialog" aria-modal="true">
+    <button class="hoja-cerrar" id="hoja-cerrar" type="button" aria-label="Cerrar">×</button>
+    <div id="hoja-contenido"></div>
+  </div>
+  <div class="aviso-breve" id="aviso-breve" hidden></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="comun.js"></script>
+<script src="movil.js"></script>
+</body>
+</html>
