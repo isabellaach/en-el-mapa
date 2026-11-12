@@ -21,10 +21,10 @@
     En el Mapa
   </a>
   <nav>
-    <a href="#demo">Demo</a>
     <a href="#problema">Problema</a>
-    <a href="#fundadora">Fundadora</a>
+    <a href="#demo">Demo</a>
     <a href="#negocio">Negocio</a>
+    <a href="#fundadora">Fundadora</a>
     <a href="#preguntas">Preguntas</a>
     <a href="app.html">App</a>
     <a href="https://github.com/isabellaach/en-el-mapa" target="_blank" rel="noopener">GitHub</a>
@@ -36,6 +36,10 @@
     <p class="antetitulo">Catastro de asentamientos humanos · Lima</p>
     <h1>Lo que no está en el mapa, <em>no existe</em> para el presupuesto.</h1>
     <p class="bajada">En el Mapa registra la realidad física y social de cada asentamiento humano, <strong>aunque todavía no tenga título</strong>, para que la municipalidad pueda priorizar inversión en riesgo y servicios. Una conversación de 25 minutos con la dirigencia se convierte en la ficha de catastro, con cada dato citado, y el asentamiento aparece en el mapa del distrito.</p>
+    <div class="portada-botones">
+      <a class="btn primario" href="#demo">Ver el demo</a>
+      <a class="btn suave" href="app.html">Abrir la app de la brigada</a>
+    </div>
   </div>
   <div class="cifras">
     <div class="cifra"><span class="num">138</span><span class="que">asentamientos relevados en SJM, 2018</span></div>
@@ -45,17 +49,17 @@
   </div>
 </section>
 
-<section id="por-que" class="pitch">
+<section id="problema" class="pitch">
   <div class="pitch-cabecera">
-    <p class="antetitulo">Por qué hace falta</p>
-    <h2>Cuatro razones, y todas apuntan a las mismas familias</h2>
+    <p class="antetitulo">El problema</p>
+    <h2>Los distritos planifican sin saber qué hay en su territorio</h2>
   </div>
   <div class="tarjetas cuatro">
     <article class="tarjeta razon">
       <p class="razon-tema">Falta información</p>
       <p class="razon-num">23 de 39</p>
-      <p>distritos de Lima con catastro no lo actualizan, y 4 nunca lo levantaron.</p>
-      <a href="https://ipe.org.pe/el-catastrofico-catastro-peruano/" target="_blank" rel="noopener">IPE, con RENAMU 2017</a>
+      <p>distritos de Lima con catastro no lo actualizan, y 4 nunca lo levantaron. En todo el país, solo 135 de 1 874 gobiernos locales lo tienen al día.</p>
+      <span class="fuentes"><a href="https://ipe.org.pe/el-catastrofico-catastro-peruano/" target="_blank" rel="noopener">IPE, con RENAMU 2017</a> · <a href="https://data.larepublica.pe/ciudades-ciegas-crecer-y-planificar-sin-saber-lo-que-hay-en-el-territorio/" target="_blank" rel="noopener">La República, con RENAMU 2020</a></span>
     </article>
     <article class="tarjeta razon">
       <p class="razon-tema">La ciudad crece más rápido que el Estado</p>
@@ -76,10 +80,37 @@
       <a href="https://observatorio.ceplan.gob.pe/ficha/ts_2_mvcs" target="_blank" rel="noopener">CEPLAN, 2021</a>
     </article>
   </div>
-  <div class="beneficios">
-    <p><b>Familias:</b> aparecen en el registro del distrito y entran en la priorización de obras y en los planes de prevención.</p>
-    <p><b>Dirigencias:</b> tienen la ficha de su asentamiento para gestionar ante la municipalidad y otras entidades.</p>
-    <p><b>Autoridades locales:</b> deciden dónde invertir en riesgo y servicios con datos actuales, citados y verificables.</p>
+  <div class="tarjetas dos problema-quien">
+    <article class="tarjeta">
+      <h3>Quién lo sufre</h3>
+      <p>Las gerencias de <strong>Gestión del Riesgo</strong> y de <strong>Desarrollo Urbano</strong> de las municipalidades distritales de Lima periférica: deben priorizar muros de contención, escaleras y redes sin un inventario de los asentamientos. Y, al final, las familias que no aparecen en ningún registro.</p>
+    </article>
+    <article class="tarjeta">
+      <h3>Cómo se resuelve hoy</h3>
+      <ul class="datos">
+        <li><b>Brigadas por meses:</b> el relevamiento de TECHO en San Juan de Miraflores tomó 8 meses y unos 300 voluntarios; la información municipal era “escasa”.</li>
+        <li><b>Una consultoría por estudio:</b> por ejemplo, la evaluación de riesgo y el muro para el AA.HH. Minas 2000 (<a href="https://predes.org.pe/wp-content/uploads/2024/02/TdR-Elaboracion-de-expediente-Proyecto-Minas-2000-F.pdf" target="_blank" rel="noopener">términos de referencia de PREDES, 2024</a>), un asentamiento que está en este mapa.</li>
+        <li><b>O no se hace:</b> lo que no tiene título, no entra al catastro.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="pitch">
+  <div class="tarjetas dos">
+    <article class="tarjeta destacada">
+      <p class="antetitulo">Insight</p>
+      <h3>La dirigencia ya tiene la información. Lo que falta es convertirla en dato verificable, sin esperar al título.</h3>
+      <p>El catastro puede inventariar la realidad física y social de un asentamiento aunque no tenga saneamiento legal. Separar ese registro de la titulación permite actuar ya. La conversación con la dirigencia es el instrumento; la IA la vuelve una ficha estándar, y cada dato lleva la frase que lo respalda para que se pueda auditar.</p>
+    </article>
+    <article class="tarjeta">
+      <p class="antetitulo">Por qué ahora</p>
+      <ul class="datos">
+        <li><b>La IA ya lo hace por centavos:</b> transcribir voz y llenar un formulario con salida estructurada cuesta menos de S/&nbsp;0,10 por ficha.</li>
+        <li><b>Hay presupuesto con nombre propio:</b> el 82,8 % de las municipalidades distritales asignó recursos al Programa Presupuestal 0068 de reducción de riesgo, que financia estudios de estimación del riesgo. <a href="https://www.defensoria.gob.pe/wp-content/uploads/2022/04/Reporte-002-2022-Programa-Presupuestal-0068.pdf" target="_blank" rel="noopener">Defensoría del Pueblo, 2022</a></li>
+        <li><b>Gestiones nuevas:</b> las autoridades municipales elegidas en 2026 asumen en enero de 2027 y necesitan su diagnóstico de territorio.</li>
+      </ul>
+    </article>
   </div>
 </section>
 
@@ -170,6 +201,37 @@
   <p><b>¿Por qué San Juan de Miraflores?</b> Es el piloto: partimos de los 83 polígonos que levantamos en 2018 para mostrar cómo se actualiza un distrito que ya tiene una línea de base. En el Mapa no depende de esos datos: en cualquier otro distrito empieza de cero, y cada ficha que se guarda agrega su asentamiento al mapa.</p>
 </section>
 
+<section id="flujo" class="pitch">
+  <div class="pitch-cabecera">
+    <p class="antetitulo">Qué pasa con la información</p>
+    <h2>De la conversación a la decisión</h2>
+  </div>
+  <ol class="flujo">
+    <li>
+      <span class="flujo-quien">1 · Brigada o voluntariado</span>
+      <h3>Conversa, graba y revisa</h3>
+      <p>Desde cualquier celular, con la <a href="app.html">app de la brigada</a>. Revisa la ficha y confirma en campo lo que quedó “por verificar”.</p>
+    </li>
+    <li>
+      <span class="flujo-quien">2 · Junta directiva</span>
+      <h3>Recibe su ficha</h3>
+      <p>Un enlace o PDF con los datos de su asentamiento, para sus trámites ante la municipalidad y otras entidades.</p>
+    </li>
+    <li>
+      <span class="flujo-quien">3 · Municipalidad</span>
+      <h3>Decide con el tablero</h3>
+      <p>Gestión del Riesgo y Desarrollo Urbano descargan <b>CSV</b> (Excel, informes) y <b>GeoJSON</b> (QGIS o ArcGIS) para estudios de estimación del riesgo, priorización de obras y el plan urbano.</p>
+    </li>
+  </ol>
+  <h3 class="quien-gana">Quién gana</h3>
+  <div class="beneficios">
+    <p><b>Familias:</b> aparecen en el registro del distrito y entran en la priorización de obras y en los planes de prevención.</p>
+    <p><b>Dirigencias:</b> tienen la ficha de su asentamiento para gestionar ante la municipalidad y otras entidades.</p>
+    <p><b>Autoridades locales:</b> deciden dónde invertir en riesgo y servicios con datos actuales, citados y verificables.</p>
+  </div>
+  <p class="nota">En esta demo las fichas se guardan solo en este navegador. En el servicio, cada distrito tiene una base compartida y la junta, la ONG y la municipalidad ven el mismo mapa según su permiso.</p>
+</section>
+
 <section id="tablero" class="tablero">
   <div class="tablero-cabecera">
     <div>
@@ -185,103 +247,6 @@
   <div class="tiles" id="tiles"></div>
   <div class="barras" id="barras"></div>
   <p class="nota" id="nota-tablero">Aún no hay fichas guardadas. Prueba con la entrevista de ejemplo.</p>
-</section>
-
-<section id="flujo" class="pitch">
-  <div class="pitch-cabecera">
-    <p class="antetitulo">Qué pasa con la información</p>
-    <h2>De la conversación a la decisión</h2>
-  </div>
-  <ol class="flujo">
-    <li>
-      <span class="flujo-quien">1 · Brigada o voluntariado</span>
-      <h3>Conversa, graba y revisa</h3>
-      <p>Desde cualquier celular con navegador. Revisa la ficha y confirma en campo lo que quedó “por verificar”.</p>
-    </li>
-    <li>
-      <span class="flujo-quien">2 · Junta directiva</span>
-      <h3>Recibe su ficha</h3>
-      <p>Un enlace o PDF con los datos de su asentamiento, para sus trámites ante la municipalidad y otras entidades.</p>
-    </li>
-    <li>
-      <span class="flujo-quien">3 · Municipalidad</span>
-      <h3>Decide con el tablero</h3>
-      <p>Gestión del Riesgo y Desarrollo Urbano descargan <b>CSV</b> (Excel, informes) y <b>GeoJSON</b> (QGIS o ArcGIS) para estudios de estimación del riesgo, priorización de obras y el plan urbano.</p>
-    </li>
-  </ol>
-  <p class="nota">En esta demo las fichas se guardan solo en este navegador. En el servicio, cada distrito tiene una base compartida y la junta, la ONG y la municipalidad ven el mismo mapa según su permiso.</p>
-</section>
-
-
-<section id="problema" class="pitch">
-  <div class="pitch-cabecera">
-    <p class="antetitulo">El problema</p>
-    <h2>Los distritos planifican sin saber qué hay en su territorio</h2>
-  </div>
-  <div class="tarjetas tres">
-    <article class="tarjeta">
-      <h3>Quién lo sufre</h3>
-      <p>Las gerencias de <strong>Gestión del Riesgo</strong> y de <strong>Desarrollo Urbano</strong> de las municipalidades distritales de Lima periférica: deben priorizar muros de contención, escaleras y redes sin un inventario de los asentamientos. Y, al final, las familias que no aparecen en ningún registro.</p>
-    </article>
-    <article class="tarjeta">
-      <h3>Qué tan grande es</h3>
-      <ul class="datos">
-        <li><b>135 de 1 874</b> gobiernos locales del país mantienen su catastro actualizado. <a href="https://data.larepublica.pe/ciudades-ciegas-crecer-y-planificar-sin-saber-lo-que-hay-en-el-territorio/" target="_blank" rel="noopener">La República, con RENAMU 2020</a></li>
-        <li><b>Un solo distrito, 138 asentamientos:</b> en San Juan de Miraflores vivían 12 304 familias en asentamientos de los que la municipalidad tenía poca información. <a href="https://peru.techo.org/wp-content/uploads/sites/18/2021/12/InformeRelevamientoFINAL.pdf" target="_blank" rel="noopener">TECHO, 2018</a></li>
-        <li><b>Y Lima tiene 43 distritos.</b> Los de la periferia crecen sobre laderas y quebradas con la misma falta de datos.</li>
-      </ul>
-    </article>
-    <article class="tarjeta">
-      <h3>Cómo se resuelve hoy</h3>
-      <ul class="datos">
-        <li><b>Brigadas por meses:</b> el relevamiento de TECHO en San Juan de Miraflores tomó 8 meses y unos 300 voluntarios; la información municipal era “escasa”.</li>
-        <li><b>Una consultoría por estudio:</b> por ejemplo, la evaluación de riesgo y el muro para el AA.HH. Minas 2000 (<a href="https://predes.org.pe/wp-content/uploads/2024/02/TdR-Elaboracion-de-expediente-Proyecto-Minas-2000-F.pdf" target="_blank" rel="noopener">términos de referencia de PREDES, 2024</a>), un asentamiento que está en este mapa.</li>
-        <li><b>O no se hace:</b> lo que no tiene título, no entra al catastro.</li>
-      </ul>
-    </article>
-  </div>
-</section>
-
-<section class="pitch">
-  <div class="tarjetas dos">
-    <article class="tarjeta destacada">
-      <p class="antetitulo">Insight</p>
-      <h3>La dirigencia ya tiene la información. Lo que falta es convertirla en dato verificable, sin esperar al título.</h3>
-      <p>El catastro puede inventariar la realidad física y social de un asentamiento aunque no tenga saneamiento legal. Separar ese registro de la titulación permite actuar ya. La conversación con la dirigencia es el instrumento; la IA la vuelve una ficha estándar, y cada dato lleva la frase que lo respalda para que se pueda auditar.</p>
-    </article>
-    <article class="tarjeta">
-      <p class="antetitulo">Por qué ahora</p>
-      <ul class="datos">
-        <li><b>La IA ya lo hace por centavos:</b> transcribir voz y llenar un formulario con salida estructurada cuesta menos de S/&nbsp;0,10 por ficha.</li>
-        <li><b>Hay presupuesto con nombre propio:</b> el 82,8 % de las municipalidades distritales asignó recursos al Programa Presupuestal 0068 de reducción de riesgo, que financia estudios de estimación del riesgo. <a href="https://www.defensoria.gob.pe/wp-content/uploads/2022/04/Reporte-002-2022-Programa-Presupuestal-0068.pdf" target="_blank" rel="noopener">Defensoría del Pueblo, 2022</a></li>
-        <li><b>Gestiones nuevas:</b> las autoridades municipales elegidas en 2026 asumen en enero de 2027 y necesitan su diagnóstico de territorio.</li>
-      </ul>
-    </article>
-  </div>
-</section>
-
-
-<section id="fundadora" class="pitch">
-  <div class="fundadora">
-    <div class="fundadora-texto">
-      <div class="fundadora-nombre">
-        <img src="capturas/fundadora.jpg" alt="Isabella Albarrán" width="88" height="88">
-        <div>
-          <p class="antetitulo">Fundadora · por qué yo</p>
-          <h2>Isabella Albarrán</h2>
-        </div>
-      </div>
-      <p><strong>La idea nace de un proyecto que existió.</strong> Entre 2018 y 2019 dirigí el <strong>Relevamiento de Asentamientos Informales de TECHO Perú</strong> en San Juan de Miraflores. Recorrí esos cerros con las dirigencias, adapté la Ficha de Catastro con actores del Estado, la academia y la comunidad, y vi dónde se rompe el dato: en la libreta, en la digitación y en los meses que pasan hasta que llega a quien decide.</p>
-      <p>Fue un solo distrito, y lo que no se sabía era enorme. Eso me hizo pensar en todos los otros distritos de Lima que también tienen asentamientos humanos y donde nadie ha hecho ese trabajo.</p>
-      <p>Hoy me especializo en ciencia de datos para políticas públicas (Diplomado Q-LAB PUCP, 2026). En el Mapa es la herramienta que me hubiera gustado tener en 2018.</p>
-    </div>
-    <ul class="fundadora-cifras">
-      <li><span>8</span>meses de campo</li>
-      <li><span>~300</span>voluntarios coordinados</li>
-      <li><span>138</span>asentamientos relevados</li>
-      <li><span>83</span>de esos polígonos son la base de este mapa</li>
-    </ul>
-  </div>
 </section>
 
 <section id="negocio" class="pitch">
@@ -335,6 +300,29 @@
         <li>El brigadista puede ser personal municipal o voluntariado: si lo pone el cliente, el costo por ficha baja a menos de S/&nbsp;2.</li>
       </ul>
     </article>
+  </div>
+</section>
+
+<section id="fundadora" class="pitch">
+  <div class="fundadora">
+    <div class="fundadora-texto">
+      <div class="fundadora-nombre">
+        <img src="capturas/fundadora.jpg" alt="Isabella Albarrán" width="88" height="88">
+        <div>
+          <p class="antetitulo">Fundadora · por qué yo</p>
+          <h2>Isabella Albarrán</h2>
+        </div>
+      </div>
+      <p><strong>La idea nace de un proyecto que existió.</strong> Entre 2018 y 2019 dirigí el <strong>Relevamiento de Asentamientos Informales de TECHO Perú</strong> en San Juan de Miraflores. Recorrí esos cerros con las dirigencias, adapté la Ficha de Catastro con actores del Estado, la academia y la comunidad, y vi dónde se rompe el dato: en la libreta, en la digitación y en los meses que pasan hasta que llega a quien decide.</p>
+      <p>Fue un solo distrito, y lo que no se sabía era enorme. Eso me hizo pensar en todos los otros distritos de Lima que también tienen asentamientos humanos y donde nadie ha hecho ese trabajo.</p>
+      <p>Hoy me especializo en ciencia de datos para políticas públicas (Diplomado Q-LAB PUCP, 2026). En el Mapa es la herramienta que me hubiera gustado tener en 2018.</p>
+    </div>
+    <ul class="fundadora-cifras">
+      <li><span>8</span>meses de campo</li>
+      <li><span>~300</span>voluntarios coordinados</li>
+      <li><span>138</span>asentamientos relevados</li>
+      <li><span>83</span>de esos polígonos son la base de este mapa</li>
+    </ul>
   </div>
 </section>
 
