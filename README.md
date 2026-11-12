@@ -4,9 +4,9 @@
 
 **Hacemos el catastro físico-social de los asentamientos humanos para las municipalidades distritales de Lima mediante IA que convierte una conversación de 25 minutos con la dirigencia en una ficha citada y ubicada en el mapa, aunque el asentamiento todavía no tenga título.**
 
-**Demo:** https://isabellaach.github.io/en-el-mapa/ · Proyecto final, Diplomatura Q-Lab PUCP, noviembre 2026.
+**Demo:** https://isabellaach.github.io/en-el-mapa/ · **App de la brigada:** [app.html](https://isabellaach.github.io/en-el-mapa/app.html) · Proyecto final, Diplomatura Q-Lab PUCP, noviembre 2026.
 
-![Ficha citada](docs/capturas/2_ficha_citada.jpg)
+<img src="docs/capturas/2_app_ficha_citada.jpg" alt="Ficha citada en la app" width="300">
 
 ## 2. Fundadora
 
@@ -58,7 +58,13 @@ Quién gana: las **familias** aparecen en el registro y entran en la priorizaci�
 
 ## 4. Solución e insight
 
-**Qué construimos.** Una app web en la que el voluntario o el brigadista graba la conversación con la dirigencia (o sube el audio). Whisper la transcribe; Gemini llena 28 campos de la Ficha de Catastro de TECHO (población, terreno, servicios, vivienda, riesgo y acceso de emergencias, comunidad y distancia a servicios) con salida estructurada y, para cada dato, copia la frase literal que lo respalda. El voluntario revisa, lo que se contradice queda marcado "para confirmar en campo", y el asentamiento se guarda en el mapa del distrito: en su polígono de 2018 o, si es nuevo, en el punto donde está. El tablero del distrito se actualiza y se descarga en CSV o GeoJSON.
+**Qué construimos.** Tres piezas, una para cada usuario:
+
+1. **La app de la brigada** ([docs/app.html](docs/app.html)), para el celular e instalable como app. El brigadista entra con su código (no su nombre), graba la conversación con la dirigencia o sube el audio, y sigue tres pasos con Atrás y Siguiente. Whisper transcribe; Gemini llena **28 campos de la Ficha de Catastro de TECHO** (población, terreno, servicios, vivienda, riesgo y acceso de emergencias, comunidad y distancia a servicios) con salida estructurada y, para cada dato, copia la frase literal que lo respalda. El brigadista revisa (al tocar un dato ve su cita en la conversación), marca lo que observa en campo (estado de techos, paredes y pisos) y guarda el asentamiento en el mapa: en su polígono de 2018 o, si es nuevo, con un toque en el mapa. La ficha en curso se guarda como borrador. Lleva la guía de entrevista impresa ([docs/guia.html](docs/guia.html)).
+2. **Para la junta directiva:** la ficha de su asentamiento, para compartir por WhatsApp o imprimir en PDF ([docs/ficha.html](docs/ficha.html)), con cada dato y su cita.
+3. **Para la municipalidad:** el tablero del distrito (CSV y GeoJSON para su GIS) y el **informe del distrito** ([docs/informe.html](docs/informe.html)): 12 brechas, prioridad de atención por asentamiento (alta, media o baja), mapa, pendientes por confirmar y límites del método.
+
+La página ([docs/index.html](docs/index.html)) presenta el problema, el demo, el flujo y el modelo de negocio.
 
 **Qué pasa con la información.** (1) La brigada o el voluntariado conversa, graba y revisa desde cualquier celular con navegador. (2) La junta directiva recibe la ficha de su asentamiento. (3) La municipalidad (Gestión del Riesgo y Desarrollo Urbano) ve el tablero y descarga CSV para Excel e informes, y GeoJSON para QGIS o ArcGIS, para estudios de estimación del riesgo, priorización de obras y el plan urbano. En la demo las fichas se guardan en el navegador; en el servicio, cada distrito tiene una base compartida.
 
@@ -72,35 +78,45 @@ Quién gana: las **familias** aparecen en el registro y entran en la priorizaci�
 
 ## 6. Demo
 
-- **URL pública:** https://isabellaach.github.io/en-el-mapa/. Sin servidor funciona en modo demostración, con la entrevista de ejemplo ya procesada.
-- **Flujo completo en vivo** (grabar o subir audio, Whisper y Gemini): corre en local, ver [Cómo correrlo](#cómo-correrlo).
-- **Video de respaldo:** [docs/video/respaldo.mp4](docs/video/respaldo.mp4).
+- **Página:** https://isabellaach.github.io/en-el-mapa/
+- **App de la brigada:** https://isabellaach.github.io/en-el-mapa/app.html (en el celular: Instalar app o Agregar a inicio)
+- **Informe del distrito, ejemplo:** https://isabellaach.github.io/en-el-mapa/informe.html?ejemplo=1 (8 asentamientos ficticios con datos simulados)
+- **Ficha para la junta, ejemplo:** https://isabellaach.github.io/en-el-mapa/ficha.html?id=ej-0&ejemplo=1
+- **Guía de entrevista para imprimir:** https://isabellaach.github.io/en-el-mapa/guia.html
+- Publicado sin servidor, funciona en **modo demostración**: la entrevista de ejemplo muestra un resultado ya procesado. El **flujo completo en vivo** (grabar o subir audio, Whisper y Gemini) corre con el servidor en local; ver [Cómo correrlo](#cómo-correrlo).
+- **Video de respaldo:** pendiente.
 
-| Mapa 2018 | Ficha citada | Mapa y tablero |
+| 1. Nueva ficha | 2. Cada dato con su cita | 3. Informe del distrito |
 |---|---|---|
-| ![](docs/capturas/1_mapa_2018.jpg) | ![](docs/capturas/2_ficha_citada.jpg) | ![](docs/capturas/3_mapa_y_tablero.jpg) |
+| ![](docs/capturas/1_app_nueva_ficha.jpg) | ![](docs/capturas/2_app_ficha_citada.jpg) | ![](docs/capturas/3_informe_distrito.jpg) |
 
 **Arquitectura**
 
 ```
-navegador (docs/: HTML + Leaflet)
-   │  audio (webm, m4a, mp3…)
-   ▼
+celular de la brigada (docs/app.html + movil.js)      página (docs/index.html + app.js)
+          │  audio (webm, m4a, mp3…)                          │
+          └──────────────┬────────────────────────────────────┘
+                         │   lógica compartida: docs/comun.js
+                         ▼
 backend/main.py (FastAPI)
    ├─ /api/transcribir → faster-whisper "small", español, en CPU
    │                      tapa DNI y celulares antes de seguir
    └─ /api/ficha       → ai/ficha.py: Gemini con salida estructurada (Pydantic)
                           28 campos de la Ficha de Catastro de TECHO + cita literal
-   ▼
-mapa (polígonos 2018 + puntos nuevos) y tablero (CSV / GeoJSON)
+                          (si un modelo está saturado, pasa a otro Flash)
+                         ▼
+fichas guardadas en el navegador (código de brigadista, observación en campo)
+   ├─ mapa (polígonos 2018 + puntos nuevos) y tablero → CSV / GeoJSON
+   ├─ ficha para la junta (docs/ficha.html) → compartir o PDF
+   └─ informe del distrito (docs/informe.html + reportes.js) → brechas, prioridad, mapa, PDF
 ```
 
 **Modelos y por qué**
 
 | Paso | Modelo | Por qué |
 |---|---|---|
-| Transcripción | Whisper `small` (faster-whisper, int8) | Corre en CPU sin pagar por minuto: 82 s de audio en unos 6 s en una laptop. El audio de la conversación no sale del servidor. |
-| Ficha | Gemini `gemini-3.5-flash`, con respaldo automático a otros modelos Flash si está saturado | Salida estructurada con esquema Pydantic: cada campo solo acepta las opciones de la ficha, y cada dato exige su cita. Con razonamiento "low" responde en unos 5 a 7 s en vez de 13 a 15 s, con la misma ficha (15 de 15 campos, las mismas contradicciones y citas literales); sin razonamiento perdía una contradicción. Capa gratuita para el piloto. |
+| Transcripción | Whisper `small` (faster-whisper, int8) | Corre en CPU sin pagar por minuto: 82 s de audio en unos 8 s en una laptop. El audio de la conversación no sale del servidor. |
+| Ficha | Gemini `gemini-3.5-flash`, con respaldo automático a otros modelos Flash si está saturado | Salida estructurada con esquema Pydantic: cada campo solo acepta las opciones de la ficha, y cada dato exige su cita. Con razonamiento "low" responde en unos 5 a 7 s en vez de 13 a 15 s, con la misma ficha (en la prueba con la ficha de 15 campos: 15 de 15, las mismas contradicciones y citas literales); sin razonamiento perdía una contradicción. Capa gratuita para el piloto. |
 
 Prueba con la entrevista simulada ampliada (en texto): 28 de 28 campos correctos, y quedaron "para confirmar en campo" el número de familias y la seguridad de las pircas. Con la versión anterior en audio (voz del sistema), 15 de 15. De punta a punta, 82 s de audio se convierten en ficha en unos 15 s. Además, el brigadista marca en la app el estado de techos, paredes y pisos que observa en campo (no sale de la conversación).
 
@@ -143,9 +159,9 @@ Se vende en S/ 22 500: margen de S/ 6 500 (29 %) antes de impuestos. Casi todo e
 |---|---|---|
 | Whisper, de voz a texto (sesión 13) | Transcribir la conversación con la dirigencia en español, en el servidor | [backend/main.py](backend/main.py) |
 | LLM con salida estructurada (sesión 08) | Llenar la ficha con valores controlados y una cita por dato | [ai/ficha.py](ai/ficha.py) |
-| Datos geoespaciales y mapas (sesión 06) | Reproyectar los shapefiles de UTM 18S a WGS84, calcular áreas, unir la base de 2018 y dibujar el mapa | [data/preparar_poligonos.py](data/preparar_poligonos.py), [data/unir_familias.py](data/unir_familias.py), [notebooks/01_mapa_asentamientos.py](notebooks/01_mapa_asentamientos.py), [docs/app.js](docs/app.js) |
-| Dashboard (sesión 05) | Tablero del distrito con indicadores y descargas | [docs/app.js](docs/app.js), sección "Tablero" |
-| Despliegue (sesión 12) | Página pública en GitHub Pages; API en FastAPI | [docs/](docs/), [backend/main.py](backend/main.py) |
+| Datos geoespaciales y mapas (sesión 06) | Reproyectar los shapefiles de UTM 18S a WGS84, calcular áreas, unir la base de 2018 y dibujar el mapa | [data/preparar_poligonos.py](data/preparar_poligonos.py), [data/unir_familias.py](data/unir_familias.py), [notebooks/01_mapa_asentamientos.py](notebooks/01_mapa_asentamientos.py), [docs/app.js](docs/app.js), [docs/movil.js](docs/movil.js), mapa del informe en [docs/reportes.js](docs/reportes.js) |
+| Dashboard (sesión 05) | Tablero del distrito con indicadores y descargas; informe del distrito con brechas y prioridades | [docs/comun.js](docs/comun.js) (`tableroHTML`, `BRECHAS`), [docs/reportes.js](docs/reportes.js) |
+| Despliegue (sesión 12) | Página y app instalable (manifest) en GitHub Pages; API en FastAPI | [docs/](docs/), [docs/manifest.webmanifest](docs/manifest.webmanifest), [backend/main.py](backend/main.py) |
 
 **Por qué estas:** el insumo del trabajo de campo es una conversación (Whisper), el producto es una ficha estándar que debe ser auditable (salida estructurada con citas) y el cliente decide por territorio (mapa y tablero).
 
@@ -157,6 +173,8 @@ Usé Claude Code durante todo el proyecto. Yo definí el problema, aporté los d
 - Escribió los scripts de datos: la conversión de los shapefiles, la corrección de nombres y el emparejamiento de nombres con la base de 2018 (normalización, similitud de texto y pares revisados a mano).
 - Escribió el backend ([backend/main.py](backend/main.py)), el esquema y el prompt de la ficha ([ai/ficha.py](ai/ficha.py)) y la página completa ([docs/](docs/)).
 - Escribió la entrevista simulada de ejemplo, probó el flujo de punta a punta, tomó las capturas y redactó este README para mi revisión.
+- Después de la presentación, con mis pedidos: arregló los errores de audio (grabación vacía, sin voz, permisos) y agregó Reintentar; midió Whisper y Gemini y redujo el razonamiento de Gemini, que era el cuello de botella (de 25 a 40 s a unos 15 s de punta a punta); construyó la app del celular (inicio, código de brigadista, Atrás y Siguiente, borrador, compartir), amplió la ficha a 28 campos con la observación en campo, reordenó la página y creó el informe del distrito y la ficha para la junta, con un ejemplo de asentamientos ficticios ([data/informe_ejemplo.py](data/informe_ejemplo.py)).
+- Las notas de las tres conversaciones con usuarios son mías; el agente solo las ordenó.
 
 ## Cómo correrlo
 
@@ -165,8 +183,10 @@ uv venv .venv --python 3.12
 uv pip install --python .venv/bin/python -r requirements.txt
 cp .env.example .env          # y pon tu GEMINI_API_KEY
 .venv/bin/uvicorn backend.main:app --port 8000
-# abrir http://localhost:8000
+# página: http://localhost:8000 · app: http://localhost:8000/app.html
 ```
+
+Para regenerar el ejemplo del informe (8 asentamientos ficticios): `python data/informe_ejemplo.py`.
 
 Para regenerar los datos (requiere geopandas y rapidfuzz):
 
@@ -183,7 +203,9 @@ Es el piloto. Partimos de los 83 polígonos del Relevamiento 2018 para mostrar c
 ## Próximos pasos
 
 - Dibujar el polígono de un asentamiento nuevo directamente en el mapa (hoy se guarda como punto).
-- Guardar las fichas en una base de datos compartida por distrito (hoy se guardan en el navegador).
+- Guardar las fichas en una base de datos compartida por distrito (hoy se guardan en el navegador) y, con ella, cuentas con roles: brigadista, supervisión y municipalidad.
+- Publicar el servidor (Whisper y Gemini) para que el enlace público funcione en vivo, sin la laptop.
+- Medir en campo cuánto dura de verdad cada entrevista y cada validación, para ajustar los costos.
 - Detectar asentamientos nuevos con imágenes satelitales para saber dónde enviar a las brigadas.
 - Una versión que trabaje sin conexión en zonas sin señal (hoy se graba con el celular y se sube después).
 
@@ -194,5 +216,6 @@ Están en la sección [Preguntas](https://isabellaach.github.io/en-el-mapa/#preg
 ## Datos y privacidad
 
 - Polígonos y número de familias: Relevamiento 2018, TECHO Perú. Los datos se publicaron para el uso de quien los necesitara y se usan con autorización de TECHO. Detalle en [data/README.md](data/README.md). En el Mapa no es un proyecto de TECHO.
-- La entrevista de ejemplo es **simulada** y "Mirador Las Brisas" es un asentamiento ficticio.
+- La entrevista de ejemplo es **simulada** y "Mirador Las Brisas" es un asentamiento ficticio. El ejemplo del informe usa 8 asentamientos **ficticios** con datos simulados; ningún nombre coincide con un asentamiento real de 2018.
+- Cada ficha registra el **código** del brigadista, no su nombre.
 - La ficha deja fuera los datos personales de la ficha original (nombre, DNI, celular y dirección del dirigente). Los números de DNI y de celular se tapan antes de enviar el texto al modelo.
