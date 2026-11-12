@@ -105,7 +105,7 @@ main { flex: 1; position: relative; overflow: hidden; }
 @keyframes girar { to { transform: rotate(360deg); } }
 
 /* Botones */
-.btn { display: block; width: 100%; border: 0; border-radius: 14px; padding: 14px; font-weight: 600; margin-top: 10px; }
+.btn { display: block; width: 100%; text-align: center; text-decoration: none; border: 0; border-radius: 14px; padding: 14px; font-weight: 600; margin-top: 10px; }
 .btn.primario { background: var(--verde); color: #fff; }
 .btn.suave { background: var(--verde-claro); color: var(--verde); }
 .botones { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }

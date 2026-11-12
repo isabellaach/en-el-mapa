@@ -256,7 +256,7 @@ function ubicarNuevo(latlng) {
 
 function registrar(datos) {
   fichas = fichas.filter((x) => !(datos.poligono_id != null && x.poligono_id === datos.poligono_id));
-  fichas.push({ ...datos, fecha: hoy(), simulado: actual.simulado, ficha: actual.ficha });
+  fichas.push({ ...datos, id: nuevoId(), fecha: hoy(), simulado: actual.simulado, ficha: actual.ficha });
   escribirGuardadas(fichas);
   paso(3);
   $("#listo").hidden = false;

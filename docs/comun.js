@@ -385,3 +385,57 @@ function marcadorNuevo(x) {
       <tr><td>Agua</td><td>${esc(etiqueta("agua", x.ficha.agua?.valor))}</td></tr>
       <tr><td>Tenencia</td><td>${esc(etiqueta("tenencia", x.ficha.tenencia?.valor))}</td></tr></table>`);
 }
+
+// ---------- Brechas para el diagnóstico ----------
+// Cada brecha mira un campo de la ficha. Si la dirigencia no lo mencionó, ese asentamiento no
+// cuenta ni a favor ni en contra (se informa cuántos tienen dato).
+const sinDato = (v) => v == null || v === "no_mencionado" || (Array.isArray(v) && !v.length);
+const BRECHAS = [
+  { campo: "agua", corto: "Agua", txt: "Sin agua de red pública", es: (v) => v !== "red_publica" },
+  { campo: "desague", corto: "Desagüe", txt: "Sin desagüe de red pública", es: (v) => v !== "alcantarillado" },
+  { campo: "electricidad", corto: "Luz", txt: "Luz irregular o sin luz", es: (v) => ["conexion_irregular", "no_tienen"].includes(v) },
+  { campo: "alumbrado", corto: "Alumbrado", txt: "Sin alumbrado público completo", es: (v) => ["no", "parcial"].includes(v) },
+  { campo: "tenencia", corto: "Título", txt: "Sin título de propiedad", es: (v) => !["titulo_sin_carga", "titulo_con_carga"].includes(v) },
+  { campo: "pisos", corto: "Piso de tierra", txt: "Viviendas con piso de tierra", es: (v) => v === "tierra" },
+  { campo: "acceso", corto: "Acceso", txt: "Sin acceso vehicular", es: (v) => ["peatonal", "escaleras"].includes(v) },
+  { campo: "emergencias", corto: "Ambulancia", txt: "No entra una ambulancia", es: (v) => !v.includes("ambulancia") },
+  { campo: "entorno", corto: "Zona de riesgo", txt: "Expuesto a pendiente, quebrada, pircas u otro riesgo", es: (v) => v.length > 0 },
+  { campo: "eventos_12_meses", corto: "Evento reciente", txt: "Tuvo un derrumbe, incendio u otro evento en el último año", es: (v) => v.length > 0 },
+  { campo: "combustible", corto: "Leña o carbón", txt: "Cocinan con leña, carbón o kerosene", es: (v) => ["lena_carbon", "kerosene"].includes(v) },
+  { campo: "salud_cercana", corto: "Salud lejos", txt: "Centro de salud a más de 30 minutos", es: (v) => v === "mas_30_min" },
+];
+
+// Brechas de una ficha: { brechas: [txt…], cortas: [corto…], conDato: n }.
+function brechasDe(ficha) {
+  const res = { brechas: [], cortas: [], conDato: 0 };
+  for (const b of BRECHAS) {
+    const v = ficha[b.campo]?.valor;
+    if (sinDato(v)) continue;
+    res.conDato += 1;
+    if (b.es(v)) { res.brechas.push(b.txt); res.cortas.push(b.corto); }
+  }
+  return res;
+}
+
+// Prioridad según cuántas brechas tiene: alta (8 o más de 12), media (4 a 7) o baja.
+function prioridadDe(n) {
+  return n >= 8 ? { nivel: "alta", txt: "Alta" } : n >= 4 ? { nivel: "media", txt: "Media" } : { nivel: "baja", txt: "Baja" };
+}
+
+// Identificador estable de una ficha guardada (las antiguas no lo tenían).
+const nuevoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+// ---------- Mostrar un dato de la ficha ----------
+function valorTexto(k, d) {
+  const c = CAMPOS[k];
+  if (c.tipo === "numero") return d.valor == null ? "No se mencionó" : String(d.valor);
+  if (c.lista) return d.valor?.length ? d.valor.map((v) => etiqueta(k, v)).join(", ") : "No se mencionó";
+  return etiqueta(k, d.valor);
+}
+
+function claseCampo(k, d) {
+  const c = CAMPOS[k];
+  if (d.valor == null || d.valor === "no_mencionado" || (c.lista && !d.valor?.length)) return "nada";
+  if (c.lista) return d.valor.some((v) => claseValor(c, v) === "malo") ? "malo" : "";
+  return c.tipo === "numero" ? "" : claseValor(c, d.valor);
+}

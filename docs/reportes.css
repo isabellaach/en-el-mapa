@@ -1,0 +1,93 @@
+/* En el Mapa · informe del distrito y ficha para la junta. Se leen en pantalla y se imprimen en A4. */
+:root {
+  --verde: #1F3D2B; --verde-claro: #E4EEE6; --terracota: #C65D3B; --terracota-claro: #F9E4DC;
+  --cielo: #2E7FB8; --sol: #8A6A12; --sol-claro: #FBF1D3; --tinta: #1E2620; --gris: #5C6660;
+  --linea: #E2E0D5; --fondo: #F5F3EC;
+  --serif: "DM Serif Display", Georgia, serif; --sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font: 14px/1.5 var(--sans); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; color: var(--verde); line-height: 1.15; }
+
+.acciones { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 10px 16px; background: var(--verde); color: #F2F7F2; }
+.acciones .marca { font: 1.2rem var(--serif); margin-right: auto; }
+.acciones button, .acciones a { border: 0; border-radius: 10px; padding: 8px 14px; font: 600 13px var(--sans); cursor: pointer;
+  text-decoration: none; background: rgba(255,255,255,.14); color: #fff; }
+.acciones .principal { background: var(--terracota); }
+.acciones .elegido { background: #fff; color: var(--verde); }
+
+.hoja { max-width: 900px; margin: 20px auto 40px; background: #fff; padding: 32px 40px; border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.07); }
+.portadilla { border-bottom: 3px solid var(--verde); padding-bottom: 12px; margin-bottom: 18px; }
+.antetitulo { text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; font-weight: 600; color: var(--terracota); margin: 0; }
+.portadilla h1 { font-size: 2.1rem; margin: 4px 0 6px; }
+.meta { color: var(--gris); font-size: .9rem; margin: 0; }
+h2 { font-size: 1.45rem; margin: 26px 0 10px; }
+.ayuda { color: var(--gris); font-size: .88rem; margin: 0 0 10px; }
+
+.aviso { background: var(--sol-claro); border-left: 4px solid var(--sol); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; }
+.aviso b { color: var(--sol); }
+
+.cifras { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.cifra { border: 1px solid var(--linea); border-radius: 10px; padding: 10px 12px; }
+.cifra .num { display: block; font: 1.8rem var(--serif); color: var(--verde); }
+.cifra.alerta .num { color: var(--terracota); }
+.cifra .que { font-size: .78rem; color: var(--gris); }
+
+table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+th { text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--gris);
+  border-bottom: 2px solid var(--linea); padding: 6px 8px; }
+td { border-bottom: 1px solid var(--linea); padding: 7px 8px; vertical-align: top; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.barra { background: #EEECE4; border-radius: 4px; height: 10px; min-width: 120px; overflow: hidden; }
+.barra span { display: block; height: 100%; background: var(--terracota); border-radius: 4px; }
+.pct { font-weight: 600; color: var(--terracota); }
+
+.nivel { display: inline-block; font-size: .72rem; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.nivel.alta { background: var(--terracota); color: #fff; }
+.nivel.media { background: var(--sol-claro); color: var(--sol); }
+.nivel.baja { background: var(--verde-claro); color: var(--verde); }
+.chips span { display: inline-block; font-size: .72rem; background: var(--terracota-claro); color: #8E3A20;
+  border-radius: 6px; padding: 1px 6px; margin: 0 3px 3px 0; }
+.simulada { font-size: .68rem; color: var(--sol); background: var(--sol-claro); border-radius: 5px; padding: 0 5px; margin-left: 4px; }
+
+#mapa-informe { height: 360px; border-radius: 10px; border: 1px solid var(--linea); }
+.leyenda-informe { display: flex; gap: 14px; font-size: .8rem; color: var(--gris); margin-top: 6px; }
+.leyenda-informe i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+
+ul.verificar { padding-left: 18px; margin: 0; }
+ul.verificar li { margin-bottom: 4px; }
+ul.metodo { padding-left: 18px; margin: 0; color: var(--tinta); }
+ul.metodo li { margin-bottom: 5px; }
+.pie { margin-top: 24px; padding-top: 10px; border-top: 1px solid var(--linea); color: var(--gris); font-size: .78rem; }
+.vacio { color: var(--gris); }
+
+/* Ficha para la junta */
+.grupo-titulo { font: 1.1rem var(--serif); color: var(--verde); margin: 16px 0 4px; }
+.ficha-tabla td:first-child { width: 30%; color: var(--gris); }
+.ficha-tabla .valor { font-weight: 600; }
+.ficha-tabla .valor.malo { color: var(--terracota); }
+.ficha-tabla .valor.bueno { color: var(--cielo); }
+.ficha-tabla .valor.nada { color: #9AA09B; font-weight: 400; }
+.ficha-tabla .cita { display: block; color: var(--gris); font-size: .8rem; font-style: italic; }
+
+@media (max-width: 700px) {
+  .hoja { margin: 0; padding: 20px 16px; border-radius: 0; }
+  .cifras { grid-template-columns: 1fr 1fr; }
+  .tabla-ancha { overflow-x: auto; }
+}
+
+@media print {
+  @page { size: A4; margin: 12mm; }
+  body { background: #fff; font-size: 11.5px; }
+  .acciones { display: none; }
+  .hoja { margin: 0; padding: 0; box-shadow: none; max-width: none; }
+  h2 { break-after: avoid; }
+  tr, .cifra, li { break-inside: avoid; }
+  #mapa-informe { height: 300px; }
+  .grupos { columns: 2; column-gap: 18px; }
+  .grupo-bloque { break-inside: avoid; }
+  .grupo-titulo { margin-top: 8px; }
+  .ficha-tabla td { padding: 4px 6px; }
+}

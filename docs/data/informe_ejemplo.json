@@ -1,0 +1,1178 @@
+{
+ "nota": "Ejemplo con 8 asentamientos FICTICIOS y datos simulados, solo para mostrar el informe.",
+ "fichas": [
+  {
+   "id": "ej-0",
+   "poligono_id": null,
+   "nombre": "Mirador Las Brisas",
+   "lat": -12.1192,
+   "lng": -76.9447,
+   "fecha": "2026-11-10",
+   "brigadista": "B-07",
+   "simulado": true,
+   "ficha": {
+    "nombre_asentamiento": "Mirador Las Brisas",
+    "familias": {
+     "valor": 85,
+     "cita": "Somos unas ochenta y cinco familias."
+    },
+    "anio_fundacion": {
+     "valor": 2021,
+     "cita": "Llegamos en el 2021"
+    },
+    "constitucion": {
+     "valor": "ocupacion_organizada",
+     "cita": "Entramos organizados, como cuarenta familias, y después lotizamos."
+    },
+    "tenencia": {
+     "valor": "constancia_posesion",
+     "cita": "Solo constancia de posesión, y no todos."
+    },
+    "agua": {
+     "valor": "cisterna",
+     "cita": "Sube la cisterna dos veces por semana."
+    },
+    "desague": {
+     "valor": "silo_letrina",
+     "cita": "Cada familia tiene su silo."
+    },
+    "electricidad": {
+     "valor": "conexion_irregular",
+     "cita": "Jalamos del poste de abajo, del vecino. No tenemos medidor."
+    },
+    "paredes": {
+     "valor": "madera",
+     "cita": "Casi todas de madera y triplay"
+    },
+    "techos": {
+     "valor": "calamina_eternit",
+     "cita": "con techo de calamina."
+    },
+    "entorno": {
+     "valor": [
+      "cerro_pendiente",
+      "pircas"
+     ],
+     "cita": "Estamos en pura pendiente y las pircas no son seguras."
+    },
+    "eventos_12_meses": {
+     "valor": [
+      "derrumbes"
+     ],
+     "cita": "El año pasado hubo un derrumbe en la parte de arriba"
+    },
+    "organizacion": {
+     "valor": "junta_directiva",
+     "cita": "Tenemos junta directiva."
+    },
+    "reuniones": {
+     "valor": "mensual",
+     "cita": "Nos reunimos el primer domingo de cada mes"
+    },
+    "problemas": {
+     "valor": [
+      "agua",
+      "zona_de_riesgo",
+      "titulacion"
+     ],
+     "cita": "El agua, el peligro del cerro y que no tenemos papeles."
+    },
+    "personas": {
+     "valor": 350,
+     "cita": "Más o menos trescientas cincuenta personas."
+    },
+    "lotes": {
+     "valor": 90,
+     "cita": "Son noventa lotes."
+    },
+    "acceso": {
+     "valor": "escaleras",
+     "cita": "Solo a pie, por unas escaleras de tierra"
+    },
+    "emergencias": {
+     "valor": [
+      "ninguno"
+     ],
+     "cita": "No, ninguno entra."
+    },
+    "alumbrado": {
+     "valor": "no",
+     "cita": "No, de noche todo es oscuro. No hay postes de alumbrado"
+    },
+    "agua_beber": {
+     "valor": "hervida",
+     "cita": "La hervimos"
+    },
+    "combustible": {
+     "valor": "gas",
+     "cita": "Con gas, con balón."
+    },
+    "pisos": {
+     "valor": "tierra",
+     "cita": "La mayoría de tierra."
+    },
+    "local_comunal": {
+     "valor": "no",
+     "cita": "Todavía no."
+    },
+    "desalojo": {
+     "valor": "intento",
+     "cita": "quisieron sacarnos, pero no pasó a más."
+    },
+    "organizaciones_externas": {
+     "valor": [
+      "ong",
+      "iglesia"
+     ],
+     "cita": "Una ONG viene cada mes con talleres, y la parroquia apoya la olla común."
+    },
+    "salud_cercana": {
+     "valor": "mas_30_min",
+     "cita": "La posta está a unos cuarenta minutos caminando."
+    },
+    "colegio_cercano": {
+     "valor": "15_a_30_min",
+     "cita": "El colegio, a unos veinte minutos bajando."
+    },
+    "paradero_cercano": {
+     "valor": "menos_15_min",
+     "cita": "el paradero está abajo, a diez minutos."
+    },
+    "resumen": "Mirador Las Brisas es un asentamiento en pendiente fundado en 2021, que carece de servicios básicos y enfrenta riesgos de derrumbes. La comunidad se organiza mediante junta directiva, aunque carece de título de propiedad y acceso vehicular para emergencias.",
+    "por_verificar": [
+     "Número exacto de familias (mencionan 85 empadronadas pero más de 100 en total)",
+     "Seguridad de las pircas"
+    ]
+   },
+   "observacion": {
+    "estado_techos": "regular",
+    "estado_paredes": "malo",
+    "estado_pisos": "malo"
+   }
+  },
+  {
+   "id": "ej-1",
+   "poligono_id": null,
+   "nombre": "Lomas del Sol Naciente",
+   "lat": -12.116,
+   "lng": -76.948,
+   "fecha": "2026-11-10",
+   "brigadista": "B-03",
+   "simulado": true,
+   "ficha": {
+    "nombre_asentamiento": "Lomas del Sol Naciente",
+    "familias": {
+     "valor": 60,
+     "cita": ""
+    },
+    "anio_fundacion": {
+     "valor": 2019,
+     "cita": ""
+    },
+    "constitucion": {
+     "valor": "ocupacion_organizada",
+     "cita": ""
+    },
+    "tenencia": {
+     "valor": "constancia_posesion",
+     "cita": ""
+    },
+    "agua": {
+     "valor": "cisterna",
+     "cita": ""
+    },
+    "desague": {
+     "valor": "silo_letrina",
+     "cita": ""
+    },
+    "electricidad": {
+     "valor": "medidor_comunitario",
+     "cita": ""
+    },
+    "paredes": {
+     "valor": "madera",
+     "cita": ""
+    },
+    "techos": {
+     "valor": "calamina_eternit",
+     "cita": ""
+    },
+    "entorno": {
+     "valor": [
+      "cerro_pendiente",
+      "pircas"
+     ],
+     "cita": ""
+    },
+    "eventos_12_meses": {
+     "valor": [
+      "derrumbes"
+     ],
+     "cita": ""
+    },
+    "organizacion": {
+     "valor": "junta_directiva",
+     "cita": ""
+    },
+    "reuniones": {
+     "valor": "mensual",
+     "cita": ""
+    },
+    "problemas": {
+     "valor": [
+      "agua",
+      "zona_de_riesgo",
+      "caminos"
+     ],
+     "cita": ""
+    },
+    "personas": {
+     "valor": 230,
+     "cita": ""
+    },
+    "lotes": {
+     "valor": 64,
+     "cita": ""
+    },
+    "acceso": {
+     "valor": "vehicular",
+     "cita": ""
+    },
+    "emergencias": {
+     "valor": [
+      "ambulancia",
+      "policia"
+     ],
+     "cita": ""
+    },
+    "alumbrado": {
+     "valor": "si",
+     "cita": ""
+    },
+    "agua_beber": {
+     "valor": "hervida",
+     "cita": ""
+    },
+    "combustible": {
+     "valor": "gas",
+     "cita": ""
+    },
+    "pisos": {
+     "valor": "tierra",
+     "cita": ""
+    },
+    "local_comunal": {
+     "valor": "no",
+     "cita": ""
+    },
+    "desalojo": {
+     "valor": "no",
+     "cita": ""
+    },
+    "organizaciones_externas": {
+     "valor": [
+      "ong"
+     ],
+     "cita": ""
+    },
+    "salud_cercana": {
+     "valor": "15_a_30_min",
+     "cita": ""
+    },
+    "colegio_cercano": {
+     "valor": "15_a_30_min",
+     "cita": ""
+    },
+    "paradero_cercano": {
+     "valor": "menos_15_min",
+     "cita": ""
+    },
+    "resumen": "",
+    "por_verificar": [
+     "Si las pircas de la parte alta fueron reforzadas después del derrumbe."
+    ]
+   },
+   "observacion": {
+    "estado_techos": "malo",
+    "estado_paredes": "regular",
+    "estado_pisos": "malo"
+   }
+  },
+  {
+   "id": "ej-2",
+   "poligono_id": null,
+   "nombre": "Villa Los Cedros Altos",
+   "lat": -12.123,
+   "lng": -76.942,
+   "fecha": "2026-11-11",
+   "brigadista": "B-12",
+   "simulado": true,
+   "ficha": {
+    "nombre_asentamiento": "Villa Los Cedros Altos",
+    "familias": {
+     "valor": 140,
+     "cita": ""
+    },
+    "anio_fundacion": {
+     "valor": 2008,
+     "cita": ""
+    },
+    "constitucion": {
+     "valor": "compra_a_tercero",
+     "cita": ""
+    },
+    "tenencia": {
+     "valor": "titulo_con_carga",
+     "cita": ""
+    },
+    "agua": {
+     "valor": "pilon_comunitario",
+     "cita": ""
+    },
+    "desague": {
+     "valor": "pozo_ciego",
+     "cita": ""
+    },
+    "electricidad": {
+     "valor": "medidor_domiciliario",
+     "cita": ""
+    },
+    "paredes": {
+     "valor": "ladrillo_cemento",
+     "cita": ""
+    },
+    "techos": {
+     "valor": "calamina_eternit",
+     "cita": ""
+    },
+    "entorno": {
+     "valor": [
+      "torres_alta_tension"
+     ],
+     "cita": ""
+    },
+    "eventos_12_meses": {
+     "valor": [],
+     "cita": ""
+    },
+    "organizacion": {
+     "valor": "junta_directiva",
+     "cita": ""
+    },
+    "reuniones": {
+     "valor": "quincenal",
+     "cita": ""
+    },
+    "problemas": {
+     "valor": [
+      "desague",
+      "titulacion",
+      "inseguridad"
+     ],
+     "cita": ""
+    },
+    "personas": {
+     "valor": 520,
+     "cita": ""
+    },
+    "lotes": {
+     "valor": 150,
+     "cita": ""
+    },
+    "acceso": {
+     "valor": "vehicular",
+     "cita": ""
+    },
+    "emergencias": {
+     "valor": [
+      "ambulancia",
+      "bomberos",
+      "policia"
+     ],
+     "cita": ""
+    },
+    "alumbrado": {
+     "valor": "si",
+     "cita": ""
+    },
+    "agua_beber": {
+     "valor": "clorada",
+     "cita": ""
+    },
+    "combustible": {
+     "valor": "gas",
+     "cita": ""
+    },
+    "pisos": {
+     "valor": "cemento_loseta",
+     "cita": ""
+    },
+    "local_comunal": {
+     "valor": "si",
+     "cita": ""
+    },
+    "desalojo": {
+     "valor": "no",
+     "cita": ""
+    },
+    "organizaciones_externas": {
+     "valor": [
+      "estado",
+      "iglesia"
+     ],
+     "cita": ""
+    },
+    "salud_cercana": {
+     "valor": "15_a_30_min",
+     "cita": ""
+    },
+    "colegio_cercano": {
+     "valor": "menos_15_min",
+     "cita": ""
+    },
+    "paradero_cercano": {
+     "valor": "menos_15_min",
+     "cita": ""
+    },
+    "resumen": "",
+    "por_verificar": []
+   },
+   "observacion": {
+    "estado_techos": "regular",
+    "estado_paredes": "bueno",
+    "estado_pisos": "bueno"
+   }
+  },
+  {
+   "id": "ej-3",
+   "poligono_id": null,
+   "nombre": "Brisas de Quebrada Honda",
+   "lat": -12.13,
+   "lng": -76.9435,
+   "fecha": "2026-11-09",
+   "brigadista": "B-07",
+   "simulado": true,
+   "ficha": {
+    "nombre_asentamiento": "Brisas de Quebrada Honda",
+    "familias": {
+     "valor": 45,
+     "cita": ""
+    },
+    "anio_fundacion": {
+     "valor": 2022,
+     "cita": ""
+    },
+    "constitucion": {
+     "valor": "ocupacion_hormiga",
+     "cita": ""
+    },
+    "tenencia": {
+     "valor": "ninguno",
+     "cita": ""
+    },
+    "agua": {
+     "valor": "cisterna",
+     "cita": ""
+    },
+    "desague": {
+     "valor": "no_tienen",
+     "cita": ""
+    },
+    "electricidad": {
+     "valor": "conexion_irregular",
+     "cita": ""
+    },
+    "paredes": {
+     "valor": "esteras",
+     "cita": ""
+    },
+    "techos": {
+     "valor": "esteras",
+     "cita": ""
+    },
+    "entorno": {
+     "valor": [
+      "quebrada",
+      "cerro_pendiente"
+     ],
+     "cita": ""
+    },
+    "eventos_12_meses": {
+     "valor": [
+      "huaicos_inundaciones",
+      "incendios"
+     ],
+     "cita": ""
+    },
+    "organizacion": {
+     "valor": "comites",
+     "cita": ""
+    },
+    "reuniones": {
+     "valor": "semanal",
+     "cita": ""
+    },
+    "problemas": {
+     "valor": [
+      "agua",
+      "zona_de_riesgo",
+      "electricidad"
+     ],
+     "cita": ""
+    },
+    "personas": {
+     "valor": 170,
+     "cita": ""
+    },
+    "lotes": {
+     "valor": 48,
+     "cita": ""
+    },
+    "acceso": {
+     "valor": "peatonal",
+     "cita": ""
+    },
+    "emergencias": {
+     "valor": [
+      "ninguno"
+     ],
+     "cita": ""
+    },
+    "alumbrado": {
+     "valor": "no",
+     "cita": ""
+    },
+    "agua_beber": {
+     "valor": "sin_tratamiento",
+     "cita": ""
+    },
+    "combustible": {
+     "valor": "lena_carbon",
+     "cita": ""
+    },
+    "pisos": {
+     "valor": "tierra",
+     "cita": ""
+    },
+    "local_comunal": {
+     "valor": "no",
+     "cita": ""
+    },
+    "desalojo": {
+     "valor": "intento",
+     "cita": ""
+    },
+    "organizaciones_externas": {
+     "valor": [
+      "ninguna"
+     ],
+     "cita": ""
+    },
+    "salud_cercana": {
+     "valor": "mas_30_min",
+     "cita": ""
+    },
+    "colegio_cercano": {
+     "valor": "mas_30_min",
+     "cita": ""
+    },
+    "paradero_cercano": {
+     "valor": "15_a_30_min",
+     "cita": ""
+    },
+    "resumen": "",
+    "por_verificar": [
+     "Número de familias: dicen 45, pero siguen llegando familias nuevas.",
+     "Si el cauce de la quebrada se activó en el último verano."
+    ]
+   },
+   "observacion": {
+    "estado_techos": "malo",
+    "estado_paredes": "malo",
+    "estado_pisos": "malo"
+   }
+  },
+  {
+   "id": "ej-4",
+   "poligono_id": null,
+   "nombre": "Nuevo Horizonte de la Loma",
+   "lat": -12.1365,
+   "lng": -76.945,
+   "fecha": "2026-11-10",
+   "brigadista": "B-03",
+   "simulado": true,
+   "ficha": {
+    "nombre_asentamiento": "Nuevo Horizonte de la Loma",
+    "familias": {
+     "valor": 95,
+     "cita": ""
+    },
+    "anio_fundacion": {
+     "valor": 2014,
+     "cita": ""
+    },
+    "constitucion": {
+     "valor": "ocupacion_organizada",
+     "cita": ""
+    },
+    "tenencia": {
+     "valor": "constancia_posesion",
+     "cita": ""
+    },
+    "agua": {
+     "valor": "cisterna",
+     "cita": ""
+    },
+    "desague": {
+     "valor": "silo_letrina",
+     "cita": ""
+    },
+    "electricidad": {
+     "valor": "medidor_comunitario",
+     "cita": ""
+    },
+    "paredes": {
+     "valor": "madera",
+     "cita": ""
+    },
+    "techos": {
+     "valor": "calamina_eternit",
+     "cita": ""
+    },
+    "entorno": {
+     "valor": [
+      "cerro_pendiente"
+     ],
+     "cita": ""
+    },
+    "eventos_12_meses": {
+     "valor": [
+      "caida_postes"
+     ],
+     "cita": ""
+    },
+    "organizacion": {
+     "valor": "junta_directiva",
+     "cita": ""
+    },
+    "reuniones": {
+     "valor": "mensual",
+     "cita": ""
+    },
+    "problemas": {
+     "valor": [
+      "agua",
+      "desague",
+      "caminos"
+     ],
+     "cita": ""
+    },
+    "personas": {
+     "valor": 360,
+     "cita": ""
+    },
+    "lotes": {
+     "valor": 100,
+     "cita": ""
+    },
+    "acceso": {
+     "valor": "vehicular",
+     "cita": ""
+    },
+    "emergencias": {
+     "valor": [
+      "ambulancia",
+      "policia",
+      "bomberos"
+     ],
+     "cita": ""
+    },
+    "alumbrado": {
+     "valor": "parcial",
+     "cita": ""
+    },
+    "agua_beber": {
+     "valor": "hervida",
+     "cita": ""
+    },
+    "combustible": {
+     "valor": "gas",
+     "cita": ""
+    },
+    "pisos": {
+     "valor": "cemento_loseta",
+     "cita": ""
+    },
+    "local_comunal": {
+     "valor": "si",
+     "cita": ""
+    },
+    "desalojo": {
+     "valor": "no",
+     "cita": ""
+    },
+    "organizaciones_externas": {
+     "valor": [
+      "ong"
+     ],
+     "cita": ""
+    },
+    "salud_cercana": {
+     "valor": "15_a_30_min",
+     "cita": ""
+    },
+    "colegio_cercano": {
+     "valor": "15_a_30_min",
+     "cita": ""
+    },
+    "paradero_cercano": {
+     "valor": "menos_15_min",
+     "cita": ""
+    },
+    "resumen": "",
+    "por_verificar": []
+   },
+   "observacion": {
+    "estado_techos": "regular",
+    "estado_paredes": "regular",
+    "estado_pisos": "regular"
+   }
+  },
+  {
+   "id": "ej-5",
+   "poligono_id": null,
+   "nombre": "Las Terrazas del Cerro",
+   "lat": -12.134,
+   "lng": -76.9575,
+   "fecha": "2026-11-11",
+   "brigadista": "B-12",
+   "simulado": true,
+   "ficha": {
+    "nombre_asentamiento": "Las Terrazas del Cerro",
+    "familias": {
+     "valor": 210,
+     "cita": ""
+    },
+    "anio_fundacion": {
+     "valor": 2001,
+     "cita": ""
+    },
+    "constitucion": {
+     "valor": "lotizacion_estatal",
+     "cita": ""
+    },
+    "tenencia": {
+     "valor": "titulo_sin_carga",
+     "cita": ""
+    },
+    "agua": {
+     "valor": "red_publica",
+     "cita": ""
+    },
+    "desague": {
+     "valor": "alcantarillado",
+     "cita": ""
+    },
+    "electricidad": {
+     "valor": "medidor_domiciliario",
+     "cita": ""
+    },
+    "paredes": {
+     "valor": "ladrillo_cemento",
+     "cita": ""
+    },
+    "techos": {
+     "valor": "concreto",
+     "cita": ""
+    },
+    "entorno": {
+     "valor": [
+      "cerro_pendiente"
+     ],
+     "cita": ""
+    },
+    "eventos_12_meses": {
+     "valor": [],
+     "cita": ""
+    },
+    "organizacion": {
+     "valor": "junta_directiva",
+     "cita": ""
+    },
+    "reuniones": {
+     "valor": "mensual",
+     "cita": ""
+    },
+    "problemas": {
+     "valor": [
+      "inseguridad",
+      "basura"
+     ],
+     "cita": ""
+    },
+    "personas": {
+     "valor": 780,
+     "cita": ""
+    },
+    "lotes": {
+     "valor": 220,
+     "cita": ""
+    },
+    "acceso": {
+     "valor": "vehicular",
+     "cita": ""
+    },
+    "emergencias": {
+     "valor": [
+      "ambulancia",
+      "bomberos",
+      "policia"
+     ],
+     "cita": ""
+    },
+    "alumbrado": {
+     "valor": "si",
+     "cita": ""
+    },
+    "agua_beber": {
+     "valor": "hervida",
+     "cita": ""
+    },
+    "combustible": {
+     "valor": "gas",
+     "cita": ""
+    },
+    "pisos": {
+     "valor": "cemento_loseta",
+     "cita": ""
+    },
+    "local_comunal": {
+     "valor": "si",
+     "cita": ""
+    },
+    "desalojo": {
+     "valor": "no",
+     "cita": ""
+    },
+    "organizaciones_externas": {
+     "valor": [
+      "estado"
+     ],
+     "cita": ""
+    },
+    "salud_cercana": {
+     "valor": "menos_15_min",
+     "cita": ""
+    },
+    "colegio_cercano": {
+     "valor": "menos_15_min",
+     "cita": ""
+    },
+    "paradero_cercano": {
+     "valor": "menos_15_min",
+     "cita": ""
+    },
+    "resumen": "",
+    "por_verificar": []
+   },
+   "observacion": {
+    "estado_techos": "bueno",
+    "estado_paredes": "bueno",
+    "estado_pisos": "bueno"
+   }
+  },
+  {
+   "id": "ej-6",
+   "poligono_id": null,
+   "nombre": "Rinconada de las Flores",
+   "lat": -12.125,
+   "lng": -76.959,
+   "fecha": "2026-11-09",
+   "brigadista": "B-07",
+   "simulado": true,
+   "ficha": {
+    "nombre_asentamiento": "Rinconada de las Flores",
+    "familias": {
+     "valor": 70,
+     "cita": ""
+    },
+    "anio_fundacion": {
+     "valor": 2017,
+     "cita": ""
+    },
+    "constitucion": {
+     "valor": "ocupacion_hormiga",
+     "cita": ""
+    },
+    "tenencia": {
+     "valor": "contrato_compraventa",
+     "cita": ""
+    },
+    "agua": {
+     "valor": "pilon_comunitario",
+     "cita": ""
+    },
+    "desague": {
+     "valor": "pozo_ciego",
+     "cita": ""
+    },
+    "electricidad": {
+     "valor": "conexion_irregular",
+     "cita": ""
+    },
+    "paredes": {
+     "valor": "adobe",
+     "cita": ""
+    },
+    "techos": {
+     "valor": "calamina_eternit",
+     "cita": ""
+    },
+    "entorno": {
+     "valor": [
+      "basural"
+     ],
+     "cita": ""
+    },
+    "eventos_12_meses": {
+     "valor": [
+      "incendios"
+     ],
+     "cita": ""
+    },
+    "organizacion": {
+     "valor": "junta_directiva",
+     "cita": ""
+    },
+    "reuniones": {
+     "valor": "otra",
+     "cita": ""
+    },
+    "problemas": {
+     "valor": [
+      "basura",
+      "electricidad",
+      "salud"
+     ],
+     "cita": ""
+    },
+    "personas": {
+     "valor": null,
+     "cita": ""
+    },
+    "lotes": {
+     "valor": null,
+     "cita": ""
+    },
+    "acceso": {
+     "valor": "peatonal",
+     "cita": ""
+    },
+    "emergencias": {
+     "valor": [
+      "policia"
+     ],
+     "cita": ""
+    },
+    "alumbrado": {
+     "valor": "no",
+     "cita": ""
+    },
+    "agua_beber": {
+     "valor": "hervida",
+     "cita": ""
+    },
+    "combustible": {
+     "valor": "gas",
+     "cita": ""
+    },
+    "pisos": {
+     "valor": "tierra",
+     "cita": ""
+    },
+    "local_comunal": {
+     "valor": "no",
+     "cita": ""
+    },
+    "desalojo": {
+     "valor": "no",
+     "cita": ""
+    },
+    "organizaciones_externas": {
+     "valor": [
+      "iglesia"
+     ],
+     "cita": ""
+    },
+    "salud_cercana": {
+     "valor": "mas_30_min",
+     "cita": ""
+    },
+    "colegio_cercano": {
+     "valor": "15_a_30_min",
+     "cita": ""
+    },
+    "paradero_cercano": {
+     "valor": "15_a_30_min",
+     "cita": ""
+    },
+    "resumen": "",
+    "por_verificar": [
+     "No dieron el número de personas ni de lotes: completar en la próxima visita."
+    ]
+   },
+   "observacion": {
+    "estado_techos": "regular",
+    "estado_paredes": "regular",
+    "estado_pisos": "malo"
+   }
+  },
+  {
+   "id": "ej-7",
+   "poligono_id": null,
+   "nombre": "Altos de la Esperanza",
+   "lat": -12.118,
+   "lng": -76.956,
+   "fecha": "2026-11-10",
+   "brigadista": "B-03",
+   "simulado": true,
+   "ficha": {
+    "nombre_asentamiento": "Altos de la Esperanza",
+    "familias": {
+     "valor": 35,
+     "cita": ""
+    },
+    "anio_fundacion": {
+     "valor": 2023,
+     "cita": ""
+    },
+    "constitucion": {
+     "valor": "ocupacion_hormiga",
+     "cita": ""
+    },
+    "tenencia": {
+     "valor": "ninguno",
+     "cita": ""
+    },
+    "agua": {
+     "valor": "no_tienen",
+     "cita": ""
+    },
+    "desague": {
+     "valor": "no_tienen",
+     "cita": ""
+    },
+    "electricidad": {
+     "valor": "no_tienen",
+     "cita": ""
+    },
+    "paredes": {
+     "valor": "desechos",
+     "cita": ""
+    },
+    "techos": {
+     "valor": "esteras",
+     "cita": ""
+    },
+    "entorno": {
+     "valor": [
+      "cerro_pendiente",
+      "pircas"
+     ],
+     "cita": ""
+    },
+    "eventos_12_meses": {
+     "valor": [
+      "derrumbes"
+     ],
+     "cita": ""
+    },
+    "organizacion": {
+     "valor": "sin_organizacion",
+     "cita": ""
+    },
+    "reuniones": {
+     "valor": "no_mencionado",
+     "cita": ""
+    },
+    "problemas": {
+     "valor": [
+      "agua",
+      "zona_de_riesgo",
+      "titulacion"
+     ],
+     "cita": ""
+    },
+    "personas": {
+     "valor": 120,
+     "cita": ""
+    },
+    "lotes": {
+     "valor": 40,
+     "cita": ""
+    },
+    "acceso": {
+     "valor": "peatonal",
+     "cita": ""
+    },
+    "emergencias": {
+     "valor": [
+      "ninguno"
+     ],
+     "cita": ""
+    },
+    "alumbrado": {
+     "valor": "no",
+     "cita": ""
+    },
+    "agua_beber": {
+     "valor": "sin_tratamiento",
+     "cita": ""
+    },
+    "combustible": {
+     "valor": "lena_carbon",
+     "cita": ""
+    },
+    "pisos": {
+     "valor": "tierra",
+     "cita": ""
+    },
+    "local_comunal": {
+     "valor": "no",
+     "cita": ""
+    },
+    "desalojo": {
+     "valor": "si",
+     "cita": ""
+    },
+    "organizaciones_externas": {
+     "valor": [
+      "ninguna"
+     ],
+     "cita": ""
+    },
+    "salud_cercana": {
+     "valor": "mas_30_min",
+     "cita": ""
+    },
+    "colegio_cercano": {
+     "valor": "mas_30_min",
+     "cita": ""
+    },
+    "paradero_cercano": {
+     "valor": "mas_30_min",
+     "cita": ""
+    },
+    "resumen": "",
+    "por_verificar": [
+     "Si las familias desalojadas en 2024 volvieron al mismo lugar."
+    ]
+   },
+   "observacion": {
+    "estado_techos": "malo",
+    "estado_paredes": "malo",
+    "estado_pisos": "malo"
+   }
+  }
+ ]
+}

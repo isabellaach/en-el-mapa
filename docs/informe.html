@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informe del distrito · En el Mapa</title>
+<meta name="description" content="Diagnóstico físico-social de los asentamientos humanos del distrito: brechas, prioridades y mapa, a partir de las fichas de En el Mapa.">
+<link rel="icon" href="iconos/icono-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="reportes.css">
+</head>
+<body>
+<nav class="acciones">
+  <span class="marca">📍 En el Mapa</span>
+  <button type="button" id="ver-mias">Mis fichas</button>
+  <button type="button" id="ver-ejemplo">Ejemplo</button>
+  <button type="button" class="principal" onclick="window.print()">Imprimir o PDF</button>
+  <a href="index.html#tablero">Volver</a>
+</nav>
+
+<main class="hoja">
+  <div class="aviso" id="aviso" hidden></div>
+  <header class="portadilla">
+    <p class="antetitulo">Informe de diagnóstico físico-social de asentamientos humanos</p>
+    <h1>San Juan de Miraflores</h1>
+    <p class="meta" id="meta"></p>
+  </header>
+
+  <section>
+    <h2>1. Resumen</h2>
+    <div class="cifras" id="cifras"></div>
+  </section>
+
+  <section>
+    <h2>2. Brechas</h2>
+    <p class="ayuda">Porcentaje de asentamientos con cada brecha, entre los que dieron ese dato en la entrevista.</p>
+    <div class="tabla-ancha"><table id="tabla-brechas"></table></div>
+  </section>
+
+  <section>
+    <h2>3. Prioridad de atención</h2>
+    <p class="ayuda">Ordenados por número de brechas (de 12) y, a igual número, por personas. Prioridad alta: 8 o más brechas; media: de 4 a 7.</p>
+    <div class="tabla-ancha"><table id="tabla-prioridad"></table></div>
+  </section>
+
+  <section>
+    <h2>4. Mapa</h2>
+    <div id="mapa-informe"></div>
+    <div class="leyenda-informe">
+      <span><i style="background:#C65D3B"></i>Prioridad alta</span>
+      <span><i style="background:#E9B949"></i>Media</span>
+      <span><i style="background:#1F3D2B"></i>Baja</span>
+      <span><i style="background:#D9D6CC"></i>Polígonos del Relevamiento 2018</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>5. Para confirmar en campo</h2>
+    <div id="verificar"></div>
+  </section>
+
+  <section>
+    <h2>6. Cómo se hizo y sus límites</h2>
+    <ul class="metodo">
+      <li>Cada ficha sale de una conversación grabada con la dirigencia del asentamiento. Whisper transcribe el audio y Gemini llena la ficha; cada dato guarda la frase literal que lo respalda.</li>
+      <li>Son datos <b>declarados por la dirigencia</b>. Lo dudoso o contradictorio queda en la sección 5 para confirmarlo en campo.</li>
+      <li>Un asentamiento sin dato en un tema no cuenta para ese porcentaje: la tabla de brechas indica cuántos tienen dato.</li>
+      <li>Este informe <b>no reemplaza una evaluación oficial de riesgo</b>: ordena la información física y social para que los especialistas la hagan sin empezar de cero.</li>
+      <li>Registrar un asentamiento no es formalizarlo ni otorga derechos sobre el terreno.</li>
+    </ul>
+  </section>
+
+  <p class="pie">Generado con En el Mapa · Basado en la Ficha de Catastro del Relevamiento de Asentamientos Informales de TECHO Perú (2018). En el Mapa no es un proyecto de TECHO.</p>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="comun.js"></script>
+<script src="reportes.js"></script>
+</body>
+</html>

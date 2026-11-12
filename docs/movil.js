@@ -284,20 +284,6 @@ $("#btn-ejemplo").addEventListener("click", () => { if (puedeEmpezar()) usarEjem
 $("#btn-cancelar").addEventListener("click", () => etapa("e-inicio"));
 
 // ---------- Paso 2: revisar la ficha ----------
-function valorTexto(k, d) {
-  const c = CAMPOS[k];
-  if (c.tipo === "numero") return d.valor == null ? "No se mencionó" : String(d.valor);
-  if (c.lista) return d.valor?.length ? d.valor.map((v) => etiqueta(k, v)).join(", ") : "No se mencionó";
-  return etiqueta(k, d.valor);
-}
-
-function claseCampo(k, d) {
-  const c = CAMPOS[k];
-  if (d.valor == null || d.valor === "no_mencionado" || (c.lista && !d.valor?.length)) return "nada";
-  if (c.lista) return d.valor.some((v) => claseValor(c, v) === "malo") ? "malo" : "";
-  return c.tipo === "numero" ? "" : claseValor(c, d.valor);
-}
-
 function tarjetasHTML(f) {
   let grupo = "";
   return Object.entries(CAMPOS).map(([k, c]) => {
@@ -418,7 +404,7 @@ function ubicarNuevo(latlng) {
 
 function registrar(datos) {
   fichas = leerGuardadas().filter((x) => !(datos.poligono_id != null && x.poligono_id === datos.poligono_id));
-  fichas.push({ ...datos, fecha: hoy(), brigadista: brigadista?.codigo || null,
+  fichas.push({ ...datos, id: nuevoId(), fecha: hoy(), brigadista: brigadista?.codigo || null,
     simulado: actual.simulado, ficha: actual.ficha, observacion: actual.observacion || {} });
   escribirGuardadas(fichas);
   actual = null;
@@ -470,6 +456,9 @@ async function compartir(x) {
 }
 $("#btn-compartir").addEventListener("click", () => compartir(fichas.at(-1)));
 
+const enlaceImprimir = (x, i) => `ficha.html?${x.id ? `id=${encodeURIComponent(x.id)}` : `i=${i}`}`;
+$("#btn-imprimir-ficha").addEventListener("click", () => { location.href = enlaceImprimir(fichas.at(-1), fichas.length - 1); });
+
 // ---------- Fichas guardadas ----------
 function filaFichaHTML({ x, i }) {
   return `<li><button type="button" class="fila-lista ficha-fila ${x.poligono_id != null ? "de-2018" : ""}" data-i="${i}">
@@ -500,6 +489,7 @@ function abrirFicha(i) {
     <div class="tarjetas">${tarjetasHTML(x.ficha)}</div>
     <button class="btn primario" id="h-mapa" type="button">Ver en el mapa</button>
     <button class="btn suave" id="h-compartir" type="button">Compartir con la junta</button>
+    <a class="btn suave" href="${enlaceImprimir(x, i)}">Ficha para imprimir (PDF)</a>
     <button class="btn suave" id="h-borrar" type="button">Borrar esta ficha</button>`);
   // En el detalle, tocar un dato muestra su cita (sin la transcripción completa, que no se guarda).
   $("#hoja-contenido").querySelectorAll(".tarjeta").forEach((t) => t.addEventListener("click", () => {
