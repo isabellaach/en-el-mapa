@@ -34,7 +34,11 @@
   footer { margin-top: 14px; font-size: 11px; color: var(--gris); border-top: 1px solid var(--linea); padding-top: 8px; }
   @media print {
     @page { size: A4; margin: 12mm; }
-    body { background: #fff; font-size: 12.5px; }
+    body { background: #fff; font-size: 11.5px; line-height: 1.35; }
+    ol.temas { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    ol.temas > li { margin-bottom: 0; padding: 6px 10px 6px 36px; }
+    h2 { margin: 11px 0 5px; }
+    .datos div { padding-top: 12px; }
     .acciones { display: none; }
     .hoja { margin: 0; padding: 0; box-shadow: none; max-width: none; }
   }
@@ -50,7 +54,7 @@
   <header>
     <div>
       <h1>Guía de entrevista con la dirigencia</h1>
-      <div>Ficha de catastro físico-social del asentamiento · unos 15 minutos</div>
+      <div>Ficha de catastro físico-social del asentamiento · unos 25 minutos</div>
     </div>
     <div class="marca">📍 En el Mapa</div>
   </header>
@@ -71,19 +75,24 @@
 
   <h2>Temas de la conversación (marca cada uno cuando lo hayas preguntado)</h2>
   <ol class="temas">
-    <li><b>Origen</b>
-      <ul><li>¿En qué año llegaron?</li><li>¿Cómo se formó el asentamiento?</li><li>¿Cuántas familias viven hoy?</li></ul></li>
+    <li><b>Origen y población</b>
+      <ul><li>¿En qué año llegaron? ¿Cómo se formó el asentamiento?</li><li>¿Cuántas familias viven hoy? ¿Y cuántas personas, más o menos?</li><li>¿Cuántos lotes hay?</li></ul></li>
     <li><b>Terreno</b>
-      <ul><li>¿Qué documento tienen sobre el terreno? (título, constancia de posesión, ninguno…)</li></ul></li>
+      <ul><li>¿Qué documento tienen sobre el terreno? (título, constancia de posesión, ninguno…)</li><li>¿Alguna vez los desalojaron o lo intentaron?</li></ul></li>
     <li><b>Servicios</b>
-      <ul><li>¿De dónde sacan el agua?</li><li>¿Qué usan como desagüe?</li><li>¿Cómo tienen la luz?</li></ul></li>
+      <ul><li>¿De dónde sacan el agua? ¿Y el agua para tomar, cómo la tratan?</li><li>¿Qué usan como desagüe? ¿Cómo tienen la luz? ¿Hay alumbrado público?</li><li>¿Con qué cocinan la mayoría? (gas, leña, carbón…)</li></ul></li>
     <li><b>Viviendas</b>
-      <ul><li>¿De qué son la mayoría de paredes?</li><li>¿Y los techos?</li></ul></li>
-    <li><b>Riesgo</b>
-      <ul><li>¿Hay pendiente, quebrada, pircas, torres de alta tensión o basural cerca?</li><li>¿Qué pasó en los últimos 12 meses? (derrumbes, incendios, huaicos, caída de postes)</li></ul></li>
-    <li><b>Organización</b>
-      <ul><li>¿Tienen junta directiva o comités?</li><li>¿Cada cuánto se reúnen?</li><li>¿Cuáles son sus tres problemas principales?</li></ul></li>
+      <ul><li>¿De qué son la mayoría de paredes, techos y pisos?</li></ul></li>
+    <li><b>Riesgo y acceso</b>
+      <ul><li>¿Hay pendiente, quebrada, pircas, torres de alta tensión o basural cerca?</li><li>¿Qué pasó en los últimos 12 meses? (derrumbes, incendios, huaicos, caída de postes)</li><li>¿Cómo se llega? ¿Entra un vehículo? En una emergencia, ¿puede entrar una ambulancia, los bomberos o la policía?</li></ul></li>
+    <li><b>Comunidad y entorno</b>
+      <ul><li>¿Tienen junta directiva? ¿Cada cuánto se reúnen? ¿Tienen local comunal?</li><li>¿Alguna institución trabaja con ustedes? (ONG, Estado, iglesia…)</li><li>¿Cuánto tardan en llegar a la posta, al colegio y al paradero?</li><li>¿Cuáles son sus tres problemas principales?</li></ul></li>
   </ol>
+
+  <h2>Tu observación (no se pregunta: márcala en la app)</h2>
+  <ul class="reglas">
+    <li>Estado de techos, paredes y pisos de la mayoría de viviendas: bueno, regular o malo.</li>
+  </ul>
 
   <h2>Al terminar</h2>
   <ul class="reglas">

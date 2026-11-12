@@ -2,7 +2,7 @@
 
 ## 1. One-liner
 
-**Hacemos el catastro físico-social de los asentamientos humanos para las municipalidades distritales de Lima mediante IA que convierte una conversación de 15 minutos con la dirigencia en una ficha citada y ubicada en el mapa, aunque el asentamiento todavía no tenga título.**
+**Hacemos el catastro físico-social de los asentamientos humanos para las municipalidades distritales de Lima mediante IA que convierte una conversación de 25 minutos con la dirigencia en una ficha citada y ubicada en el mapa, aunque el asentamiento todavía no tenga título.**
 
 **Demo:** https://isabellaach.github.io/en-el-mapa/ · Proyecto final, Diplomatura Q-Lab PUCP, noviembre 2026.
 
@@ -58,7 +58,7 @@ Quién gana: las **familias** aparecen en el registro y entran en la priorizaci�
 
 ## 4. Solución e insight
 
-**Qué construimos.** Una app web en la que el voluntario o el brigadista graba la conversación con la dirigencia (o sube el audio). Whisper la transcribe; Gemini llena 15 campos de la Ficha de Catastro de TECHO con salida estructurada y, para cada dato, copia la frase literal que lo respalda. El voluntario revisa, lo que se contradice queda marcado "para confirmar en campo", y el asentamiento se guarda en el mapa del distrito: en su polígono de 2018 o, si es nuevo, en el punto donde está. El tablero del distrito se actualiza y se descarga en CSV o GeoJSON.
+**Qué construimos.** Una app web en la que el voluntario o el brigadista graba la conversación con la dirigencia (o sube el audio). Whisper la transcribe; Gemini llena 28 campos de la Ficha de Catastro de TECHO (población, terreno, servicios, vivienda, riesgo y acceso de emergencias, comunidad y distancia a servicios) con salida estructurada y, para cada dato, copia la frase literal que lo respalda. El voluntario revisa, lo que se contradice queda marcado "para confirmar en campo", y el asentamiento se guarda en el mapa del distrito: en su polígono de 2018 o, si es nuevo, en el punto donde está. El tablero del distrito se actualiza y se descarga en CSV o GeoJSON.
 
 **Qué pasa con la información.** (1) La brigada o el voluntariado conversa, graba y revisa desde cualquier celular con navegador. (2) La junta directiva recibe la ficha de su asentamiento. (3) La municipalidad (Gestión del Riesgo y Desarrollo Urbano) ve el tablero y descarga CSV para Excel e informes, y GeoJSON para QGIS o ArcGIS, para estudios de estimación del riesgo, priorización de obras y el plan urbano. En la demo las fichas se guardan en el navegador; en el servicio, cada distrito tiene una base compartida.
 
@@ -90,7 +90,7 @@ backend/main.py (FastAPI)
    ├─ /api/transcribir → faster-whisper "small", español, en CPU
    │                      tapa DNI y celulares antes de seguir
    └─ /api/ficha       → ai/ficha.py: Gemini con salida estructurada (Pydantic)
-                          15 campos de la Ficha de Catastro de TECHO + cita literal
+                          28 campos de la Ficha de Catastro de TECHO + cita literal
    ▼
 mapa (polígonos 2018 + puntos nuevos) y tablero (CSV / GeoJSON)
 ```
@@ -102,7 +102,7 @@ mapa (polígonos 2018 + puntos nuevos) y tablero (CSV / GeoJSON)
 | Transcripción | Whisper `small` (faster-whisper, int8) | Corre en CPU sin pagar por minuto: 82 s de audio en unos 6 s en una laptop. El audio de la conversación no sale del servidor. |
 | Ficha | Gemini `gemini-3.5-flash`, con respaldo automático a otros modelos Flash si está saturado | Salida estructurada con esquema Pydantic: cada campo solo acepta las opciones de la ficha, y cada dato exige su cita. Con razonamiento "low" responde en unos 5 a 7 s en vez de 13 a 15 s, con la misma ficha (15 de 15 campos, las mismas contradicciones y citas literales); sin razonamiento perdía una contradicción. Capa gratuita para el piloto. |
 
-Prueba con la entrevista simulada (audio generado con la voz del sistema): 15 de 15 campos correctos, y la contradicción sobre el número de familias quedó marcada "para confirmar en campo". De punta a punta, 82 s de audio se convierten en ficha en unos 15 s.
+Prueba con la entrevista simulada ampliada (en texto): 28 de 28 campos correctos, y quedaron "para confirmar en campo" el número de familias y la seguridad de las pircas. Con la versión anterior en audio (voz del sistema), 15 de 15. De punta a punta, 82 s de audio se convierten en ficha en unos 15 s. Además, el brigadista marca en la app el estado de techos, paredes y pisos que observa en campo (no sale de la conversación).
 
 ## 7. Modelo de negocio
 
@@ -116,7 +116,7 @@ Prueba con la entrevista simulada (audio generado con la voz del sistema): 15 de
 
 **Cuánto nos cuesta (margen de contribución)**
 
-- **IA por ficha:** Gemini procesa unas 4 000 palabras de entrada (transcripción de 15 min, instrucciones y esquema) y unas 800 de salida: menos de S/ 0,10 (estimado con la capa paga de Gemini Flash). Whisper corre en nuestro servidor: casi S/ 0.
+- **IA por ficha:** Gemini procesa unas 6 000 palabras de entrada (transcripción de 25 min, instrucciones y esquema) y unas 1 500 de salida: menos de S/ 0,10 (estimado con la capa paga de Gemini Flash). Whisper corre en nuestro servidor: casi S/ 0.
 - **Plan Organización:** 40 fichas cuestan unos S/ 44 en IA y servidor; margen de contribución de unos S/ 206 al mes (82 %).
 - **Plan Distrito, presupuesto preliminar de un diagnóstico de 150 asentamientos:**
 

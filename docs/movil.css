@@ -203,3 +203,14 @@ a.fila-lista { color: inherit; text-decoration: none; }
 .pasos-nav span { font-size: .78rem; font-weight: 600; color: var(--gris); }
 .pasos-nav button { background: none; border: 0; padding: 8px 6px; color: var(--verde); font-weight: 600; font-size: .92rem; }
 .pasos-nav button:disabled { color: #B9BDB6; }
+
+/* Grupos de la ficha y observación en campo */
+.grupo { grid-column: 1 / -1; font: 1.05rem var(--serif); color: var(--verde); margin: 12px 0 0; }
+.obs-fila { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.obs-fila > span { font-weight: 500; }
+.segmentos { display: flex; background: #EEECE4; border-radius: 10px; padding: 3px; }
+.segmentos button { border: 0; background: none; padding: 7px 12px; border-radius: 8px; font-size: .85rem; color: var(--gris); }
+.segmentos button.elegido { background: var(--tarjeta); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.segmentos button.elegido.bueno { color: var(--cielo); }
+.segmentos button.elegido.regular { color: var(--sol); }
+.segmentos button.elegido.malo { color: var(--terracota); }

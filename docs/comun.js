@@ -13,53 +13,89 @@ const API = params.get("api") || (MISMO_SERVIDOR ? "" : API_PUBLICA);
 const CLAVE_LOCAL = "enelmapa_fichas_v1";
 
 // ---------- Etiquetas de la ficha (TECHO, Ficha de Catastro 2018) ----------
+// El orden y el grupo definen cómo se muestra la ficha. bueno/malo dan el color del dato.
+const DISTANCIAS = { menos_15_min: "Menos de 15 min", "15_a_30_min": "15 a 30 min", mas_30_min: "Más de 30 min" };
 const CAMPOS = {
-  familias: { etq: "Familias", tipo: "numero" },
-  anio_fundacion: { etq: "Año de fundación", tipo: "numero" },
-  constitucion: { etq: "Cómo se formó", ops: {
+  familias: { grupo: "Población", etq: "Familias", tipo: "numero" },
+  personas: { grupo: "Población", etq: "Personas", tipo: "numero" },
+  lotes: { grupo: "Población", etq: "Lotes", tipo: "numero" },
+  anio_fundacion: { grupo: "Población", etq: "Año de fundación", tipo: "numero" },
+  constitucion: { grupo: "Población", etq: "Cómo se formó", ops: {
     ocupacion_hormiga: "Ocupación progresiva", ocupacion_organizada: "Ocupación organizada",
     compra_a_tercero: "Compra a un tercero", lotizacion_estatal: "Lotización estatal", otra: "Otra" } },
-  tenencia: { etq: "Tenencia del terreno", ops: {
+  tenencia: { grupo: "Terreno", etq: "Tenencia del terreno", ops: {
     titulo_sin_carga: "Título sin carga", titulo_con_carga: "Título con carga",
     constancia_posesion: "Constancia de posesión", contrato_compraventa: "Contrato de compra-venta",
     ninguno: "Ningún documento", otro: "Otro" }, bueno: ["titulo_sin_carga"],
     malo: ["constancia_posesion", "ninguno", "contrato_compraventa"] },
-  agua: { etq: "Agua", ops: {
+  desalojo: { grupo: "Terreno", etq: "Desalojo", ops: { si: "Sí hubo", intento: "Hubo un intento", no: "No" },
+    bueno: ["no"], malo: ["si", "intento"] },
+  agua: { grupo: "Servicios", etq: "Agua", ops: {
     red_publica: "Red pública", cisterna: "Camión cisterna", pilon_comunitario: "Pilón comunitario",
     pozo: "Pozo", fuente_natural: "Fuente natural", no_tienen: "No tienen", otro: "Otro" },
     bueno: ["red_publica"], malo: ["cisterna", "pozo", "fuente_natural", "no_tienen"] },
-  desague: { etq: "Desagüe", ops: {
+  agua_beber: { grupo: "Servicios", etq: "Agua para beber", ops: {
+    hervida: "La hierven", clorada: "La cloran", filtrada: "La filtran", envasada: "Compran envasada",
+    sin_tratamiento: "Sin tratar", otro: "Otro" }, malo: ["sin_tratamiento"] },
+  desague: { grupo: "Servicios", etq: "Desagüe", ops: {
     alcantarillado: "Red pública", pozo_ciego: "Pozo ciego", silo_letrina: "Silo o letrina",
     bano_seco: "Baño seco", no_tienen: "No tienen", otro: "Otro" },
     bueno: ["alcantarillado"], malo: ["pozo_ciego", "silo_letrina", "no_tienen"] },
-  electricidad: { etq: "Electricidad", ops: {
+  electricidad: { grupo: "Servicios", etq: "Electricidad", ops: {
     medidor_domiciliario: "Medidor propio", medidor_comunitario: "Medidor comunitario",
     conexion_irregular: "Conexión irregular", no_tienen: "No tienen", otro: "Otro" },
     bueno: ["medidor_domiciliario"], malo: ["conexion_irregular", "no_tienen"] },
-  paredes: { etq: "Paredes", ops: {
+  alumbrado: { grupo: "Servicios", etq: "Alumbrado público", ops: { si: "Sí", parcial: "En parte", no: "No" },
+    bueno: ["si"], malo: ["no", "parcial"] },
+  combustible: { grupo: "Servicios", etq: "Cocinan con", ops: {
+    gas: "Gas", lena_carbon: "Leña o carbón", kerosene: "Kerosene", electricidad: "Electricidad", otro: "Otro" },
+    malo: ["lena_carbon", "kerosene"] },
+  paredes: { grupo: "Viviendas", etq: "Paredes", ops: {
     ladrillo_cemento: "Ladrillo o cemento", adobe: "Adobe", madera: "Madera", esteras: "Esteras",
     desechos: "Material de desecho", otro: "Otro" }, bueno: ["ladrillo_cemento"],
     malo: ["madera", "esteras", "desechos"] },
-  techos: { etq: "Techos", ops: {
+  techos: { grupo: "Viviendas", etq: "Techos", ops: {
     concreto: "Concreto", calamina_eternit: "Calamina o eternit", madera: "Madera",
     esteras: "Esteras", desechos: "Material de desecho", otro: "Otro" }, bueno: ["concreto"],
     malo: ["calamina_eternit", "esteras", "desechos"] },
-  entorno: { etq: "Riesgos del entorno", lista: true, malo: "todos", ops: {
+  pisos: { grupo: "Viviendas", etq: "Pisos", ops: {
+    cemento_loseta: "Cemento o loseta", tierra: "Tierra", madera: "Madera", otro: "Otro" },
+    bueno: ["cemento_loseta"], malo: ["tierra"] },
+  entorno: { grupo: "Riesgo", etq: "Riesgos del entorno", lista: true, malo: "todos", ops: {
     cerro_pendiente: "Pendiente", quebrada: "Quebrada", torres_alta_tension: "Torres de alta tensión",
     basural: "Basural", pircas: "Pircas", otro: "Otro" } },
-  eventos_12_meses: { etq: "Últimos 12 meses", lista: true, malo: "todos", ops: {
+  eventos_12_meses: { grupo: "Riesgo", etq: "Últimos 12 meses", lista: true, malo: "todos", ops: {
     derrumbes: "Derrumbe", incendios: "Incendio", huaicos_inundaciones: "Huaico o inundación",
     caida_postes: "Caída de postes", otro: "Otro" } },
-  organizacion: { etq: "Organización", ops: {
+  acceso: { grupo: "Riesgo", etq: "Acceso principal", ops: {
+    vehicular: "Entra un vehículo", peatonal: "Solo a pie", escaleras: "Escaleras", otro: "Otro" },
+    bueno: ["vehicular"], malo: ["peatonal", "escaleras"] },
+  emergencias: { grupo: "Riesgo", etq: "Pueden entrar", lista: true, ops: {
+    ambulancia: "Ambulancia", bomberos: "Bomberos", policia: "Policía", ninguno: "Ninguno" }, malo: ["ninguno"] },
+  organizacion: { grupo: "Comunidad", etq: "Organización", ops: {
     junta_directiva: "Junta directiva", comites: "Comités", sin_organizacion: "Sin organización" },
     bueno: ["junta_directiva", "comites"] },
-  reuniones: { etq: "Se reúnen", ops: {
+  reuniones: { grupo: "Comunidad", etq: "Se reúnen", ops: {
     semanal: "Cada semana", quincenal: "Cada 15 días", mensual: "Cada mes", otra: "Otra" } },
-  problemas: { etq: "Problemas principales", lista: true, ops: {
+  local_comunal: { grupo: "Comunidad", etq: "Local comunal", ops: { si: "Sí", no: "No" }, bueno: ["si"] },
+  organizaciones_externas: { grupo: "Comunidad", etq: "Trabajan ahí", lista: true, ops: {
+    ong: "ONG", estado: "Estado", iglesia: "Iglesia", empresa_privada: "Empresa privada", ninguna: "Ninguna", otro: "Otra" } },
+  problemas: { grupo: "Comunidad", etq: "Problemas principales", lista: true, ops: {
     agua: "Agua", desague: "Desagüe", zona_de_riesgo: "Zona de riesgo", titulacion: "Titulación",
     inseguridad: "Inseguridad", caminos: "Caminos", basura: "Basura", electricidad: "Electricidad",
     salud: "Salud", educacion: "Educación", empleo: "Empleo", otro: "Otro" } },
+  salud_cercana: { grupo: "Cerca del asentamiento", etq: "Centro de salud", ops: DISTANCIAS, malo: ["mas_30_min"] },
+  colegio_cercano: { grupo: "Cerca del asentamiento", etq: "Colegio", ops: DISTANCIAS, malo: ["mas_30_min"] },
+  paradero_cercano: { grupo: "Cerca del asentamiento", etq: "Paradero", ops: DISTANCIAS, malo: ["mas_30_min"] },
 };
+
+// Lo que el brigadista observa en campo (no sale de la conversación): TECHO 2018, preguntas 4.1 a 4.3.
+const OBSERVACION = {
+  estado_techos: "Techos",
+  estado_paredes: "Paredes",
+  estado_pisos: "Pisos",
+};
+const ESTADOS = { bueno: "Bueno", regular: "Regular", malo: "Malo" };
 
 // ---------- Utilidades ----------
 const $ = (s) => document.querySelector(s);
@@ -130,6 +166,7 @@ function filaPlana(x) {
     fila[k] = Array.isArray(v) ? v.join("|") : (v ?? "");
     fila[k + "_cita"] = f[k]?.cita || "";
   }
+  for (const k of Object.keys(OBSERVACION)) fila["obs_" + k.replace("estado_", "")] = x.observacion?.[k] || "";
   return fila;
 }
 

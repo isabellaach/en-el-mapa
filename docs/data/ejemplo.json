@@ -1,6 +1,6 @@
 {
  "simulado": true,
- "texto": "— Buenas tardes, señora. Somos voluntarios y estamos actualizando la información de los asentamientos. ¿Cómo se llama su asentamiento?\n— Mirador Las Brisas. Estamos en la parte alta, arriba de Nueva Rinconada.\n— ¿Desde cuándo están acá?\n— Llegamos en el 2021, en plena pandemia. Entramos organizados, como cuarenta familias, y después lotizamos.\n— ¿Y ahora cuántas familias son?\n— Somos unas ochenta y cinco familias. Bueno, con los que han llegado este año ya pasamos las cien, pero esos todavía no están empadronados.\n— ¿Tienen algún documento del terreno?\n— Solo constancia de posesión, y no todos. Título no tiene nadie.\n— ¿Cómo hacen con el agua?\n— Sube la cisterna dos veces por semana. El cilindro nos cuesta como siete soles. No tenemos red.\n— ¿Y desagüe?\n— No hay. Cada familia tiene su silo.\n— ¿Luz?\n— Jalamos del poste de abajo, del vecino. No tenemos medidor.\n— ¿De qué material son las casas?\n— Casi todas de madera y triplay, con techo de calamina.\n— ¿Qué riesgos ven en la zona?\n— Estamos en pura pendiente y las pircas no son seguras. El año pasado hubo un derrumbe en la parte de arriba y se cayó una casa.\n— ¿Cómo se organizan?\n— Tenemos junta directiva. Nos reunimos el primer domingo de cada mes y avisamos por WhatsApp. Si quieren llámenme, mi número es [dato personal omitido].\n— ¿Cuáles son los principales problemas?\n— El agua, el peligro del cerro y que no tenemos papeles. Sin papeles la municipalidad no nos toma en cuenta.\n",
+ "texto": "— Buenas tardes, señora. Somos voluntarios y estamos actualizando la información de los asentamientos. ¿Cómo se llama su asentamiento?\n— Mirador Las Brisas. Estamos en la parte alta, arriba de Nueva Rinconada.\n— ¿Desde cuándo están acá?\n— Llegamos en el 2021, en plena pandemia. Entramos organizados, como cuarenta familias, y después lotizamos.\n— ¿Y ahora cuántas familias son?\n— Somos unas ochenta y cinco familias. Bueno, con los que han llegado este año ya pasamos las cien, pero esos todavía no están empadronados.\n— ¿Y cuántas personas viven, más o menos?\n— Más o menos trescientas cincuenta personas. Hay bastantes niños.\n— ¿Cuántos lotes hay?\n— Son noventa lotes. Unos cuantos todavía están vacíos.\n— ¿Tienen algún documento del terreno?\n— Solo constancia de posesión, y no todos. Título no tiene nadie.\n— ¿Alguna vez los han querido desalojar?\n— Sí, en el 2022 vinieron unas personas diciendo que eran dueñas y quisieron sacarnos, pero no pasó a más.\n— ¿Cómo hacen con el agua?\n— Sube la cisterna dos veces por semana. El cilindro nos cuesta como siete soles. No tenemos red.\n— ¿Y el agua para tomar?\n— La hervimos, sobre todo por los niños.\n— ¿Y desagüe?\n— No hay. Cada familia tiene su silo.\n— ¿Luz?\n— Jalamos del poste de abajo, del vecino. No tenemos medidor.\n— ¿Hay alumbrado público?\n— No, de noche todo es oscuro. No hay postes de alumbrado acá arriba.\n— ¿Con qué cocinan?\n— Con gas, con balón. Algunas familias con leña cuando se acaba el balón.\n— ¿De qué material son las casas?\n— Casi todas de madera y triplay, con techo de calamina.\n— ¿Y los pisos?\n— La mayoría de tierra. Algunos ya echaron cemento.\n— ¿Qué riesgos ven en la zona?\n— Estamos en pura pendiente y las pircas no son seguras. El año pasado hubo un derrumbe en la parte de arriba y se cayó una casa.\n— ¿Cómo se sube hasta acá?\n— Solo a pie, por unas escaleras de tierra que hicimos nosotros. El carro llega hasta abajo, hasta la pista.\n— Si hay una emergencia, ¿puede entrar una ambulancia o los bomberos?\n— No, ninguno entra. La última vez bajamos a una señora en camilla hasta la pista.\n— ¿Cómo se organizan?\n— Tenemos junta directiva. Nos reunimos el primer domingo de cada mes y avisamos por WhatsApp. Si quieren llámenme, mi número es [dato personal omitido].\n— ¿Tienen local comunal?\n— Todavía no. Nos reunimos en la losa de arriba.\n— ¿Alguna institución trabaja con ustedes?\n— Una ONG viene cada mes con talleres, y la parroquia apoya la olla común.\n— ¿Qué tan lejos les queda la posta, el colegio y el paradero?\n— La posta está a unos cuarenta minutos caminando. El colegio, a unos veinte minutos bajando. Y el paradero está abajo, a diez minutos.\n— ¿Cuáles son los principales problemas?\n— El agua, el peligro del cerro y que no tenemos papeles. Sin papeles la municipalidad no nos toma en cuenta.",
  "ficha": {
   "nombre_asentamiento": "Mirador Las Brisas",
   "familias": {
@@ -9,7 +9,7 @@
   },
   "anio_fundacion": {
    "valor": 2021,
-   "cita": "Llegamos en el 2021, en plena pandemia."
+   "cita": "Llegamos en el 2021"
   },
   "constitucion": {
    "valor": "ocupacion_organizada",
@@ -33,11 +33,11 @@
   },
   "paredes": {
    "valor": "madera",
-   "cita": "Casi todas de madera y triplay, con techo de calamina."
+   "cita": "Casi todas de madera y triplay"
   },
   "techos": {
    "valor": "calamina_eternit",
-   "cita": "Casi todas de madera y triplay, con techo de calamina."
+   "cita": "con techo de calamina."
   },
   "entorno": {
    "valor": [
@@ -50,7 +50,7 @@
    "valor": [
     "derrumbes"
    ],
-   "cita": "El año pasado hubo un derrumbe en la parte de arriba y se cayó una casa."
+   "cita": "El año pasado hubo un derrumbe en la parte de arriba"
   },
   "organizacion": {
    "valor": "junta_directiva",
@@ -68,12 +68,72 @@
    ],
    "cita": "El agua, el peligro del cerro y que no tenemos papeles."
   },
-  "resumen": "Mirador Las Brisas es un asentamiento humano fundado en 2021 en una zona de alta pendiente que alberga a unas 85 familias empadronadas. La comunidad carece de títulos de propiedad y de redes de agua y desagüe, además de enfrentar riesgos de derrumbes por pircas inseguras.",
+  "personas": {
+   "valor": 350,
+   "cita": "Más o menos trescientas cincuenta personas."
+  },
+  "lotes": {
+   "valor": 90,
+   "cita": "Son noventa lotes."
+  },
+  "acceso": {
+   "valor": "escaleras",
+   "cita": "Solo a pie, por unas escaleras de tierra"
+  },
+  "emergencias": {
+   "valor": [
+    "ninguno"
+   ],
+   "cita": "No, ninguno entra."
+  },
+  "alumbrado": {
+   "valor": "no",
+   "cita": "No, de noche todo es oscuro. No hay postes de alumbrado"
+  },
+  "agua_beber": {
+   "valor": "hervida",
+   "cita": "La hervimos"
+  },
+  "combustible": {
+   "valor": "gas",
+   "cita": "Con gas, con balón."
+  },
+  "pisos": {
+   "valor": "tierra",
+   "cita": "La mayoría de tierra."
+  },
+  "local_comunal": {
+   "valor": "no",
+   "cita": "Todavía no."
+  },
+  "desalojo": {
+   "valor": "intento",
+   "cita": "quisieron sacarnos, pero no pasó a más."
+  },
+  "organizaciones_externas": {
+   "valor": [
+    "ong",
+    "iglesia"
+   ],
+   "cita": "Una ONG viene cada mes con talleres, y la parroquia apoya la olla común."
+  },
+  "salud_cercana": {
+   "valor": "mas_30_min",
+   "cita": "La posta está a unos cuarenta minutos caminando."
+  },
+  "colegio_cercano": {
+   "valor": "15_a_30_min",
+   "cita": "El colegio, a unos veinte minutos bajando."
+  },
+  "paradero_cercano": {
+   "valor": "menos_15_min",
+   "cita": "el paradero está abajo, a diez minutos."
+  },
+  "resumen": "Mirador Las Brisas es un asentamiento en pendiente fundado en 2021, que carece de servicios básicos y enfrenta riesgos de derrumbes. La comunidad se organiza mediante junta directiva, aunque carece de título de propiedad y acceso vehicular para emergencias.",
   "por_verificar": [
-   "Número total de familias (85 empadronadas vs. más de 100 recien llegadas sin empadronar).",
-   "Qué familias cuentan efectivamente con la constancia de posesión."
-  ],
-  "_modelo": "gemini-3.5-flash"
+   "Número exacto de familias (mencionan 85 empadronadas pero más de 100 en total)",
+   "Seguridad de las pircas"
+  ]
  },
  "nota": "Entrevista simulada escrita para la demo. Asentamiento ficticio."
 }

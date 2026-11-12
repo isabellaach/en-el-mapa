@@ -106,6 +106,79 @@ class Problemas(BaseModel):
     cita: str
 
 
+# ---- Campos agregados para el diagnóstico de riesgo y servicios (entre paréntesis, la
+# pregunta de la ficha de TECHO 2018, para que la actualización sea comparable). ----
+
+class Personas(BaseModel):
+    valor: Optional[int] = Field(description="Número aproximado de personas (no de familias) (4.2). null si no se menciona.")
+    cita: str
+
+
+class Lotes(BaseModel):
+    valor: Optional[int] = Field(description="Número aproximado de lotes en el asentamiento (5.3). null si no se menciona.")
+    cita: str
+
+
+class Acceso(BaseModel):
+    valor: Literal["vehicular", "peatonal", "escaleras", "otro", "no_mencionado"] = Field(
+        description="Cómo es el acceso principal al asentamiento (2.3).")
+    cita: str
+
+
+class Emergencias(BaseModel):
+    valor: list[Literal["ambulancia", "bomberos", "policia", "ninguno"]] = Field(
+        description="Servicios de emergencia que SÍ pueden ingresar al asentamiento. 'ninguno' si "
+                    "dicen que no entra ninguno. Lista vacía si no se menciona.")
+    cita: str
+
+
+class Alumbrado(BaseModel):
+    valor: Literal["si", "parcial", "no", "no_mencionado"] = Field(description="Alumbrado público (7.2).")
+    cita: str
+
+
+class AguaBeber(BaseModel):
+    valor: Literal["hervida", "clorada", "filtrada", "envasada", "sin_tratamiento", "otro",
+                   "no_mencionado"] = Field(description="Cómo obtienen o tratan el agua para beber (7.6).")
+    cita: str
+
+
+class Combustible(BaseModel):
+    valor: Literal["gas", "lena_carbon", "kerosene", "electricidad", "otro", "no_mencionado"] = Field(
+        description="Combustible que más se usa para cocinar (7.3).")
+    cita: str
+
+
+class Pisos(BaseModel):
+    valor: Literal["cemento_loseta", "tierra", "madera", "otro", "no_mencionado"] = Field(
+        description="Material principal de los pisos de la mayoría de viviendas (6.3).")
+    cita: str
+
+
+class SiNo(BaseModel):
+    valor: Literal["si", "no", "no_mencionado"]
+    cita: str
+
+
+class Desalojo(BaseModel):
+    valor: Literal["si", "intento", "no", "no_mencionado"] = Field(
+        description="Si el asentamiento sufrió un desalojo o un intento de desalojo (1.4).")
+    cita: str
+
+
+class Externas(BaseModel):
+    valor: list[Literal["ong", "estado", "iglesia", "empresa_privada", "ninguna", "otro"]] = Field(
+        description="Organizaciones externas que trabajan de forma permanente en el asentamiento (9.1). "
+                    "'ninguna' si dicen que no hay. Lista vacía si no se menciona.")
+    cita: str
+
+
+class Distancia(BaseModel):
+    valor: Literal["menos_15_min", "15_a_30_min", "mas_30_min", "no_mencionado"] = Field(
+        description="Tiempo aproximado para llegar, caminando o en transporte.")
+    cita: str
+
+
 class Ficha(BaseModel):
     nombre_asentamiento: str = Field(description="Como lo nombra la dirigencia. Vacío si no se dice.")
     familias: Familias
@@ -122,6 +195,20 @@ class Ficha(BaseModel):
     organizacion: Organizacion
     reuniones: Reuniones
     problemas: Problemas
+    personas: Personas
+    lotes: Lotes
+    acceso: Acceso
+    emergencias: Emergencias
+    alumbrado: Alumbrado
+    agua_beber: AguaBeber
+    combustible: Combustible
+    pisos: Pisos
+    local_comunal: SiNo = Field(description="Si el asentamiento cuenta con local comunal (5.5).")
+    desalojo: Desalojo
+    organizaciones_externas: Externas
+    salud_cercana: Distancia = Field(description="Centro de salud u hospital público más cercano (3.4).")
+    colegio_cercano: Distancia = Field(description="Escuela pública más cercana (3.2 y 3.3).")
+    paradero_cercano: Distancia = Field(description="Parada de transporte público más cercana (3.7).")
     resumen: str = Field(description="Dos oraciones sobre la situación del asentamiento.")
     por_verificar: list[str] = Field(
         description="Datos contradictorios, dudosos o que el voluntario debe confirmar en campo.")
@@ -138,6 +225,10 @@ Reglas:
 3. Si la dirigencia da un rango o un número aproximado ("unas 120 familias"), usa ese número.
 4. Lo que el entrevistado duda o se contradice va en `por_verificar`.
 5. No registres nombres de personas, DNI, teléfonos ni direcciones de viviendas.
+6. Familias y personas son datos distintos: no calcules uno a partir del otro.
+7. En `emergencias`, anota solo los servicios que según la dirigencia SÍ pueden entrar.
+8. Para las distancias, convierte lo que digan a tiempo ("a diez cuadras", "a media hora en
+   mototaxi") solo si es claro; si no, "no_mencionado".
 
 Transcripción:
 \"\"\"{texto}\"\"\"

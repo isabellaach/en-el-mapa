@@ -177,14 +177,16 @@ function mostrarFicha(datos) {
   $("#ficha-verificar").hidden = !ver.length;
   $("#ficha-verificar").innerHTML = `<b>Para confirmar en campo</b><ul>${ver.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
 
+  let grupo = "";
   $("#campos").innerHTML = Object.entries(CAMPOS).map(([k, c]) => {
     const d = f[k] || {};
+    const titulo = c.grupo !== grupo ? `<p class="grupo-campos">${esc((grupo = c.grupo))}</p>` : "";
     let chips;
     if (c.tipo === "numero") chips = `<span class="chip ${d.valor == null ? "nada" : ""}">${d.valor == null ? "No se mencionó" : esc(d.valor)}</span>`;
     else if (c.lista) chips = (d.valor?.length ? d.valor : [null]).map((v) =>
       `<span class="chip ${v == null ? "nada" : claseValor(c, v)}">${esc(v == null ? "No se mencionó" : etiqueta(k, v))}</span>`).join("");
     else chips = `<span class="chip ${claseValor(c, d.valor)}">${esc(etiqueta(k, d.valor))}</span>`;
-    return `<div class="campo" data-cita="${esc(d.cita || "")}">
+    return titulo + `<div class="campo" data-cita="${esc(d.cita || "")}">
       <div class="fila"><span class="etq">${c.etq}</span><span class="chips">${chips}</span></div>
       ${d.cita ? `<p class="cita">${esc(d.cita)}</p>` : ""}</div>`;
   }).join("");

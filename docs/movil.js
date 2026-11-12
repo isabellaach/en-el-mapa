@@ -299,10 +299,12 @@ function claseCampo(k, d) {
 }
 
 function tarjetasHTML(f) {
+  let grupo = "";
   return Object.entries(CAMPOS).map(([k, c]) => {
     const d = f[k] || {};
     const ancha = c.lista ? " ancha" : "";
-    return `<button type="button" class="tarjeta${ancha}" data-campo="${k}">
+    const titulo = c.grupo !== grupo ? `<h3 class="grupo">${esc((grupo = c.grupo))}</h3>` : "";
+    return titulo + `<button type="button" class="tarjeta${ancha}" data-campo="${k}">
       ${d.cita ? `<span class="tiene-cita">“ ”</span>` : ""}
       <span class="etq">${c.etq}</span><span class="val ${claseCampo(k, d)}">${esc(valorTexto(k, d))}</span></button>`;
   }).join("");
@@ -325,6 +327,7 @@ function mostrarFicha(datos) {
   $("#ficha-verificar").hidden = !(f.por_verificar || []).length;
   $("#campos").innerHTML = tarjetasHTML(f);
   conectarCitas($("#campos"), datos);
+  dibujarObservacion();
   etapa("e-ficha");
 }
 
@@ -346,6 +349,24 @@ function conectarCitas(cont, datos) {
         `<p class="contexto">La dirigencia no lo mencionó en la conversación: queda en blanco hasta confirmarlo en campo.</p>`}`);
   }));
 }
+
+// Lo que el brigadista ve en campo: no sale de la conversación, se marca con un toque.
+function dibujarObservacion() {
+  const obs = actual.observacion || {};
+  $("#observacion").innerHTML = Object.entries(OBSERVACION).map(([k, etq]) => `
+    <div class="obs-fila"><span>${etq}</span><div class="segmentos" data-k="${k}">
+      ${Object.entries(ESTADOS).map(([v, t]) =>
+        `<button type="button" data-v="${v}" class="${obs[k] === v ? `elegido ${v}` : ""}">${t}</button>`).join("")}
+    </div></div>`).join("");
+  $("#observacion").querySelectorAll(".segmentos button").forEach((b) => b.addEventListener("click", () => {
+    actual.observacion = { ...(actual.observacion || {}), [b.parentElement.dataset.k]: b.dataset.v };
+    escribirLocal(CLAVE_BORRADOR, actual);
+    dibujarObservacion();
+  }));
+}
+
+const observacionTexto = (obs) => Object.entries(OBSERVACION)
+  .filter(([k]) => obs?.[k]).map(([k, etq]) => `${etq}: ${ESTADOS[obs[k]].toLowerCase()}`).join(" · ");
 
 $("#btn-a-mapa").addEventListener("click", () => irAUbicar());
 
@@ -398,7 +419,7 @@ function ubicarNuevo(latlng) {
 function registrar(datos) {
   fichas = leerGuardadas().filter((x) => !(datos.poligono_id != null && x.poligono_id === datos.poligono_id));
   fichas.push({ ...datos, fecha: hoy(), brigadista: brigadista?.codigo || null,
-    simulado: actual.simulado, ficha: actual.ficha });
+    simulado: actual.simulado, ficha: actual.ficha, observacion: actual.observacion || {} });
   escribirGuardadas(fichas);
   actual = null;
   escribirLocal(CLAVE_BORRADOR, null);
@@ -432,6 +453,7 @@ function resumenTexto(x) {
   const filas = Object.keys(CAMPOS).filter((k) => f[k]?.valor != null && f[k].valor !== "no_mencionado" &&
     !(Array.isArray(f[k].valor) && !f[k].valor.length)).map((k) => `• ${CAMPOS[k].etq}: ${valorTexto(k, f[k])}`);
   const ver = (f.por_verificar || []).map((v) => `• ${v}`);
+  if (observacionTexto(x.observacion)) filas.push(`• Observación en campo: ${observacionTexto(x.observacion)}`);
   return [`Ficha de catastro · ${x.nombre} (${x.fecha})`, "", ...filas,
     ...(ver.length ? ["", "Por confirmar en campo:", ...ver] : []), "", "Levantada con En el Mapa"].join("\n");
 }
@@ -474,6 +496,7 @@ function abrirFicha(i) {
   abrirHoja(`<h2>${esc(x.nombre)}</h2>
     <p class="contexto">${x.fecha}${x.brigadista ? ` · levantada por ${esc(x.brigadista)}` : ""}${x.simulado ? " · entrevista simulada" : ""}</p>
     ${(x.ficha.por_verificar || []).length ? `<div class="verificar">${verificarHTML(x.ficha)}</div>` : ""}
+    ${observacionTexto(x.observacion) ? `<p class="contexto"><b>Observación en campo:</b> ${esc(observacionTexto(x.observacion))}</p>` : ""}
     <div class="tarjetas">${tarjetasHTML(x.ficha)}</div>
     <button class="btn primario" id="h-mapa" type="button">Ver en el mapa</button>
     <button class="btn suave" id="h-compartir" type="button">Compartir con la junta</button>
