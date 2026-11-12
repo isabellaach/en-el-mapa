@@ -326,3 +326,6 @@ button, select, input { font: inherit; }
 .problema-quien { margin-top: 14px; }
 .quien-gana { font: 1.3rem var(--serif); color: var(--morado); margin: 18px 0 8px; }
 #flujo .beneficios { margin: 0 0 10px; }
+
+.sigue { margin: 14px 0 0; background: var(--morado-claro); border-left: 4px solid var(--morado); border-radius: 8px; padding: 12px 16px; }
+.sigue b { color: var(--morado); }
