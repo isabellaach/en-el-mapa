@@ -100,9 +100,9 @@ mapa (polígonos 2018 + puntos nuevos) y tablero (CSV / GeoJSON)
 | Paso | Modelo | Por qué |
 |---|---|---|
 | Transcripción | Whisper `small` (faster-whisper, int8) | Corre en CPU sin pagar por minuto: 82 s de audio en unos 6 s en una laptop. El audio de la conversación no sale del servidor. |
-| Ficha | Gemini `gemini-3.5-flash`, con respaldo automático a otros modelos Flash si está saturado | Salida estructurada con esquema Pydantic: cada campo solo acepta las opciones de la ficha, y cada dato exige su cita. Capa gratuita para el piloto. |
+| Ficha | Gemini `gemini-3.5-flash`, con respaldo automático a otros modelos Flash si está saturado | Salida estructurada con esquema Pydantic: cada campo solo acepta las opciones de la ficha, y cada dato exige su cita. Con razonamiento "low" responde en unos 5 a 7 s en vez de 13 a 15 s, con la misma ficha (15 de 15 campos, las mismas contradicciones y citas literales); sin razonamiento perdía una contradicción. Capa gratuita para el piloto. |
 
-Prueba con la entrevista simulada (audio generado con la voz del sistema): 15 de 15 campos correctos, y la contradicción sobre el número de familias quedó marcada "para confirmar en campo".
+Prueba con la entrevista simulada (audio generado con la voz del sistema): 15 de 15 campos correctos, y la contradicción sobre el número de familias quedó marcada "para confirmar en campo". De punta a punta, 82 s de audio se convierten en ficha en unos 15 s.
 
 ## 7. Modelo de negocio
 

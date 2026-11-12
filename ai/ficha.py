@@ -165,20 +165,32 @@ def llenar_ficha(texto: str, api_key: str | None = None) -> dict:
     cliente = genai.Client(
         api_key=api_key or os.environ["GEMINI_API_KEY"],
         http_options=types.HttpOptions(
-            timeout=45_000, retry_options=types.HttpRetryOptions(attempts=2, initial_delay=1)),
+            timeout=30_000, retry_options=types.HttpRetryOptions(attempts=2, initial_delay=1)),
     )
+    base = {"response_mime_type": "application/json", "response_schema": Ficha, "temperature": 0}
+    # Pensamiento "low": en pruebas con la entrevista de ejemplo dio la misma ficha
+    # (15/15 campos, las mismas contradicciones y citas literales) en ~5 s en vez de ~13 s.
+    # Con pensamiento cero perdía una contradicción, por eso no se usa.
+    rapido = {**base, "thinking_config": types.ThinkingConfig(thinking_level="low")}
     ultimo_error = None
-    # Si un modelo está saturado (503) o sin cuota (429), se prueba el siguiente.
+    # Si un modelo está saturado (503, 504), sin cuota (429) o tarda demasiado, se prueba el siguiente.
     for modelo in dict.fromkeys([MODELO, *RESPALDO]):
         try:
-            resp = cliente.models.generate_content(
-                model=modelo,
-                contents=PROMPT.format(texto=anonimizar(texto)),
-                config={"response_mime_type": "application/json", "response_schema": Ficha,
-                        "temperature": 0},
-            )
+            try:
+                resp = cliente.models.generate_content(
+                    model=modelo, contents=PROMPT.format(texto=anonimizar(texto)), config=rapido)
+            except errors.ClientError as e:
+                if getattr(e, "code", None) != 400:  # 400: el modelo no acepta thinking_level
+                    raise
+                resp = cliente.models.generate_content(
+                    model=modelo, contents=PROMPT.format(texto=anonimizar(texto)), config=base)
         except (errors.ServerError, errors.ClientError) as e:
-            if getattr(e, "code", None) not in (429, 500, 503, 404):
+            if getattr(e, "code", None) not in (429, 500, 503, 504, 404):
+                raise
+            ultimo_error = e
+            continue
+        except Exception as e:  # tiempo agotado (la clase cambia según la librería HTTP instalada)
+            if "Timeout" not in type(e).__name__:
                 raise
             ultimo_error = e
             continue
