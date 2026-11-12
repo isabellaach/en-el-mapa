@@ -40,18 +40,39 @@
   </header>
 
   <main>
+    <!-- Inicio: quién levanta, nueva ficha, avance y últimas fichas -->
+    <section class="vista activa" id="v-inicio">
+      <p class="paso" id="inicio-distrito">San Juan de Miraflores</p>
+      <h1>Hola</h1>
+      <p class="sub">Brigadista <b id="inicio-codigo">—</b> · <button class="enlace" id="btn-cambiar-codigo" type="button">Cambiar código</button></p>
+      <button class="btn-grande" id="btn-nueva" type="button"><span class="mas">＋</span><span>Nueva ficha<small>Graba la conversación con la dirigencia</small></span></button>
+      <button class="continuar" id="inicio-continuar" type="button" hidden></button>
+      <div class="tiles" id="inicio-tiles"></div>
+      <h2 class="seccion">Últimas fichas</h2>
+      <ul class="lista" id="inicio-ultimas"></ul>
+      <p class="sub" id="inicio-sin">Aún no hay fichas en este celular.</p>
+      <ul class="lista">
+        <li><a class="fila-lista" href="guia.html" target="_blank" rel="noopener"><span class="ic">⎙</span><span>Imprimir la guía de preguntas<small>Para llevarla en papel a la entrevista</small></span><em>›</em></a></li>
+      </ul>
+    </section>
+
     <!-- Nueva ficha: 1 conversación → 2 ficha → 3 mapa -->
-    <section class="vista activa" id="v-nueva">
+    <section class="vista" id="v-nueva">
+      <div class="pasos-nav" id="pasos-nav">
+        <button type="button" id="btn-atras">‹ Atrás</button>
+        <span id="paso-actual">Paso 1 de 3</span>
+        <button type="button" id="btn-siguiente">Siguiente ›</button>
+      </div>
       <div class="etapa" id="e-inicio">
-        <p class="paso">Paso 1 de 3 · Conversación</p>
+        <p class="paso">Conversación</p>
         <h1>Nueva ficha</h1>
         <p class="sub">Conversa unos 15 minutos con la dirigencia y graba.</p>
         <button class="grabar" id="btn-grabar" type="button" aria-label="Grabar"><span class="punto"></span></button>
         <p class="grabar-txt" id="grabar-txt">Toca para grabar</p>
+        <button class="continuar" id="btn-continuar" type="button" hidden></button>
         <ul class="lista">
           <li><label class="fila-lista" id="btn-subir"><span class="ic">↑</span><span>Subir un audio<small>Grabado antes, por ejemplo sin señal</small></span><em>›</em><input type="file" id="archivo" accept="audio/*,video/*" hidden></label></li>
           <li><button class="fila-lista" id="btn-ejemplo" type="button"><span class="ic">▶</span><span>Entrevista de ejemplo<small>Para probar sin grabar</small></span><em>›</em></button></li>
-          <li><button class="fila-lista" id="btn-guia" type="button"><span class="ic">?</span><span>Guía de preguntas<small>Qué preguntarle a la dirigencia</small></span><em>›</em></button></li>
         </ul>
         <p class="aviso-error" id="error" hidden></p>
       </div>
@@ -68,7 +89,7 @@
       </div>
 
       <div class="etapa" id="e-ficha" hidden>
-        <p class="paso">Paso 2 de 3 · Revisa la ficha</p>
+        <p class="paso">Revisa la ficha</p>
         <h1 id="ficha-nombre">—</h1>
         <p class="sello" id="ficha-sello"></p>
         <div class="verificar" id="ficha-verificar" hidden></div>
@@ -79,13 +100,12 @@
       </div>
 
       <div class="etapa" id="e-ubicar" hidden>
-        <p class="paso">Paso 3 de 3 · Mapa</p>
+        <p class="paso">Ubícala en el mapa</p>
         <h1>¿Dónde está?</h1>
         <label class="etq-campo" for="sel-asentamiento">¿Es uno de los asentamientos de 2018?</label>
         <select id="sel-asentamiento"></select>
         <p class="ayuda" id="ayuda-ubicar"></p>
         <button class="btn primario" id="btn-guardar" type="button">Guardar</button>
-        <button class="btn suave" id="btn-volver-ficha" type="button">Volver a la ficha</button>
       </div>
 
       <div class="etapa listo" id="e-listo" hidden>
@@ -128,8 +148,8 @@
   </main>
 
   <nav class="tabs" aria-label="Secciones">
+    <button type="button" data-vista="v-inicio" class="activa"><b>⌂</b>Inicio</button>
     <button type="button" data-vista="v-mapa"><b>⌖</b>Mapa</button>
-    <button type="button" data-vista="v-nueva" class="activa"><b>＋</b>Nueva ficha</button>
     <button type="button" data-vista="v-fichas"><b>≡</b>Fichas</button>
     <button type="button" data-vista="v-tablero"><b>▦</b>Tablero</button>
   </nav>

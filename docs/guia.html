@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de entrevista · En el Mapa</title>
+<link rel="icon" href="iconos/icono-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root { --verde: #1F3D2B; --terracota: #C65D3B; --gris: #5C6660; --linea: #D9D6CC; --fondo: #F5F3EC; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: #1E2620; font: 14px/1.45 "IBM Plex Sans", system-ui, sans-serif; }
+  .hoja { max-width: 780px; margin: 24px auto; background: #fff; padding: 32px 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+  .acciones { max-width: 780px; margin: 20px auto 0; display: flex; gap: 10px; padding: 0 16px; }
+  .acciones button, .acciones a { border: 0; border-radius: 10px; padding: 10px 16px; font: 600 14px "IBM Plex Sans"; cursor: pointer; text-decoration: none; }
+  .acciones button { background: var(--verde); color: #fff; }
+  .acciones a { background: #E4EEE6; color: var(--verde); }
+  header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid var(--verde); padding-bottom: 10px; }
+  h1 { font: 400 26px "DM Serif Display", Georgia, serif; color: var(--verde); margin: 0; }
+  .marca { font: 400 15px "DM Serif Display", Georgia, serif; color: var(--terracota); }
+  .datos { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; margin: 14px 0 6px; }
+  .datos div { border-bottom: 1px solid #999; padding-top: 16px; font-size: 11px; color: var(--gris); }
+  h2 { font: 600 12px "IBM Plex Sans"; text-transform: uppercase; letter-spacing: .08em; color: var(--terracota); margin: 16px 0 6px; }
+  ol.temas { margin: 0; padding: 0; list-style: none; counter-reset: t; }
+  ol.temas > li { counter-increment: t; border: 1px solid var(--linea); border-radius: 8px; padding: 8px 12px 8px 40px; margin-bottom: 6px; position: relative; break-inside: avoid; }
+  ol.temas > li::before { content: counter(t); position: absolute; left: 12px; top: 8px; width: 18px; height: 18px; border-radius: 50%;
+    background: var(--verde); color: #fff; font-size: 11px; display: grid; place-items: center; font-weight: 600; }
+  ol.temas b { color: var(--verde); }
+  ol.temas ul { margin: 2px 0 0; padding-left: 0; list-style: none; }
+  ol.temas ul li::before { content: "☐  "; color: var(--gris); }
+  .reglas { margin: 0; padding-left: 18px; }
+  .reglas li { margin-bottom: 3px; }
+  footer { margin-top: 14px; font-size: 11px; color: var(--gris); border-top: 1px solid var(--linea); padding-top: 8px; }
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    body { background: #fff; font-size: 12.5px; }
+    .acciones { display: none; }
+    .hoja { margin: 0; padding: 0; box-shadow: none; max-width: none; }
+  }
+</style>
+</head>
+<body>
+<div class="acciones">
+  <button type="button" onclick="window.print()">Imprimir o guardar en PDF</button>
+  <a href="app.html">Volver a la app</a>
+</div>
+
+<div class="hoja">
+  <header>
+    <div>
+      <h1>Guía de entrevista con la dirigencia</h1>
+      <div>Ficha de catastro físico-social del asentamiento · unos 15 minutos</div>
+    </div>
+    <div class="marca">📍 En el Mapa</div>
+  </header>
+
+  <div class="datos">
+    <div>Asentamiento</div>
+    <div>Fecha</div>
+    <div>Código de brigadista</div>
+  </div>
+
+  <h2>Antes de grabar</h2>
+  <ul class="reglas">
+    <li>Preséntate y explica para qué es: registrar cómo está el asentamiento para que la municipalidad priorice obras y prevención. <b>No es un trámite de titulación.</b></li>
+    <li><b>Pide permiso para grabar.</b> Si no aceptan, toma notas y llena la ficha después.</li>
+    <li>No pidas nombres, DNI ni teléfonos. La ficha describe al asentamiento, no a las personas.</li>
+    <li>En la app: Inicio → Nueva ficha → botón de grabar. Sin señal, graba con la grabadora del celular y súbelo después.</li>
+  </ul>
+
+  <h2>Temas de la conversación (marca cada uno cuando lo hayas preguntado)</h2>
+  <ol class="temas">
+    <li><b>Origen</b>
+      <ul><li>¿En qué año llegaron?</li><li>¿Cómo se formó el asentamiento?</li><li>¿Cuántas familias viven hoy?</li></ul></li>
+    <li><b>Terreno</b>
+      <ul><li>¿Qué documento tienen sobre el terreno? (título, constancia de posesión, ninguno…)</li></ul></li>
+    <li><b>Servicios</b>
+      <ul><li>¿De dónde sacan el agua?</li><li>¿Qué usan como desagüe?</li><li>¿Cómo tienen la luz?</li></ul></li>
+    <li><b>Viviendas</b>
+      <ul><li>¿De qué son la mayoría de paredes?</li><li>¿Y los techos?</li></ul></li>
+    <li><b>Riesgo</b>
+      <ul><li>¿Hay pendiente, quebrada, pircas, torres de alta tensión o basural cerca?</li><li>¿Qué pasó en los últimos 12 meses? (derrumbes, incendios, huaicos, caída de postes)</li></ul></li>
+    <li><b>Organización</b>
+      <ul><li>¿Tienen junta directiva o comités?</li><li>¿Cada cuánto se reúnen?</li><li>¿Cuáles son sus tres problemas principales?</li></ul></li>
+  </ol>
+
+  <h2>Al terminar</h2>
+  <ul class="reglas">
+    <li>Revisa la ficha en la app: cada dato trae la frase que lo respalda.</li>
+    <li>Lo que quede en “Para confirmar en campo”, confírmalo antes de irte si puedes.</li>
+    <li>Guárdala en el mapa y comparte la ficha con la junta.</li>
+  </ul>
+
+  <footer>Basada en la Ficha de Catastro del Relevamiento de Asentamientos Informales de TECHO Perú (2018). En el Mapa no es un proyecto de TECHO.</footer>
+</div>
+</body>
+</html>

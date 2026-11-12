@@ -124,7 +124,7 @@ function descargar(nombre, contenido, tipo) {
 function filaPlana(x) {
   const f = x.ficha;
   const fila = { nombre: x.nombre, poligono_2018: x.poligono_id ?? "", lat: x.lat ?? "", lng: x.lng ?? "",
-    fecha: x.fecha, simulado: x.simulado ? "si" : "no" };
+    fecha: x.fecha, brigadista: x.brigadista || "", simulado: x.simulado ? "si" : "no" };
   for (const k of Object.keys(CAMPOS)) {
     const v = f[k]?.valor;
     fila[k] = Array.isArray(v) ? v.join("|") : (v ?? "");
@@ -226,8 +226,18 @@ function tableroHTML(fichas) {
     return `<div class="grafico"><h3>${titulo}</h3>${filas.map(([k, v]) =>
       `<div class="barra-fila"><span>${esc(etiqueta(campo, k))}</span><span class="pista"><span class="relleno ${claseValor(c, k)}" style="width:${100 * v / max}%"></span></span><span class="n">${v}</span></div>`).join("")}</div>`;
   };
+  // Quién levantó cada ficha: sirve para el control de calidad y el avance de cada brigada.
+  const porBrigadista = () => {
+    if (!fichas.some((x) => x.brigadista)) return "";
+    const cuenta = {};
+    fichas.forEach((x) => { const b = x.brigadista || "Sin código"; cuenta[b] = (cuenta[b] || 0) + 1; });
+    const filas = Object.entries(cuenta).sort((a, b) => b[1] - a[1]);
+    const max = Math.max(...filas.map((f) => f[1]));
+    return `<div class="grafico"><h3>Fichas por brigadista</h3>${filas.map(([b, v]) =>
+      `<div class="barra-fila"><span>${esc(b)}</span><span class="pista"><span class="relleno" style="width:${100 * v / max}%"></span></span><span class="n">${v}</span></div>`).join("")}</div>`;
+  };
   const barras = n ? grafico("agua", "Acceso al agua") + grafico("tenencia", "Tenencia del terreno") +
-    grafico("problemas", "Problemas que prioriza la dirigencia") : "";
+    grafico("problemas", "Problemas que prioriza la dirigencia") + porBrigadista() : "";
   return { tiles, barras };
 }
 

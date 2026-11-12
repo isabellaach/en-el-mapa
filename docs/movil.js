@@ -4,31 +4,83 @@
 // ---------- Estado ----------
 let servidorOk = false;
 let fichas = leerGuardadas();
-let actual = null;            // { texto, ficha, simulado }
+let actual = null;            // { texto, ficha, simulado }: la ficha en curso, aún sin guardar
 let poligonos = null;         // GeoJSON 2018
 let capaPoligonos = null;
 const capasPorId = {};
 let modoUbicar = false;
 let mapaAjustado = false;
+
+// Quién levanta las fichas en este celular (un código, no un nombre) y la ficha sin guardar.
+const CLAVE_BRIGADISTA = "enelmapa_brigadista_v1";
+const CLAVE_BORRADOR = "enelmapa_borrador_v1";
+const leerLocal = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
+const escribirLocal = (k, v) => {
+  try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); }
+  catch { /* sin almacenamiento */ }
+};
+let brigadista = leerLocal(CLAVE_BRIGADISTA);   // { codigo }
+actual = leerLocal(CLAVE_BORRADOR);
+const nombreActual = () => actual?.ficha?.nombre_asentamiento || "Asentamiento sin nombre";
 let ocupado = false;
 const marcadoresNuevos = L.layerGroup();
 
 // ---------- Navegación ----------
 function irA(vista) {
   document.querySelectorAll(".vista").forEach((v) => v.classList.toggle("activa", v.id === vista));
-  document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("activa", b.dataset.vista === vista));
+  const pestana = vista === "v-nueva" ? "v-inicio" : vista;
+  document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("activa", b.dataset.vista === pestana));
   if (vista === "v-mapa") setTimeout(() => {
     mapa.invalidateSize();
     // La primera vez que se ve, se encuadra el distrito (oculto no se puede medir).
     if (!mapaAjustado && capaPoligonos) { mapa.fitBounds(capaPoligonos.getBounds(), { padding: [16, 16] }); mapaAjustado = true; }
   }, 50);
+  if (vista === "v-inicio") dibujarInicio();
   if (vista === "v-fichas") dibujarLista();
   if (vista === "v-tablero") dibujarTablero();
 }
 
+// ---------- Pasos de la nueva ficha, con Atrás y Siguiente ----------
+const PASOS = { "e-inicio": 1, "e-proceso": 1, "e-ficha": 2, "e-ubicar": 3 };
+let etapaActual = "e-inicio";
+
 function etapa(id) {
+  etapaActual = id;
   document.querySelectorAll("#v-nueva .etapa").forEach((e) => { e.hidden = e.id !== id; });
   $("#v-nueva").scrollTop = 0;
+  actualizarNav();
+}
+
+function actualizarNav() {
+  const n = PASOS[etapaActual];
+  $("#pasos-nav").hidden = !n;
+  $("#paso-actual").textContent = n ? `Paso ${n} de 3` : "";
+  $("#btn-siguiente").disabled = !((etapaActual === "e-inicio" && actual) || etapaActual === "e-ficha");
+  const c = $("#btn-continuar");
+  c.hidden = !(etapaActual === "e-inicio" && actual);
+  if (actual) c.innerHTML = `Ficha sin guardar: <b>${esc(nombreActual())}</b> · Continuar ›`;
+}
+
+$("#btn-atras").addEventListener("click", () => {
+  if (etapaActual === "e-inicio") irA("v-inicio");
+  else if (etapaActual === "e-proceso") { if (ocupado) avisoBreve("Espera a que termine de procesar"); else etapa("e-inicio"); }
+  else if (etapaActual === "e-ficha") etapa("e-inicio");
+  else if (etapaActual === "e-ubicar") etapa("e-ficha");
+});
+$("#btn-siguiente").addEventListener("click", () => {
+  if (etapaActual === "e-inicio" && actual) mostrarFicha(actual);
+  else if (etapaActual === "e-ficha") irAUbicar();
+});
+$("#btn-continuar").addEventListener("click", () => mostrarFicha(actual));
+
+// Antes de empezar otra conversación, avisa si hay una ficha sin guardar.
+function puedeEmpezar() {
+  if (!actual) return true;
+  if (!confirm(`La ficha de ${nombreActual()} no está guardada. ¿Descartarla y empezar otra?`)) return false;
+  actual = null;
+  escribirLocal(CLAVE_BORRADOR, null);
+  actualizarNav();
+  return true;
 }
 
 document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
@@ -45,15 +97,22 @@ function avisoBreve(txt) {
 }
 
 // ---------- Hoja inferior ----------
-function abrirHoja(html) {
+let hojaFija = false;
+function abrirHoja(html, { fija = false } = {}) {
+  hojaFija = fija;
+  $("#hoja-cerrar").hidden = fija;
   $("#hoja-contenido").innerHTML = html;
   $("#hoja").hidden = false;
   $("#velo").hidden = false;
   $("#hoja").scrollTop = 0;
 }
-function cerrarHoja() { $("#hoja").hidden = true; $("#velo").hidden = true; }
-$("#hoja-cerrar").addEventListener("click", cerrarHoja);
-$("#velo").addEventListener("click", cerrarHoja);
+function cerrarHoja(forzar = false) {
+  if (hojaFija && !forzar) return;
+  $("#hoja").hidden = true;
+  $("#velo").hidden = true;
+}
+$("#hoja-cerrar").addEventListener("click", () => cerrarHoja());
+$("#velo").addEventListener("click", () => cerrarHoja());
 
 // ---------- Mapa ----------
 const mapa = L.map("mapa-app", { zoomControl: false, attributionControl: true });
@@ -206,35 +265,23 @@ const grabadora = crearGrabadora({
 btnGrabar.addEventListener("click", async () => {
   if (!servidorOk) { mostrarError("#error", "Grabar necesita el servidor de En el Mapa. Prueba la entrevista de ejemplo."); return; }
   if (grabadora.activa) { grabadora.detener(); return; }
-  if (ocupado) return;
+  if (ocupado || !puedeEmpezar()) return;
   mostrarError("#error", "");
   btnGrabar.classList.add("grabando");
   await grabadora.iniciar();
 });
 
 $("#btn-subir").addEventListener("click", (e) => {
-  if (!servidorOk) { e.preventDefault(); mostrarError("#error", "Subir audio necesita el servidor de En el Mapa. Prueba la entrevista de ejemplo."); }
+  if (!servidorOk) { e.preventDefault(); mostrarError("#error", "Subir audio necesita el servidor de En el Mapa. Prueba la entrevista de ejemplo."); return; }
+  if (!puedeEmpezar()) e.preventDefault();
 });
 $("#archivo").addEventListener("change", (e) => {
   const f = e.target.files[0];
   if (f) procesarAudio(f, f.name);
   e.target.value = "";
 });
-$("#btn-ejemplo").addEventListener("click", () => usarEjemplo().catch((e) => falloProceso(e.message)));
+$("#btn-ejemplo").addEventListener("click", () => { if (puedeEmpezar()) usarEjemplo().catch((e) => falloProceso(e.message)); });
 $("#btn-cancelar").addEventListener("click", () => etapa("e-inicio"));
-
-$("#btn-guia").addEventListener("click", () => abrirHoja(`
-  <h2>Guía de preguntas</h2>
-  <p class="contexto">Unos 15 minutos con la dirigencia. No pidas nombres, DNI ni teléfonos.</p>
-  <ol>
-    <li><b>Origen:</b> ¿en qué año llegaron? ¿Cómo se formó el asentamiento? ¿Cuántas familias viven hoy?</li>
-    <li><b>Terreno:</b> ¿qué documento tienen sobre el terreno?</li>
-    <li><b>Servicios:</b> ¿de dónde sacan el agua? ¿Qué usan como desagüe? ¿Cómo tienen la luz?</li>
-    <li><b>Viviendas:</b> ¿de qué son la mayoría de paredes y techos?</li>
-    <li><b>Riesgo:</b> ¿hay pendiente, quebrada, pircas, torres o basural? ¿Qué pasó en los últimos 12 meses?</li>
-    <li><b>Organización:</b> ¿tienen junta directiva? ¿Cada cuánto se reúnen? ¿Cuáles son sus tres problemas principales?</li>
-  </ol>
-  <p class="contexto"><b>Sin señal:</b> graba con la grabadora del celular y súbelo después con “Subir un audio”.</p>`));
 
 // ---------- Paso 2: revisar la ficha ----------
 function valorTexto(k, d) {
@@ -268,6 +315,8 @@ function verificarHTML(f) {
 
 function mostrarFicha(datos) {
   actual = datos;
+  escribirLocal(CLAVE_BORRADOR, actual);
+  irA("v-nueva");
   const f = datos.ficha;
   $("#ficha-nombre").textContent = f.nombre_asentamiento || "Asentamiento sin nombre";
   $("#ficha-sello").textContent = datos.simulado ? "Entrevista simulada" : "Revísala antes de guardar";
@@ -298,7 +347,9 @@ function conectarCitas(cont, datos) {
   }));
 }
 
-$("#btn-a-mapa").addEventListener("click", () => {
+$("#btn-a-mapa").addEventListener("click", () => irAUbicar());
+
+function irAUbicar() {
   const sel = $("#sel-asentamiento");
   const ops = poligonos.features.map((f) => f.properties).sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
   sel.innerHTML = `<option value="nuevo">No, es nuevo: lo ubico en el mapa</option>` +
@@ -307,7 +358,7 @@ $("#btn-a-mapa").addEventListener("click", () => {
   sel.value = encontrado ? encontrado.properties.id : "nuevo";
   actualizarAyudaUbicar();
   etapa("e-ubicar");
-});
+}
 
 function actualizarAyudaUbicar() {
   const nuevo = $("#sel-asentamiento").value === "nuevo";
@@ -317,7 +368,6 @@ function actualizarAyudaUbicar() {
   $("#btn-guardar").textContent = nuevo ? "Ubicar en el mapa" : "Guardar";
 }
 $("#sel-asentamiento").addEventListener("change", actualizarAyudaUbicar);
-$("#btn-volver-ficha").addEventListener("click", () => etapa("e-ficha"));
 
 // ---------- Paso 3: guardar en el mapa ----------
 $("#btn-guardar").addEventListener("click", () => {
@@ -347,8 +397,11 @@ function ubicarNuevo(latlng) {
 
 function registrar(datos) {
   fichas = leerGuardadas().filter((x) => !(datos.poligono_id != null && x.poligono_id === datos.poligono_id));
-  fichas.push({ ...datos, fecha: hoy(), simulado: actual.simulado, ficha: actual.ficha });
+  fichas.push({ ...datos, fecha: hoy(), brigadista: brigadista?.codigo || null,
+    simulado: actual.simulado, ficha: actual.ficha });
   escribirGuardadas(fichas);
+  actual = null;
+  escribirLocal(CLAVE_BORRADOR, null);
   dibujarNuevos();
   $("#listo-txt").textContent = `${datos.nombre} ya está en el mapa del distrito y en el tablero de la municipalidad.`;
   irA("v-nueva");
@@ -396,23 +449,30 @@ async function compartir(x) {
 $("#btn-compartir").addEventListener("click", () => compartir(fichas.at(-1)));
 
 // ---------- Fichas guardadas ----------
+function filaFichaHTML({ x, i }) {
+  return `<li><button type="button" class="fila-lista ficha-fila ${x.poligono_id != null ? "de-2018" : ""}" data-i="${i}">
+    <span class="ic">${x.poligono_id != null ? "↻" : "＋"}</span>
+    <span>${esc(x.nombre)}${x.simulado ? `<span class="insignia">simulada</span>` : ""}
+      <small>${x.fecha} · ${fmt(x.ficha.familias?.valor)} familias · ${x.poligono_id != null ? "actualiza 2018" : "nuevo"}${x.brigadista ? ` · ${esc(x.brigadista)}` : ""}</small></span>
+    <em>›</em></button></li>`;
+}
+
+function listarFichas(ul, items) {
+  ul.innerHTML = items.map(filaFichaHTML).join("");
+  ul.hidden = !items.length;
+  ul.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => abrirFicha(Number(b.dataset.i))));
+}
+
 function dibujarLista() {
   fichas = leerGuardadas();
   $("#sin-fichas").hidden = fichas.length > 0;
-  $("#lista-fichas").hidden = !fichas.length;
-  $("#lista-fichas").innerHTML = fichas.map((x, i) => ({ x, i })).reverse().map(({ x, i }) => `
-    <li><button type="button" class="fila-lista ficha-fila ${x.poligono_id != null ? "de-2018" : ""}" data-i="${i}">
-      <span class="ic">${x.poligono_id != null ? "↻" : "＋"}</span>
-      <span>${esc(x.nombre)}${x.simulado ? `<span class="insignia">simulada</span>` : ""}
-        <small>${x.fecha} · ${fmt(x.ficha.familias?.valor)} familias · ${x.poligono_id != null ? "actualiza 2018" : "nuevo"}</small></span>
-      <em>›</em></button></li>`).join("");
-  $("#lista-fichas").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => abrirFicha(Number(b.dataset.i))));
+  listarFichas($("#lista-fichas"), fichas.map((x, i) => ({ x, i })).reverse());
 }
 
 function abrirFicha(i) {
   const x = fichas[i];
   abrirHoja(`<h2>${esc(x.nombre)}</h2>
-    <p class="contexto">${x.fecha}${x.simulado ? " · entrevista simulada" : ""}</p>
+    <p class="contexto">${x.fecha}${x.brigadista ? ` · levantada por ${esc(x.brigadista)}` : ""}${x.simulado ? " · entrevista simulada" : ""}</p>
     ${(x.ficha.por_verificar || []).length ? `<div class="verificar">${verificarHTML(x.ficha)}</div>` : ""}
     <div class="tarjetas">${tarjetasHTML(x.ficha)}</div>
     <button class="btn primario" id="h-mapa" type="button">Ver en el mapa</button>
@@ -432,6 +492,57 @@ function abrirFicha(i) {
     dibujarNuevos();
     cerrarHoja();
     dibujarLista();
+    dibujarInicio();
+  });
+}
+
+// ---------- Inicio ----------
+function dibujarInicio() {
+  fichas = leerGuardadas();
+  $("#inicio-codigo").textContent = brigadista?.codigo || "sin código";
+  const c = $("#inicio-continuar");
+  c.hidden = !actual;
+  if (actual) c.innerHTML = `Ficha sin guardar: <b>${esc(nombreActual())}</b> · Continuar ›`;
+  const mias = fichas.filter((x) => brigadista && x.brigadista === brigadista.codigo);
+  const deHoy = mias.filter((x) => x.fecha === hoy()).length;
+  const de2018 = new Set(fichas.filter((x) => x.poligono_id != null).map((x) => x.poligono_id)).size;
+  const total2018 = poligonos ? poligonos.features.length : "—";
+  $("#inicio-tiles").innerHTML = [
+    ["", deHoy, "fichas tuyas hoy"],
+    ["", fichas.length, "fichas en este celular"],
+    ["", `${de2018} / ${total2018}`, "polígonos de 2018 actualizados"],
+    ["naranja", fichas.filter((x) => x.poligono_id == null).length, "asentamientos nuevos"],
+  ].map(([cl, v, q]) => `<div class="tile ${cl}"><span class="num">${v}</span><span class="que">${q}</span></div>`).join("");
+  const ultimas = fichas.map((x, i) => ({ x, i })).slice(-3).reverse();
+  listarFichas($("#inicio-ultimas"), ultimas);
+  $("#inicio-sin").hidden = ultimas.length > 0;
+}
+
+$("#btn-nueva").addEventListener("click", () => { irA("v-nueva"); etapa("e-inicio"); });
+$("#inicio-continuar").addEventListener("click", () => mostrarFicha(actual));
+$("#btn-cambiar-codigo").addEventListener("click", () => pedirCodigo(false));
+
+// El código identifica quién levantó cada ficha sin guardar nombres (datos personales).
+function pedirCodigo(obligatorio) {
+  abrirHoja(`<h2>¿Quién levanta las fichas?</h2>
+    <p class="contexto">Escribe tu código de brigadista, el que te dio tu coordinación. Usa el código, no tu nombre: así cada ficha registra quién la levantó sin guardar datos personales.</p>
+    <form id="form-codigo" novalidate>
+      <label class="etq-campo" for="in-codigo">Código de brigadista</label>
+      <input id="in-codigo" class="entrada" maxlength="12" placeholder="Por ejemplo, B-07" autocomplete="off" autocapitalize="characters" value="${esc(brigadista?.codigo || "")}">
+      <p class="aviso-error" id="error-codigo" hidden></p>
+      <button class="btn primario" type="submit">Guardar</button>
+    </form>`, { fija: obligatorio });
+  $("#form-codigo").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = $("#in-codigo").value.trim().toUpperCase();
+    if (!/^[A-Z0-9-]{2,12}$/.test(v)) {
+      mostrarError("#error-codigo", "Usa de 2 a 12 letras, números o guiones. Por ejemplo, B-07.");
+      return;
+    }
+    brigadista = { codigo: v };
+    escribirLocal(CLAVE_BRIGADISTA, brigadista);
+    cerrarHoja(true);
+    dibujarInicio();
   });
 }
 
@@ -451,9 +562,12 @@ $("#btn-geojson").addEventListener("click", () => {
   else avisoBreve("Aún no hay fichas");
 });
 
-// ---------- Inicio ----------
-cargarPoligonos();
+// ---------- Al abrir la app ----------
+cargarPoligonos().then(dibujarInicio);
 comprobarServidor();
+dibujarInicio();
+actualizarNav();
+if (!brigadista) pedirCodigo(true);
 // ?vista=v-mapa abre otra pestaña (para capturas); ?auto=1 corre el ejemplo.
 if (params.get("vista")) irA(params.get("vista"));
-if (params.has("auto")) setTimeout(() => usarEjemplo(), 1200);
+if (params.has("auto")) setTimeout(() => { irA("v-nueva"); usarEjemplo(); }, 1200);

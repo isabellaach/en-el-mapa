@@ -184,3 +184,22 @@ select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(
 .hoja li { margin-bottom: 6px; }
 .aviso-breve { position: absolute; left: 50%; bottom: 84px; transform: translateX(-50%); z-index: 1100; background: var(--tinta); color: #fff;
   padding: 9px 16px; border-radius: 999px; font-size: .85rem; white-space: nowrap; }
+
+/* Inicio */
+.btn-grande { display: flex; align-items: center; gap: 14px; width: 100%; margin: 14px 0 10px; padding: 18px; border: 0; border-radius: 18px;
+  background: var(--verde); color: #fff; text-align: left; font-size: 1.15rem; font-weight: 600; box-shadow: 0 4px 14px rgba(31,61,43,.25); }
+.btn-grande .mas { width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; background: var(--terracota); display: grid; place-items: center; font-size: 1.6rem; }
+.btn-grande small { display: block; font-size: .82rem; font-weight: 400; color: #CFE0D3; }
+.continuar { display: block; width: 100%; margin: 0 0 12px; padding: 12px 14px; border: 1px solid var(--sol); border-radius: 12px;
+  background: var(--sol-claro); color: var(--tinta); text-align: left; font-size: .9rem; }
+.continuar b { color: var(--sol); }
+.seccion { font: 1.15rem var(--serif); color: var(--verde); margin: 14px 0 8px; }
+.enlace { background: none; border: 0; padding: 0; color: var(--cielo); text-decoration: underline; font-size: inherit; }
+a.fila-lista { color: inherit; text-decoration: none; }
+.entrada { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--linea); background: var(--tarjeta); font-size: 1.1rem; letter-spacing: .05em; }
+
+/* Atrás y Siguiente en los pasos */
+.pasos-nav { display: flex; align-items: center; justify-content: space-between; margin: -6px -6px 10px; }
+.pasos-nav span { font-size: .78rem; font-weight: 600; color: var(--gris); }
+.pasos-nav button { background: none; border: 0; padding: 8px 6px; color: var(--verde); font-weight: 600; font-size: .92rem; }
+.pasos-nav button:disabled { color: #B9BDB6; }
