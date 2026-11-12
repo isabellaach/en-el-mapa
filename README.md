@@ -83,7 +83,7 @@ La página ([docs/index.html](docs/index.html)) presenta el problema, el demo, e
 - **Informe del distrito, ejemplo:** https://isabellaach.github.io/en-el-mapa/informe.html?ejemplo=1 (8 asentamientos ficticios con datos simulados)
 - **Ficha para la junta, ejemplo:** https://isabellaach.github.io/en-el-mapa/ficha.html?id=ej-0&ejemplo=1
 - **Guía de entrevista para imprimir:** https://isabellaach.github.io/en-el-mapa/guia.html
-- Publicado sin servidor, funciona en **modo demostración**: la entrevista de ejemplo muestra un resultado ya procesado. El **flujo completo en vivo** (grabar o subir audio, Whisper y Gemini) corre con el servidor en local; ver [Cómo correrlo](#cómo-correrlo).
+> **Modo demostración y flujo en vivo.** En el Mapa tiene dos partes: **la página** (mapa, app, informes), publicada en GitHub Pages, y **el servidor** (Whisper y Gemini), que hoy corre en una computadora local. Los enlaces de arriba funcionan sin servidor, en **modo demostración**: la entrevista de ejemplo muestra un resultado ya procesado. Para **grabar o subir audio y ver a Whisper y Gemini en vivo**, sigue los 5 pasos de [Cómo probar el flujo completo en vivo](#cómo-probar-el-flujo-completo-en-vivo) (unos 10 minutos).
 - **Video de respaldo:** pendiente.
 
 | 1. Nueva ficha | 2. Cada dato con su cita | 3. Informe del distrito |
@@ -176,21 +176,65 @@ Usé Claude Code durante todo el proyecto. Yo definí el problema, aporté los d
 - Después de la presentación, con mis pedidos: arregló los errores de audio (grabación vacía, sin voz, permisos) y agregó Reintentar; midió Whisper y Gemini y redujo el razonamiento de Gemini, que era el cuello de botella (de 25 a 40 s a unos 15 s de punta a punta); construyó la app del celular (inicio, código de brigadista, Atrás y Siguiente, borrador, compartir), amplió la ficha a 28 campos con la observación en campo, reordenó la página y creó el informe del distrito y la ficha para la junta, con un ejemplo de asentamientos ficticios ([data/informe_ejemplo.py](data/informe_ejemplo.py)).
 - Las notas de las tres conversaciones con usuarios son mías; el agente solo las ordenó.
 
-## Cómo correrlo
+## Cómo probar el flujo completo en vivo
+
+Con estos pasos, tu computadora hace de servidor: graba o sube un audio, y Whisper y Gemini llenan la ficha en vivo. Funciona en Mac y Linux; en Windows, cambia `.venv/bin/` por `.venv\Scripts\`.
+
+**Necesitas:** [git](https://git-scm.com/), [uv](https://docs.astral.sh/uv/getting-started/installation/) (instala Python 3.12 por ti) y una clave gratuita de Gemini de [Google AI Studio](https://aistudio.google.com/apikey).
+
+**1. Descarga el proyecto**
+
+```bash
+git clone https://github.com/isabellaach/en-el-mapa.git
+cd en-el-mapa
+```
+
+**2. Instala lo necesario** (una sola vez)
 
 ```bash
 uv venv .venv --python 3.12
 uv pip install --python .venv/bin/python -r requirements.txt
-cp .env.example .env          # y pon tu GEMINI_API_KEY
-.venv/bin/uvicorn backend.main:app --port 8000
-# página: http://localhost:8000 · app: http://localhost:8000/app.html
 ```
 
-Para regenerar el ejemplo del informe (8 asentamientos ficticios): `python data/informe_ejemplo.py`.
+**3. Pon tu clave de Gemini**
 
-Si cambias un `.js` o `.css` de `docs/`, sube el número `?v=` con que lo cargan los HTML: así el navegador no mezcla la versión nueva con la que tenía guardada.
+```bash
+cp .env.example .env
+```
 
-Para regenerar los datos (requiere geopandas y rapidfuzz):
+Abre `.env` y pega tu clave después de `GEMINI_API_KEY=`. El `.env` está en `.gitignore`: **nunca la subas al repo** ni la pegues en el código de la página.
+
+**4. Enciende el servidor** y deja esa ventana abierta
+
+```bash
+.venv/bin/uvicorn backend.main:app --port 8000
+```
+
+**5. Ábrelo en el navegador**
+
+- App de la brigada: http://localhost:8000/app.html (arriba debe decir **En vivo**)
+- Página: http://localhost:8000 (debe decir **Servidor conectado: Whisper y Gemini en vivo**)
+
+Graba una conversación, sube un audio o usa la entrevista de ejemplo. Para probar con tu voz, puedes leer en voz alta la entrevista simulada de [docs/demo/guion_ejemplo.txt](docs/demo/guion_ejemplo.txt) (unos 3 minutos).
+
+**Si algo no funciona**
+
+| Qué ves | Qué hacer |
+|---|---|
+| "Modo demostración" o "Demo" | El servidor no está encendido: repite el paso 4 |
+| La primera grabación tarda | La primera vez se descarga Whisper (unos 460 MB). Después, un minuto de audio se transcribe en segundos |
+| "Gemini no respondió" | La capa gratuita de Gemini se satura a ratos: espera un minuto y usa **Reintentar** |
+| El micrófono no graba | Permite el micrófono en el candado junto a la dirección de la página |
+| La página queda en blanco | Recarga completa: Cmd + Shift + R (Ctrl + Shift + R en Windows) |
+| "Address already in use" | Ya hay un servidor en el puerto 8000: ciérralo o usa `--port 8001` |
+
+Para apagar el servidor: Ctrl + C en su ventana.
+
+**Para quien desarrolle**
+
+- Regenerar el ejemplo del informe (8 asentamientos ficticios): `python data/informe_ejemplo.py`.
+- Si cambias un `.js` o `.css` de `docs/`, sube el número `?v=` con que lo cargan los HTML: así el navegador no mezcla la versión nueva con la que tenía guardada.
+- Regenerar los polígonos y la base de 2018 (requiere geopandas y rapidfuzz):
 
 ```bash
 python data/preparar_poligonos.py "/ruta/a/MAPA TECHO"
