@@ -188,6 +188,8 @@ cp .env.example .env          # y pon tu GEMINI_API_KEY
 
 Para regenerar el ejemplo del informe (8 asentamientos ficticios): `python data/informe_ejemplo.py`.
 
+Si cambias un `.js` o `.css` de `docs/`, sube el número `?v=` con que lo cargan los HTML: así el navegador no mezcla la versión nueva con la que tenía guardada.
+
 Para regenerar los datos (requiere geopandas y rapidfuzz):
 
 ```bash
